@@ -30,7 +30,7 @@ export default {
         const no = async () => {
             const reply = { content: `User ${interactionUser} not found!` }
             if (message) {
-                message.reply(reply)
+                channel.send(reply)
                 return
             }
             msgInt.reply(reply)
@@ -73,7 +73,7 @@ export default {
         let timeout: NodeJS.Timeout;
         const content = `Hey <@${target}>, looks like <@${user.id}> wants to kiss you!`
         if (message) {
-            msg = await message.reply({
+            msg = await channel.send({
                 content,
                 components: [row],
             })
