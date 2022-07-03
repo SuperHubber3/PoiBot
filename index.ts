@@ -44,7 +44,7 @@ client.on("ready", async () => {
         //     keepAlive: true
         // },
         botOwners: ["338760814884290562", "193749488135962625"], // Our discord IDs
-        // testServers: [""],
+        testServers: ["993084390722772992"],
         debug: true,
     })
         .setDefaultPrefix("poi") // poi hug foga
