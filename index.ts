@@ -47,12 +47,12 @@ client.on("ready", async () => {
         testServers: ["993084390722772992"],
         debug: true,
     })
-        .setDefaultPrefix("poi") // poi hug foga
+        .setDefaultPrefix("poi ") // poi hug foga
         .setCategorySettings([
             {
                 name: "Anime",
-                emoji: "807590056445345813", // I don't think this is working but if it is working we should find a good emoji
-                customEmoji: true,
+                emoji: "🥰", // I don't think this is working but if it is working we should find a good emoji
+                // customEmoji: true,
             },
         ]);
 });
