@@ -1,0 +1,26 @@
+{
+  "name": "poibot",
+  "version": "1.0.0",
+  "description": "poi boop vak",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SuperHubber3/PoiBot.git"
+  },
+  "author": "Zen, Foga",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SuperHubber3/PoiBot/issues"
+  },
+  "homepage": "https://github.com/SuperHubber3/PoiBot#readme",
+  "dependencies": {
+    "discord.js": "^13.8.1",
+    "dotenv": "^16.0.1",
+    "mongoose": "^6.4.2",
+    "wokcommands": "^1.5.3"
+  }
+}
