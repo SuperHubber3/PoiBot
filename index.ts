@@ -51,7 +51,7 @@ client.on("ready", async () => {
         .setCategorySettings([
             {
                 name: "Anime",
-                emoji: "🥰", // I don't think this is working but if it is working we should find a good emoji
+                emoji: "🥰", // We should find a good emoji for this
                 // customEmoji: true,
             },
         ]);
