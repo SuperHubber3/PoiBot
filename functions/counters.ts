@@ -1,4 +1,4 @@
-import { Client } from 'discord.js'
+	import { Client } from 'discord.js'
 import counterSchema from '../models/command-counter-schema'
 const wait = require('util').promisify(setTimeout);
 
@@ -38,7 +38,7 @@ export const addBoop = async (guildId: string, userId: string, partnerId: string
             });
         } else {
             boops[index].count += 1;
-            boopCount = boops[index].count + 1
+            boopCount = boops[index].count
         }
         schema.boops = boops;
         return schema.save(function (err: any) {
