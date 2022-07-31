@@ -2,6 +2,7 @@ import { ICommand } from 'wokcommands'
 import { Collection, GuildMember, MessageEmbed } from "discord.js";
 import { MediaService } from '../../services/media.service';
 import { CommandType } from '../../enums/command.enum';
+import { addGeh } from '../../functions/counters';
 
 export default {
     name: 'geh',
@@ -54,8 +55,9 @@ export default {
         if (target === "") return
 
         let mediaString = (new MediaService(CommandType.Geh)).getMedia()
+        const gehs = await addGeh(guild!.id, user.id, target)
 
-        const embed = new MessageEmbed({ footer: { text: "That's x gehs now!" } })
+        const embed = new MessageEmbed({ footer: { text: `That's ${gehs} gehs now!`} })
             .setColor("RANDOM")
             .setURL('https://discord.com/api/oauth2/authorize?client_id=993069924362760202&permissions=8&scope=bot%20applications.commands')
             .setDescription(`<@${user.id}> asks why <@${target}> is so geh!`)
