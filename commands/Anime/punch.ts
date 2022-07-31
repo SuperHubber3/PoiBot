@@ -4,9 +4,9 @@ import { MediaService } from '../../services/media.service';
 import { CommandType } from '../../enums/command.enum';
 
 export default {
-    name: 'hug',
+    name: 'punch',
     category: 'Anime',
-    description: "Hug someone!",
+    description: "Punch someone!",
     slash: 'both',
     minArgs: 1,
     maxArgs: 1,
@@ -14,7 +14,7 @@ export default {
     guildOnly: true,
     testOnly: true,
     syntaxError: {
-        '<user>': 'Incorrect usage! Please use "{PREFIX}hug {ARGUMENTS}"'
+        '<user>': 'Incorrect usage! Please use "{PREFIX}punch {ARGUMENTS}"'
     },
 
     callback: async ({ interaction: msgInt, channel, user, message, args, guild }) => {
@@ -52,13 +52,13 @@ export default {
         }
         if (target === "") return
 
-        let mediaString = (new MediaService(CommandType.Hug)).getMedia()
+        let mediaString = (new MediaService(CommandType.Punch)).getMedia()
 
-        const embed = new MessageEmbed({ footer: { text: "That's x hugs now!" } })
+        const embed = new MessageEmbed({ footer: { text: "That's x punches now!" } })
             .setColor("RANDOM")
-            .setTitle('You gave a hug!')
+            .setTitle('You gave a punch!')
             .setURL('https://discord.com/api/oauth2/authorize?client_id=993069924362760202&permissions=8&scope=bot%20applications.commands')
-            .setDescription(`*<@${user.id}> hugs <@${target}>*`)
+            .setDescription(`*<@${user.id}> punches <@${target}>*`)
             .setImage(mediaString)
 
         return embed
