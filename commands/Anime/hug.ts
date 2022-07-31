@@ -2,6 +2,7 @@ import { ICommand } from 'wokcommands'
 import { Collection, GuildMember, MessageEmbed } from "discord.js"
 import { MediaService } from '../../services/media.service';
 import { CommandType } from '../../enums/command.enum';
+import { addHug } from '../../functions/counters';
 
 export default {
     name: 'hug',
@@ -53,8 +54,9 @@ export default {
         if (target === "") return
 
         let mediaString = (new MediaService(CommandType.Hug)).getMedia()
+        const hugs = await addHug(guild!.id, user.id, target)
 
-        const embed = new MessageEmbed({ footer: { text: "That's x hugs now!" } })
+        const embed = new MessageEmbed({ footer: { text: `That's ${hugs} hugs now!` } })
             .setColor("RANDOM")
             .setTitle('You gave a hug!')
             .setURL('https://discord.com/api/oauth2/authorize?client_id=993069924362760202&permissions=8&scope=bot%20applications.commands')

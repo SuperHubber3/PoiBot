@@ -1,18 +1,21 @@
 import { ICommand } from "wokcommands";
+import { addBoop } from "../../functions/counters";
 
 export default {
     name: "boop",
     category: "Anime",
     description: "Boop someone!",
-    slash: "both", // This is for the usage of the slash commands and message commands at the same time
+    slash: "both",
     guildOnly: true,
-    testOnly: true, // This is for faster testing
+    testOnly: true,
 
-    callback: async ({ message, interaction }) => {
+    callback: async ({ message, interaction, guild, user }) => {
+        const targetId = "193749488135962625"// user we are booping
+        const boops = await addBoop(guild!.id, user.id, targetId)
         if (message) {
-            message.reply({ content: "boop" });
+            message.reply({ content: `Thats ${boops} boops` });
             return;
         }
-        interaction.reply({ content: "boop" });
+        interaction.reply({ content: `Thats ${boops} boops` });
     },
 } as ICommand;

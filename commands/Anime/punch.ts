@@ -2,6 +2,7 @@ import { ICommand } from 'wokcommands'
 import { Collection, GuildMember, MessageEmbed } from "discord.js"
 import { MediaService } from '../../services/media.service';
 import { CommandType } from '../../enums/command.enum';
+import { addPunch } from '../../functions/counters';
 
 export default {
     name: 'punch',
@@ -53,8 +54,9 @@ export default {
         if (target === "") return
 
         let mediaString = (new MediaService(CommandType.Punch)).getMedia()
+        const punches = await addPunch(guild!.id, user.id, target)
 
-        const embed = new MessageEmbed({ footer: { text: "That's x punches now!" } })
+        const embed = new MessageEmbed({ footer: { text: `That's ${punches} punches now!` } })
             .setColor("RANDOM")
             .setTitle('You gave a punch!')
             .setURL('https://discord.com/api/oauth2/authorize?client_id=993069924362760202&permissions=8&scope=bot%20applications.commands')

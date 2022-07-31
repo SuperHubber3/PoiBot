@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-// This is for testing only!
+// // This is for testing only!
 // process.on('uncaughtException', function (err) {
 //     console.error(err);
 //     console.log("Node NOT Exiting...");
@@ -39,10 +39,10 @@ client.on("ready", async () => {
         featuresDir: path.join(__dirname, "features"), // We put features to this folder
         typeScript: true,
         ignoreBots: true,
-        // mongoUri: process.env.MONGO_URI, // We will use this later
-        // dbOptions: {
-        //     keepAlive: true
-        // },
+        mongoUri: process.env.MONGO_URI, // We will use this later
+        dbOptions: {
+            keepAlive: true
+        },
         botOwners: ["338760814884290562", "193749488135962625"], // Our discord IDs
         testServers: ["993084390722772992"],
         debug: true,
