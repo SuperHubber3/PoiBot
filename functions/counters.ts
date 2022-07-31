@@ -1,5 +1,6 @@
 import { Client } from 'discord.js'
 import counterSchema from '../models/command-counter-schema'
+const wait = require('util').promisify(setTimeout);
 
 const boopsCache = {} as { [key: string]: number }
 
@@ -34,18 +35,17 @@ export const addBoop = async (guildId: string, userId: string, partnerId: string
             });
         } else {
             boops[index].count += 1;
-            console.log(boops)
+            boopCount = boops[index].count + 1
         }
-        console.log(boops)
         schema.boops = boops;
         return schema.save(function (err: any) {
             if (err) throw err;
         });
     }
     )
+    await wait(1000); // this wait is sus if you can find another way to do it, it will be nice
 
     boopsCache[`${guildId}-${userId}`] = boopCount;
-
     return boopCount;
 };
 
