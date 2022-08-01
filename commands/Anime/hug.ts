@@ -12,11 +12,15 @@ export default {
     minArgs: 1,
     maxArgs: 1,
     expectedArgs: '<user>',
+    //cooldown: '3s',
     guildOnly: true,
     testOnly: true,
     syntaxError: {
         '<user>': 'Incorrect usage! Please use "{PREFIX}hug {ARGUMENTS}"'
     },
+    options: [
+        { name: "user", description: "User to hug", type: "MENTIONABLE", required: true },
+    ],
 
     callback: async ({ interaction: msgInt, channel, user, message, args, guild }) => {
         let interactionUser = msgInt?.options.getUser("user")?.toString() || args[0];
@@ -54,7 +58,7 @@ export default {
         if (target === "") return
 
         let mediaString = (new MediaService(CommandType.Hug)).getMedia()
-        const hugs = await addHug(guild!.id, user.id, target)
+        const hugs = await addHug(guild!.id, user.id, target, message)
 
         const embed = new MessageEmbed({ footer: { text: `That's ${hugs} hugs now!` } })
             .setColor("RANDOM")
