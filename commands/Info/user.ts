@@ -8,11 +8,11 @@ export default {
   slash: 'both',
   minArgs: 0,
   maxArgs: 1,
-  expectedArgs: '<user>',
+  expectedArgs: '<USER>',
   guildOnly: true,
   testOnly: false,
   syntaxError: {
-    '<user>': 'Incorrect usage! Please use "{PREFIX}geh {ARGUMENTS}"'
+    '<USER>': 'Incorrect usage! Please use "{PREFIX}geh {ARGUMENTS}"'
   },
   options: [{ name: 'user', description: 'User', type: 'USER' }],
 

@@ -11,12 +11,12 @@ export default {
     testOnly: false,
     minArgs: 1,
     maxArgs: 1,
-    expectedArgs: '<user>',
+    expectedArgs: '<USER>',
     syntaxError: {
-        '<user>': 'Incorrect usage! Please use "{PREFIX}hug {ARGUMENTS}"'
+        '<USER>': 'Incorrect usage! Please use "{PREFIX}hug {ARGUMENTS}"'
     },
     options: [
-        { name: "user", description: "User to boop", type: "MENTIONABLE", required: true },
+        { name: "user", description: "User to boop", type: "USER", required: true },
     ],
 
     callback: async ({ message, interaction: msgInt, guild, user, args, channel }) => {

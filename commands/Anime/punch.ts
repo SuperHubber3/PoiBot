@@ -11,14 +11,14 @@ export default {
     slash: 'both',
     minArgs: 1,
     maxArgs: 1,
-    expectedArgs: '<user>',
+    expectedArgs: '<USER>',
     guildOnly: true,
     testOnly: false,
     syntaxError: {
-        '<user>': 'Incorrect usage! Please use "{PREFIX}punch {ARGUMENTS}"'
+        '<USER>': 'Incorrect usage! Please use "{PREFIX}punch {ARGUMENTS}"'
     },
     options: [
-        { name: "user", description: "User to punch", type: "MENTIONABLE", required: true },
+        { name: "user", description: "User to punch", type: "USER", required: true },
     ],
 
     callback: async ({ interaction: msgInt, channel, user, message, args, guild }) => {

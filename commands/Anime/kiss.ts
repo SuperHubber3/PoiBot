@@ -8,15 +8,15 @@ export default {
     slash: "both",
     guildOnly: true,
     testOnly: false,
-    expectedArgs: "<user>",
+    expectedArgs: "<USER>",
     minArgs: 1,
     maxArgs: 1,
     cooldown: '15s',
     syntaxError: {
-        "<user>": 'Incorrect usage! Please use "{PREFIX}kiss {ARGUMENTS}"',
+        "<USER>": 'Incorrect usage! Please use "{PREFIX}kiss {ARGUMENTS}"',
     },
     options: [
-        { name: "user", description: "User to kiss", type: "MENTIONABLE", required: true },
+        { name: "user", description: "User to kiss", type: "USER", required: true },
     ],
 
     callback: async ({ interaction: msgInt, channel, user, message, args, guild }) => {
