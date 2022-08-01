@@ -12,6 +12,7 @@ export default {
     minArgs: 1,
     maxArgs: 1,
     expectedArgs: '<user>',
+    cooldown: '3s',
     guildOnly: true,
     testOnly: true,
     syntaxError: {
@@ -54,7 +55,7 @@ export default {
         if (target === "") return
 
         let mediaString = (new MediaService(CommandType.Hug)).getMedia()
-        const hugs = await addHug(guild!.id, user.id, target)
+        const hugs = await addHug(guild!.id, user.id, target, message)
 
         const embed = new MessageEmbed({ footer: { text: `That's ${hugs} hugs now!` } })
             .setColor("RANDOM")

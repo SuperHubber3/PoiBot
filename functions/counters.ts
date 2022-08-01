@@ -1,6 +1,7 @@
-	import { Client } from 'discord.js'
+import { Client, Message } from 'discord.js'
+import { CommandType } from '../enums/command.enum';
 import counterSchema from '../models/command-counter-schema'
-const wait = require('util').promisify(setTimeout);
+import { AwardSystemService } from '../services/award-system.service';
 
 const boopsCache = {} as { [key: string]: number }
 const hugsCache = {} as { [key: string]: number }
@@ -12,10 +13,10 @@ export default (client: Client) => { }
 export const addBoop = async (guildId: string, userId: string, partnerId: string) => {
     console.log("Running findOneAndUpdate()");
     let boopCount = 1
-    counterSchema.findOne({
+    await counterSchema.findOne({
         guildId,
         userId,
-    }, async function (err: any, schema: any) {
+    }).then((schema: any) => {
         if (!schema) {
             schema = new counterSchema({
                 guildId,
@@ -44,9 +45,7 @@ export const addBoop = async (guildId: string, userId: string, partnerId: string
         return schema.save(function (err: any) {
             if (err) throw err;
         });
-    }
-    )
-    await wait(1000); // this wait is sus if you can find another way to do it, it will be nice
+    });
 
     boopsCache[`${guildId}-${userId}`] = boopCount;
     return boopCount;
@@ -89,13 +88,14 @@ export const getBoop = async (guildId: string, userId: string, partnerId: string
     return boops;
 };
 
-export const addHug = async (guildId: string, userId: string, partnerId: string) => {
+export const addHug = async (guildId: string, userId: string, partnerId: string, message: Message) => {
     console.log("Running findOneAndUpdate()");
     let hugCount = 1
-    counterSchema.findOne({
+
+    await counterSchema.findOne({
         guildId,
         userId,
-    }, async function (err: any, schema: any) {
+    }).then((schema: any) => {
         if (!schema) {
             schema = new counterSchema({
                 guildId,
@@ -105,10 +105,12 @@ export const addHug = async (guildId: string, userId: string, partnerId: string)
                     count: 1,
                 }],
             });
-            return schema.save(function (err: any) {
+            schema.save(function (err: any) {
                 if (err) throw err;
             });
+            return;
         }
+
         const hugs = schema.hugs;
         const index = hugs.findIndex((x: any) => x.userId === partnerId);
         if (index === -1) {
@@ -121,15 +123,15 @@ export const addHug = async (guildId: string, userId: string, partnerId: string)
             hugCount = hugs[index].count
         }
         schema.hugs = hugs;
-        return schema.save(function (err: any) {
+        schema.save(function (err: any) {
             if (err) throw err;
         });
-    }
-    )
-    await wait(1000); // this wait is sus if you can find another way to do it, it will be nice
+    });
+
+    (new AwardSystemService(CommandType.Hug)).checkForAward(guildId, userId, hugCount, message).then((result: boolean) => {})
 
     hugsCache[`${guildId}-${userId}`] = hugCount;
-    return hugCount;
+    return hugCount
 };
 
 export const getHug = async (guildId: string, userId: string, partnerId: string) => {
@@ -169,13 +171,13 @@ export const getHug = async (guildId: string, userId: string, partnerId: string)
     return hugs;
 };
 
-export const addPunch = async (guildId: string, userId: string, partnerId: string) => {
+export const addPunch = async (guildId: string, userId: string, partnerId: string, message: Message) => {
     console.log("Running findOneAndUpdate()");
     let punchCount = 1
-    counterSchema.findOne({
+    await counterSchema.findOne({
         guildId,
         userId,
-    }, async function (err: any, schema: any) {
+    }).then((schema: any) => {
         if (!schema) {
             schema = new counterSchema({
                 guildId,
@@ -204,9 +206,9 @@ export const addPunch = async (guildId: string, userId: string, partnerId: strin
         return schema.save(function (err: any) {
             if (err) throw err;
         });
-    }
-    )
-    await wait(1000); // this wait is sus if you can find another way to do it, it will be nice
+    });
+
+    (new AwardSystemService(CommandType.Punch)).checkForAward(guildId, userId, punchCount, message).then((result: boolean) => {})
 
     punchesCache[`${guildId}-${userId}`] = punchCount;
     return punchCount;
@@ -249,13 +251,13 @@ export const getPunch = async (guildId: string, userId: string, partnerId: strin
     return punches;
 };
 
-export const addGeh = async (guildId: string, userId: string, partnerId: string) => {
+export const addGeh = async (guildId: string, userId: string, partnerId: string, message: Message) => {
     console.log("Running findOneAndUpdate()");
     let gehCount = 1
-    counterSchema.findOne({
+    await counterSchema.findOne({
         guildId,
         userId,
-    }, async function (err: any, schema: any) {
+    }).then((schema: any) => {
         if (!schema) {
             schema = new counterSchema({
                 guildId,
@@ -284,9 +286,9 @@ export const addGeh = async (guildId: string, userId: string, partnerId: string)
         return schema.save(function (err: any) {
             if (err) throw err;
         });
-    }
-    )
-    await wait(1000); // this wait is sus if you can find another way to do it, it will be nice
+    });
+
+    (new AwardSystemService(CommandType.Geh)).checkForAward(guildId, userId, gehCount, message).then((result: boolean) => {})
 
     gehsCache[`${guildId}-${userId}`] = gehCount;
     return gehCount;
