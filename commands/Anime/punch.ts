@@ -17,6 +17,9 @@ export default {
     syntaxError: {
         '<user>': 'Incorrect usage! Please use "{PREFIX}punch {ARGUMENTS}"'
     },
+    options: [
+        { name: "user", description: "User to punch", type: "MENTIONABLE", required: true },
+    ],
 
     callback: async ({ interaction: msgInt, channel, user, message, args, guild }) => {
         let interactionUser = msgInt?.options.getUser("user")?.toString() || args[0];

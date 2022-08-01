@@ -12,7 +12,6 @@ dotenv.config();
 // });
 
 const client = new DiscordJS.Client({
-    // These are new in v13 nothing crazy lol
     intents: [
         Intents.FLAGS.DIRECT_MESSAGES,
         Intents.FLAGS.DIRECT_MESSAGE_TYPING,
@@ -35,19 +34,19 @@ const client = new DiscordJS.Client({
 client.on("ready", async () => {
     console.log("PoiBot Online");
     new WOKCommands(client, {
-        commandsDir: path.join(__dirname, "commands"), // We put commands to this folder
-        featuresDir: path.join(__dirname, "features"), // We put features to this folder
+        commandsDir: path.join(__dirname, "commands"),
+        featuresDir: path.join(__dirname, "features"),
         typeScript: true,
         ignoreBots: true,
-        mongoUri: process.env.MONGO_URI, // We will use this later
+        mongoUri: process.env.MONGO_URI,
         dbOptions: {
             keepAlive: true
         },
-        botOwners: ["338760814884290562", "193749488135962625"], // Our discord IDs
+        botOwners: ["338760814884290562", "193749488135962625"],
         testServers: ["993084390722772992"],
         debug: true,
     })
-        .setDefaultPrefix("poi ") // poi hug foga
+        .setDefaultPrefix("poi ")
         .setCategorySettings([
             {
                 name: "Anime",

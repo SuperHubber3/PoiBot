@@ -12,12 +12,15 @@ export default {
     minArgs: 1,
     maxArgs: 1,
     expectedArgs: '<user>',
-    cooldown: '3s',
+    //cooldown: '3s',
     guildOnly: true,
     testOnly: true,
     syntaxError: {
         '<user>': 'Incorrect usage! Please use "{PREFIX}hug {ARGUMENTS}"'
     },
+    options: [
+        { name: "user", description: "User to hug", type: "MENTIONABLE", required: true },
+    ],
 
     callback: async ({ interaction: msgInt, channel, user, message, args, guild }) => {
         let interactionUser = msgInt?.options.getUser("user")?.toString() || args[0];

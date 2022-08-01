@@ -16,7 +16,7 @@ export default {
         "<user>": 'Incorrect usage! Please use "{PREFIX}kiss {ARGUMENTS}"',
     },
     options: [
-        { name: "user", description: "User to kiss", type: "USER", required: true },
+        { name: "user", description: "User to kiss", type: "MENTIONABLE", required: true },
     ],
 
     callback: async ({ interaction: msgInt, channel, user, message, args, guild }) => {

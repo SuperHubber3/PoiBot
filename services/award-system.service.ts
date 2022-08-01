@@ -1,7 +1,6 @@
 import { CommandType } from "../enums/command.enum";
 import awardSchema from "../models/award-schema";
 import { IAward } from "../models/award-schema";
-import { Collection } from 'mongoose'
 import mongoose from 'mongoose'
 import userAwardSchema from "../models/user-award-schema";
 import profileSchema from "../models/profile-schema";
@@ -15,8 +14,7 @@ export class AwardSystemService {
         this.type = type
     }
 
-    async checkForAward(guildId: string, userId: string, count: number, message: Message): Promise<boolean>
-    {
+    async checkForAward(guildId: string, userId: string, count: number, message: Message): Promise<boolean> {
         const isAwardDeserved = await this.isAwardDeserved(count)
         const awardItem: IAward = isAwardDeserved[1] as IAward
 
@@ -31,8 +29,7 @@ export class AwardSystemService {
         return false
     }
 
-    async updateUserProfile(guildId: string, userId: string, silver: number)
-    {
+    async updateUserProfile(guildId: string, userId: string, silver: number) {
         await profileSchema.findOne({
             guildId,
             userId,
@@ -55,8 +52,7 @@ export class AwardSystemService {
         })
     }
 
-    async addUserAward(guildId: string, userId: string, awardItem: IAward)
-    {
+    async addUserAward(guildId: string, userId: string, awardItem: IAward) {
         userAwardSchema.findOne({
             guildId,
             userId,
@@ -86,9 +82,8 @@ export class AwardSystemService {
         })
     }
 
-    async isAwardDeserved(count: number): Promise<(boolean | IAward|null)[]>
-    {
-        const awardItem: IAward|null = await awardSchema.findOne({ 
+    async isAwardDeserved(count: number): Promise<(boolean | IAward | null)[]> {
+        const awardItem: IAward | null = await awardSchema.findOne({
             type: this.type.toString(),
             countNeeded: count
         });
@@ -100,19 +95,38 @@ export class AwardSystemService {
         return [false, null]
     }
 
-    public createSchemaIfDoesntExists()
-    {
+    public createSchemaIfDoesntExists() {
         mongoose.connection.collection('awards').insertMany(
             [
                 {
                     type: CommandType.Hug.toString(),
-                    countNeeded: 5,
+                    rewardMessage: "Doesn't It Feel Good?!",
+                    countNeeded: 10,
                     silverReward: 10
                 },
                 {
                     type: CommandType.Hug.toString(),
-                    countNeeded: 10,
-                    silverReward: 20
+                    rewardMessage: "Hug Addict!",
+                    countNeeded: 50,
+                    silverReward: 50
+                },
+                {
+                    type: CommandType.Hug.toString(),
+                    rewardMessage: "Hug Master!",
+                    countNeeded: 100,
+                    silverReward: 100
+                },
+                {
+                    type: CommandType.Hug.toString(),
+                    rewardMessage: "Hug Champion!",
+                    countNeeded: 500,
+                    silverReward: 500
+                },
+                {
+                    type: CommandType.Hug.toString(),
+                    rewardMessage: "God Of All Hugs!",
+                    countNeeded: 1000,
+                    silverReward: 1000
                 }
             ]
         )

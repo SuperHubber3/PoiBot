@@ -1,10 +1,20 @@
-import type { Client, Message, TextChannel } from "discord.js";
+import { Client, Message, MessageEmbed } from "discord.js";
 import WOKCommands from "wokcommands";
 import { IAward } from "../models/award-schema";
 
 export default (client: Client, instance: WOKCommands) => {
     client.on("awardDeserved", async (awardItem: IAward, userId: string, guildId: string, message: Message) => {
         console.log('awardDeserved!')
-        message.reply({ content: `<@${userId}> you got reward! Reward for ${awardItem.countNeeded} ${awardItem.type}s. Silver: ${awardItem.silverReward}` })
+        const embed = new MessageEmbed()
+            .setAuthor({ name: `Achievement unlocked: ${awardItem.rewardMessage}`, iconURL: message.author.displayAvatarURL(), url: `https://discord.com/api/oauth2/authorize?client_id=993069924362760202&permissions=8&scope=bot%20applications.commands` })
+            .setDescription(`Use the ${awardItem.type} command ${awardItem.countNeeded} times`)
+            .setFooter({ text: `+${awardItem.silverReward} silver reward` })
+            .setColor('RANDOM')
+        message.reply({ embeds: [embed] })
     });
 };
+
+export const config = {
+    displayName: 'Award Feature',
+    dbName: 'AWARDS',
+}
