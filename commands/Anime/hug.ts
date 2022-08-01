@@ -12,9 +12,9 @@ export default {
     minArgs: 1,
     maxArgs: 1,
     expectedArgs: '<user>',
-    //cooldown: '3s',
+    cooldown: '3s',
     guildOnly: true,
-    testOnly: true,
+    testOnly: false,
     syntaxError: {
         '<user>': 'Incorrect usage! Please use "{PREFIX}hug {ARGUMENTS}"'
     },
