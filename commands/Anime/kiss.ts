@@ -8,6 +8,7 @@ export default {
     slash: "both",
     guildOnly: true,
     testOnly: false,
+	ownerOnly: true,
     expectedArgs: "<USER>",
     minArgs: 1,
     maxArgs: 1,
