@@ -58,8 +58,9 @@ export default {
 
         let mediaString = (new MediaService(CommandType.Punch)).getMedia()
         const punches = await addPunch(guild!.id, user.id, target, message)
-
-        const embed = new MessageEmbed({ footer: { text: `That's ${punches} punches now!` } })
+        let text = `That's ${punches} hugs now!`
+        if (punches == 1) text = `Their first punch from you!`
+        const embed = new MessageEmbed({ footer: { text } })
             .setColor("RANDOM")
             .setTitle('You gave a punch!')
             .setURL('https://discord.com/api/oauth2/authorize?client_id=993069924362760202&permissions=8&scope=bot%20applications.commands')

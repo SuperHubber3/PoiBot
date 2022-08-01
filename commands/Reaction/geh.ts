@@ -56,8 +56,9 @@ export default {
 
         let mediaString = (new MediaService(CommandType.Geh)).getMedia()
         const gehs = await addGeh(guild!.id, user.id, target, message)
-
-        const embed = new MessageEmbed({ footer: { text: `That's ${gehs} gehs now!` } })
+        let text = `That's ${gehs} hugs now!`
+        if (gehs == 1) text = `Their first geh from you!`
+        const embed = new MessageEmbed({ footer: { text } })
             .setColor("RANDOM")
             .setURL('https://discord.com/api/oauth2/authorize?client_id=993069924362760202&permissions=8&scope=bot%20applications.commands')
             .setDescription(`<@${user.id}> asks why <@${target}> is so geh!`)

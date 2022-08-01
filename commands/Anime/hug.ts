@@ -59,8 +59,9 @@ export default {
 
         let mediaString = (new MediaService(CommandType.Hug)).getMedia()
         const hugs = await addHug(guild!.id, user.id, target, message)
-
-        const embed = new MessageEmbed({ footer: { text: `That's ${hugs} hugs now!` } })
+        let text = `That's ${hugs} hugs now!`
+        if (hugs == 1) text = `Their first hug from you!`
+        const embed = new MessageEmbed({ footer: { text } })
             .setColor("RANDOM")
             .setTitle('You gave a hug!')
             .setURL('https://discord.com/api/oauth2/authorize?client_id=993069924362760202&permissions=8&scope=bot%20applications.commands')
