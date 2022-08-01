@@ -7,7 +7,7 @@ export default {
     description: "Kiss someone!",
     slash: "both",
     guildOnly: true,
-    testOnly: true,
+    testOnly: false,
     expectedArgs: "<user>",
     minArgs: 1,
     maxArgs: 1,

@@ -10,7 +10,7 @@ export default {
   maxArgs: 1,
   expectedArgs: '<user>',
   guildOnly: true,
-  testOnly: true,
+  testOnly: false,
   syntaxError: {
     '<user>': 'Incorrect usage! Please use "{PREFIX}geh {ARGUMENTS}"'
   },
