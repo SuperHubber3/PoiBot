@@ -6,6 +6,7 @@ export default {
     description: '',
     slash: 'both',
     guildOnly: true,
+    testOnly: true,
 
     callback: async ({ }) => {
 
