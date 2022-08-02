@@ -52,7 +52,8 @@ export default {
         } else {
             return "Argument <user> should be at least 2 characters long!";
         }
-        if (target === "") return
+        if (isNaN(parseInt(target))) return
+
         const boops = await addBoop(guild!.id, user.id, target)
         let content = `You gave <@${target}> a boop! That's ${boops} boops now!`
         if (boops == 1) content = `You gave <@${target}> a boop! Their first boop from you!`

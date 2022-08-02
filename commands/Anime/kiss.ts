@@ -8,7 +8,7 @@ export default {
     slash: "both",
     guildOnly: true,
     testOnly: false,
-	ownerOnly: true,
+    ownerOnly: true,
     expectedArgs: "<USER>",
     minArgs: 1,
     maxArgs: 1,
@@ -53,7 +53,8 @@ export default {
         } else {
             return "Argument <user> should be at least 2 characters long!";
         }
-        if (target === "") return
+        if (isNaN(parseInt(target))) return
+
         const row = new MessageActionRow()
             .addComponents(
                 new MessageButton()
