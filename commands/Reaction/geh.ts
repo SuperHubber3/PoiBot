@@ -52,7 +52,7 @@ export default {
         } else {
             return "Argument <user> should be at least 2 characters long!";
         }
-        if (target === "") return
+        if (isNaN(parseInt(target))) return
 
         let mediaString = (new MediaService(CommandType.Geh)).getMedia()
         const gehs = await addGeh(guild!.id, user.id, target, message)
