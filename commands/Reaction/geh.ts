@@ -56,7 +56,7 @@ export default {
 
         let mediaString = (new MediaService(CommandType.Geh)).getMedia()
         const gehs = await addGeh(guild!.id, user.id, target, message)
-        let text = `That's ${gehs} hugs now!`
+        let text = `That's ${gehs} gehs now!`
         if (gehs == 1) text = `Their first geh from you!`
         const embed = new MessageEmbed({ footer: { text } })
             .setColor("RANDOM")

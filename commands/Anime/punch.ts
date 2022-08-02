@@ -58,7 +58,7 @@ export default {
 
         let mediaString = (new MediaService(CommandType.Punch)).getMedia()
         const punches = await addPunch(guild!.id, user.id, target, message)
-        let text = `That's ${punches} hugs now!`
+        let text = `That's ${punches} punches now!`
         if (punches == 1) text = `Their first punch from you!`
         const embed = new MessageEmbed({ footer: { text } })
             .setColor("RANDOM")
