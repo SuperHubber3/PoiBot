@@ -11,11 +11,11 @@ export default {
     slash: 'both',
     minArgs: 1,
     maxArgs: 1,
-    expectedArgs: '<USER>',
+    expectedArgs: '<user>',
     guildOnly: true,
     testOnly: false,
     syntaxError: {
-        '<USER>': 'Incorrect usage! Please use "{PREFIX}punch {ARGUMENTS}"'
+        'user': 'Incorrect usage! Use `{PREFIX}`punch {ARGUMENTS}'
     },
     options: [
         { name: "user", description: "User to punch", type: "USER", required: true },
