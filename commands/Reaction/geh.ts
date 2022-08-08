@@ -11,13 +11,15 @@ export default {
     slash: 'both',
     minArgs: 1,
     maxArgs: 1,
-    expectedArgs: '<USER>',
+    expectedArgs: '<user>',
     guildOnly: true,
     testOnly: false,
     syntaxError: {
-        '<USER>': 'Incorrect usage! Please use "{PREFIX}geh {ARGUMENTS}"'
+        'user': 'Incorrect usage! Use `{PREFIX}`geh {ARGUMENTS}'
     },
-    options: [{ name: 'user', description: 'Ask why are they geh', type: 'USER' }],
+    options: [
+        { name: 'user', description: 'Ask why are they geh', type: 'USER', required: true }
+    ],
 
     callback: async ({ interaction: msgInt, channel, user, message, args, guild }) => {
         let interactionUser = msgInt?.options.getUser("user")?.toString() || args[0];

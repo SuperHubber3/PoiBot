@@ -11,12 +11,12 @@ export default {
     slash: 'both',
     minArgs: 1,
     maxArgs: 1,
-    expectedArgs: '<USER>',
+    expectedArgs: '<user>',
     cooldown: '3s',
     guildOnly: true,
     testOnly: false,
     syntaxError: {
-        '<USER>': 'Incorrect usage! Please use "{PREFIX}hug {ARGUMENTS}"'
+        'user': 'Incorrect usage! Use `{PREFIX}`hug {ARGUMENTS}'
     },
     options: [
         { name: "user", description: "User to hug", type: "USER", required: true },

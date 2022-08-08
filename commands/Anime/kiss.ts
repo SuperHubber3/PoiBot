@@ -6,15 +6,15 @@ export default {
     category: "Anime",
     description: "Kiss someone!",
     slash: "both",
+    minArgs: 1,
+    maxArgs: 1,
+    expectedArgs: "<user>",
+    cooldown: '15s',
     guildOnly: true,
     testOnly: false,
     ownerOnly: true,
-    expectedArgs: "<USER>",
-    minArgs: 1,
-    maxArgs: 1,
-    cooldown: '15s',
     syntaxError: {
-        "<USER>": 'Incorrect usage! Please use "{PREFIX}kiss {ARGUMENTS}"',
+        'user': 'Incorrect usage! Use `{PREFIX}`kiss {ARGUMENTS}'
     },
     options: [
         { name: "user", description: "User to kiss", type: "USER", required: true },

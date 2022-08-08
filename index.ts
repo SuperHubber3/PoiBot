@@ -50,7 +50,37 @@ client.on("ready", async () => {
         .setCategorySettings([
             {
                 name: "Anime",
+                emoji: "807590117669470228", // We should find a good emoji for this
+                customEmoji: true,
+            },
+            {
+                name: "Counter",
                 emoji: "🥰", // We should find a good emoji for this
+                // customEmoji: true,
+            },
+            {
+                name: "Info",
+                emoji: "💻", // We should find a good emoji for this
+                // customEmoji: true,
+            },
+            {
+                name: "Migration",
+                emoji: "👨‍💼", // We should find a good emoji for this
+                // customEmoji: true,
+            },
+            {
+                name: "Profiles",
+                emoji: "📇", // We should find a good emoji for this
+                // customEmoji: true,
+            },
+            {
+                name: "Reaction",
+                emoji: "👍", // We should find a good emoji for this
+                // customEmoji: true,
+            },
+            {
+                name: "Test",
+                emoji: "🛠️", // We should find a good emoji for this
                 // customEmoji: true,
             },
         ]);
