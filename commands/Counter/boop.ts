@@ -20,6 +20,13 @@ export default {
     ],
 
     callback: async ({ message, interaction: msgInt, guild, user, args, channel }) => {
+        if (args[0] == "razor") {
+            const boops = await addBoop(guild!.id, user.id, "555484255363530782")
+            let content = `You gave <@555484255363530782> a boop! That's ${boops} boops now!`
+            if (boops == 1) content = `You gave <@555484255363530782> a boop! Their first boop from you!`
+            message.reply({ content, allowedMentions: { parse: [] } });
+            return;
+        }
         let interactionUser = msgInt?.options.getUser("user")?.toString() || args[0];
         if (interactionUser.startsWith('<')) {
             interactionUser = interactionUser.substring(2)
@@ -58,9 +65,9 @@ export default {
         let content = `You gave <@${target}> a boop! That's ${boops} boops now!`
         if (boops == 1) content = `You gave <@${target}> a boop! Their first boop from you!`
         if (message) {
-            message.reply({ content });
+            message.reply({ content, allowedMentions: { parse: [] } });
             return;
         }
-        msgInt.reply({ content });
+        msgInt.reply({ content, allowedMentions: { parse: [] } });
     },
 } as ICommand;

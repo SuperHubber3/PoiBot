@@ -61,6 +61,7 @@ export default {
         const hugs = await addHug(guild!.id, user.id, target, message)
         let text = `That's ${hugs} hugs now!`
         if (hugs == 1) text = `Their first hug from you!`
+
         const embed = new MessageEmbed({ footer: { text } })
             .setColor("RANDOM")
             .setTitle('You gave a hug!')
@@ -68,6 +69,12 @@ export default {
             .setDescription(`*<@${user.id}> hugs <@${target}>*`)
             .setImage(mediaString)
 
+        if (target == user.id) {
+            embed.setTitle("You hug yourself")
+            embed.setDescription(`*<@${user.id}> hugs themselves*`)
+            embed.setImage(``)
+            return embed
+        }
         return embed
     },
 } as ICommand
