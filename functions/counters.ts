@@ -7,6 +7,7 @@ const boopsCache = {} as { [key: string]: number }
 const hugsCache = {} as { [key: string]: number }
 const punchesCache = {} as { [key: string]: number }
 const gehsCache = {} as { [key: string]: number }
+const slapsCache = {} as { [key: string]: number }
 
 export default (client: Client) => { }
 
@@ -128,7 +129,7 @@ export const addHug = async (guildId: string, userId: string, partnerId: string,
         });
     });
 
-    (new AwardSystemService(CommandType.Hug)).checkForAward(guildId, userId, hugCount, message).then((result: boolean) => {})
+    (new AwardSystemService(CommandType.Hug)).checkForAward(guildId, userId, hugCount, message).then((result: boolean) => { })
 
     hugsCache[`${guildId}-${userId}`] = hugCount;
     return hugCount
@@ -208,7 +209,7 @@ export const addPunch = async (guildId: string, userId: string, partnerId: strin
         });
     });
 
-    (new AwardSystemService(CommandType.Punch)).checkForAward(guildId, userId, punchCount, message).then((result: boolean) => {})
+    (new AwardSystemService(CommandType.Punch)).checkForAward(guildId, userId, punchCount, message).then((result: boolean) => { })
 
     punchesCache[`${guildId}-${userId}`] = punchCount;
     return punchCount;
@@ -288,7 +289,7 @@ export const addGeh = async (guildId: string, userId: string, partnerId: string,
         });
     });
 
-    (new AwardSystemService(CommandType.Geh)).checkForAward(guildId, userId, gehCount, message).then((result: boolean) => {})
+    (new AwardSystemService(CommandType.Geh)).checkForAward(guildId, userId, gehCount, message).then((result: boolean) => { })
 
     gehsCache[`${guildId}-${userId}`] = gehCount;
     return gehCount;
@@ -329,6 +330,89 @@ export const getGeh = async (guildId: string, userId: string, partnerId: string)
     gehsCache[`${guildId}-${userId}`] = gehs;
 
     return gehs;
+};
+
+export const addSlap = async (guildId: string, userId: string, partnerId: string, message: Message) => {
+    console.log("Running findOneAndUpdate()");
+    let slapCount = 1
+
+    await counterSchema.findOne({
+        guildId,
+        userId,
+    }).then((schema: any) => {
+        if (!schema) {
+            schema = new counterSchema({
+                guildId,
+                userId,
+                slaps: [{
+                    userId: partnerId,
+                    count: 1,
+                }],
+            });
+            schema.save(function (err: any) {
+                if (err) throw err;
+            });
+            return;
+        }
+
+        const slaps = schema.slaps;
+        const index = slaps.findIndex((x: any) => x.userId === partnerId);
+        if (index === -1) {
+            slaps.push({
+                userId: partnerId,
+                count: 1,
+            });
+        } else {
+            slaps[index].count += 1;
+            slapCount = slaps[index].count
+        }
+        schema.slaps = slaps;
+        schema.save(function (err: any) {
+            if (err) throw err;
+        });
+    });
+
+    (new AwardSystemService(CommandType.Slap)).checkForAward(guildId, userId, slapCount, message).then((result: boolean) => { })
+
+    slapsCache[`${guildId}-${userId}`] = slapCount;
+    return slapCount
+};
+
+export const getSlap = async (guildId: string, userId: string, partnerId: string) => {
+    const cachedValue = slapsCache[`${guildId}-${userId}`];
+    if (cachedValue) {
+        return cachedValue;
+    }
+
+    console.log("Running findOne()");
+
+    const result = await counterSchema.findOne({
+        guildId,
+        userId,
+    });
+
+    let slaps = 0;
+    if (result) {
+        result.slaps.forEach(async (element: { userId: string, count: number }) => {
+            if (element.userId === partnerId) {
+                slaps = element.count
+            }
+        });
+    } else {
+        console.log("Inserting a document");
+        await new counterSchema({
+            guildId,
+            userId,
+            slaps: [{
+                userId: partnerId,
+                count: 0
+            }]
+        }).save();
+    }
+
+    slapsCache[`${guildId}-${userId}`] = slaps;
+
+    return slaps;
 };
 
 export const config = {

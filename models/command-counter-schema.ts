@@ -15,6 +15,7 @@ const counterSchema = new mongoose.Schema({
     hugs: [emoteSchema],
     punches: [emoteSchema],
     gehs: [emoteSchema],
+    slaps: [emoteSchema]
 });
 
 const name = 'counters'
