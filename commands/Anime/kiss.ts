@@ -1,5 +1,8 @@
 import { ICommand } from "wokcommands";
-import { Collection, GuildMember, Interaction, Message, MessageActionRow, MessageButton } from "discord.js";
+import { Collection, GuildMember, Interaction, Message, MessageActionRow, MessageButton, MessageEmbed } from "discord.js";
+import { MediaService } from '../../services/media.service';
+import { CommandType } from '../../enums/command.enum';
+import { addGeh } from '../../functions/counters';
 
 export default {
     name: "kiss",
@@ -9,10 +12,10 @@ export default {
     minArgs: 1,
     maxArgs: 1,
     expectedArgs: "<user>",
-    cooldown: '15s',
+    cooldown: '30s',
     guildOnly: true,
     testOnly: false,
-    ownerOnly: true,
+    ownerOnly: false,
     syntaxError: {
         'user': 'Incorrect usage! Use `{PREFIX}`kiss {ARGUMENTS}'
     },
@@ -54,13 +57,14 @@ export default {
             return "Argument <user> should be at least 2 characters long!";
         }
         if (isNaN(parseInt(target))) return
+        if (target == user.id) return
 
         const row = new MessageActionRow()
             .addComponents(
                 new MessageButton()
                     .setCustomId("ok")
                     .setEmoji("👌")
-                    .setLabel("Yes")
+                    .setLabel("Ok")
                     .setStyle("SUCCESS")
             )
             .addComponents(
@@ -78,6 +82,7 @@ export default {
             msg = await channel.send({
                 content,
                 components: [row],
+                allowedMentions: { parse: [] }
             })
             timeout = setTimeout(() => {
                 msg.delete().catch((err) => { console.error(err) })
@@ -119,16 +124,27 @@ export default {
                 });
             } else if (collected.customId === "not_ok") {
                 clearTimeout(timeout)
-                const reply = `<@${target}> doesn't wants to get kissed 👎`;
+                let mediaString = (new MediaService(CommandType.Geh)).getMedia()
+                const gehs = await addGeh(guild!.id, target, user.id, message)
+                let text = `That's ${gehs} gehs now!`
+                if (gehs == 1) text = `Their first geh from you!`
+                const embed = new MessageEmbed({ footer: { text } })
+                    .setColor("RANDOM")
+                    .setURL('https://discord.com/api/oauth2/authorize?client_id=993069924362760202&permissions=8&scope=bot%20applications.commands')
+                    .setDescription(`<@${target}> asks why <@${user.id}> is so geh!`)
+                    .setImage(mediaString)
+
                 if (message) {
                     await msg.edit({
-                        content: reply,
+                        content: " ",
+                        embeds: [embed],
                         components: [],
                     });
                     return;
                 }
                 await msgInt.editReply({
-                    content: reply,
+                    content: " ",
+                    embeds: [embed],
                     components: [],
                 });
             }

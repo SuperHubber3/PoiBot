@@ -10,7 +10,7 @@ export default (client: Client, instance: WOKCommands) => {
             .setDescription(`Use the ${awardItem.type} command ${awardItem.countNeeded} times`)
             .setFooter({ text: `+${awardItem.silverReward} silver reward` })
             .setColor('RANDOM')
-        message.reply({ embeds: [embed] })
+        message.reply({ embeds: [embed], allowedMentions: { parse: [] } })
     });
 };
 

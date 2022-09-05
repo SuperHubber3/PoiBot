@@ -14,6 +14,7 @@ export default (client: Client) => {
             }, 1000 * 60 * 60);
             message.reply({
                 stickers: [client.guilds.cache.get(guildId)?.stickers.cache.get("1008452255118262312") as Sticker],
+                allowedMentions: { parse: [] }
             });
         }
     });
