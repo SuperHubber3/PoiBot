@@ -3,5 +3,9 @@ export enum CommandType {
     Geh = 'geh',
     Hug = 'hug',
     Punch = 'punch',
-    Slap = 'slap'
+    Slap = 'slap',
+    Kill = 'kill',
+    Bite = 'bite',
+    Cuddle = 'cuddle',
+    Pat = 'pat'
 }

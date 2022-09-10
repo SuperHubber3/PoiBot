@@ -127,6 +127,126 @@ export class AwardSystemService {
                     rewardMessage: "God Of All Hugs!",
                     countNeeded: 1000,
                     silverReward: 1000
+                },
+                {
+                    type: CommandType.Boop.toString(),
+                    rewardMessage: "Boop lover!",
+                    countNeeded: 10,
+                    silverReward: 10
+                },
+                {
+                    type: CommandType.Boop.toString(),
+                    rewardMessage: "Boop enthusiast!",
+                    countNeeded: 50,
+                    silverReward: 50
+                },
+                {
+                    type: CommandType.Boop.toString(),
+                    rewardMessage: "Boop Master!",
+                    countNeeded: 100,
+                    silverReward: 100
+                },
+                {
+                    type: CommandType.Boop.toString(),
+                    rewardMessage: "Boop Champion!",
+                    countNeeded: 500,
+                    silverReward: 500
+                },
+                {
+                    type: CommandType.Boop.toString(),
+                    rewardMessage: "God Of All Boops!",
+                    countNeeded: 1000,
+                    silverReward: 1000
+                },
+                {
+                    type: CommandType.Pat.toString(),
+                    rewardMessage: "Cute!",
+                    countNeeded: 10,
+                    silverReward: 10
+                },
+                {
+                    type: CommandType.Pat.toString(),
+                    rewardMessage: "Hair messy upper!",
+                    countNeeded: 50,
+                    silverReward: 50
+                },
+                {
+                    type: CommandType.Pat.toString(),
+                    rewardMessage: "Pat Master!",
+                    countNeeded: 100,
+                    silverReward: 100
+                },
+                {
+                    type: CommandType.Pat.toString(),
+                    rewardMessage: "Pat Champion!",
+                    countNeeded: 500,
+                    silverReward: 500
+                },
+                {
+                    type: CommandType.Pat.toString(),
+                    rewardMessage: "God Of All Pats!",
+                    countNeeded: 1000,
+                    silverReward: 1000
+                },
+                {
+                    type: CommandType.Slap.toString(),
+                    rewardMessage: "Ouch!",
+                    countNeeded: 10,
+                    silverReward: 10
+                },
+                {
+                    type: CommandType.Slap.toString(),
+                    rewardMessage: "Mean!",
+                    countNeeded: 50,
+                    silverReward: 50
+                },
+                {
+                    type: CommandType.Slap.toString(),
+                    rewardMessage: "Fast Hands!",
+                    countNeeded: 100,
+                    silverReward: 100
+                },
+                {
+                    type: CommandType.Slap.toString(),
+                    rewardMessage: "They're Red!",
+                    countNeeded: 500,
+                    silverReward: 500
+                },
+                {
+                    type: CommandType.Slap.toString(),
+                    rewardMessage: "Bleeding Hands!",
+                    countNeeded: 1000,
+                    silverReward: 1000
+                },
+                {
+                    type: CommandType.Bite.toString(),
+                    rewardMessage: "Itching Teeth!",
+                    countNeeded: 10,
+                    silverReward: 10
+                },
+                {
+                    type: CommandType.Bite.toString(),
+                    rewardMessage: "It's Sharp!",
+                    countNeeded: 50,
+                    silverReward: 50
+                },
+                {
+                    type: CommandType.Bite.toString(),
+                    rewardMessage: "Bite Master!",
+                    countNeeded: 100,
+                    silverReward: 100
+                },
+                {
+                    type: CommandType.Bite.toString(),
+                    rewardMessage: "Bite Champion!",
+                    countNeeded: 500,
+                    silverReward: 500
+                },
+                {
+                    type: CommandType.Bite.toString(),
+                    rewardMessage: "God Of All Bites!",
+                    countNeeded: 1000,
+                    silverReward: 1000
                 }
             ]
         )
