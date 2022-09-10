@@ -8,6 +8,10 @@ const hugsCache = {} as { [key: string]: number }
 const punchesCache = {} as { [key: string]: number }
 const gehsCache = {} as { [key: string]: number }
 const slapsCache = {} as { [key: string]: number }
+const killsCache = {} as { [key: string]: number }
+const bitesCache = {} as { [key: string]: number }
+const cuddlesCache = {} as { [key: string]: number }
+const patsCache = {} as { [key: string]: number }
 
 export default (client: Client) => { }
 
@@ -413,6 +417,338 @@ export const getSlap = async (guildId: string, userId: string, partnerId: string
     slapsCache[`${guildId}-${userId}`] = slaps;
 
     return slaps;
+};
+
+export const addKill = async (guildId: string, userId: string, partnerId: string, message: Message) => {
+    console.log("Running findOneAndUpdate()");
+    let killCount = 1
+
+    await counterSchema.findOne({
+        guildId,
+        userId,
+    }).then((schema: any) => {
+        if (!schema) {
+            schema = new counterSchema({
+                guildId,
+                userId,
+                kills: [{
+                    userId: partnerId,
+                    count: 1,
+                }],
+            });
+            schema.save(function (err: any) {
+                if (err) throw err;
+            });
+            return;
+        }
+
+        const kills = schema.kills;
+        const index = kills.findIndex((x: any) => x.userId === partnerId);
+        if (index === -1) {
+            kills.push({
+                userId: partnerId,
+                count: 1,
+            });
+        } else {
+            kills[index].count += 1;
+            killCount = kills[index].count
+        }
+        schema.kills = kills;
+        schema.save(function (err: any) {
+            if (err) throw err;
+        });
+    });
+
+    (new AwardSystemService(CommandType.Kill)).checkForAward(guildId, userId, killCount, message).then((result: boolean) => { })
+
+    killsCache[`${guildId}-${userId}`] = killCount;
+    return killCount
+};
+
+export const getKill = async (guildId: string, userId: string, partnerId: string) => {
+    const cachedValue = killsCache[`${guildId}-${userId}`];
+    if (cachedValue) {
+        return cachedValue;
+    }
+
+    console.log("Running findOne()");
+
+    const result = await counterSchema.findOne({
+        guildId,
+        userId,
+    });
+
+    let kills = 0;
+    if (result) {
+        result.kills.forEach(async (element: { userId: string, count: number }) => {
+            if (element.userId === partnerId) {
+                kills = element.count
+            }
+        });
+    } else {
+        console.log("Inserting a document");
+        await new counterSchema({
+            guildId,
+            userId,
+            kills: [{
+                userId: partnerId,
+                count: 0
+            }]
+        }).save();
+    }
+
+    killsCache[`${guildId}-${userId}`] = kills;
+
+    return kills;
+};
+
+export const addBite = async (guildId: string, userId: string, partnerId: string, message: Message) => {
+    console.log("Running findOneAndUpdate()");
+    let biteCount = 1
+
+    await counterSchema.findOne({
+        guildId,
+        userId,
+    }).then((schema: any) => {
+        if (!schema) {
+            schema = new counterSchema({
+                guildId,
+                userId,
+                bites: [{
+                    userId: partnerId,
+                    count: 1,
+                }],
+            });
+            schema.save(function (err: any) {
+                if (err) throw err;
+            });
+            return;
+        }
+
+        const bites = schema.bites;
+        const index = bites.findIndex((x: any) => x.userId === partnerId);
+        if (index === -1) {
+            bites.push({
+                userId: partnerId,
+                count: 1,
+            });
+        } else {
+            bites[index].count += 1;
+            biteCount = bites[index].count
+        }
+        schema.bites = bites;
+        schema.save(function (err: any) {
+            if (err) throw err;
+        });
+    });
+
+    (new AwardSystemService(CommandType.Bite)).checkForAward(guildId, userId, biteCount, message).then((result: boolean) => { })
+
+    bitesCache[`${guildId}-${userId}`] = biteCount;
+    return biteCount
+};
+
+export const getBite = async (guildId: string, userId: string, partnerId: string) => {
+    const cachedValue = bitesCache[`${guildId}-${userId}`];
+    if (cachedValue) {
+        return cachedValue;
+    }
+
+    console.log("Running findOne()");
+
+    const result = await counterSchema.findOne({
+        guildId,
+        userId,
+    });
+
+    let bites = 0;
+    if (result) {
+        result.bites.forEach(async (element: { userId: string, count: number }) => {
+            if (element.userId === partnerId) {
+                bites = element.count
+            }
+        });
+    } else {
+        console.log("Inserting a document");
+        await new counterSchema({
+            guildId,
+            userId,
+            bites: [{
+                userId: partnerId,
+                count: 0
+            }]
+        }).save();
+    }
+
+    bitesCache[`${guildId}-${userId}`] = bites;
+
+    return bites;
+};
+
+export const addCuddle = async (guildId: string, userId: string, partnerId: string, message: Message) => {
+    console.log("Running findOneAndUpdate()");
+    let cuddleCount = 1
+
+    await counterSchema.findOne({
+        guildId,
+        userId,
+    }).then((schema: any) => {
+        if (!schema) {
+            schema = new counterSchema({
+                guildId,
+                userId,
+                cuddles: [{
+                    userId: partnerId,
+                    count: 1,
+                }],
+            });
+            schema.save(function (err: any) {
+                if (err) throw err;
+            });
+            return;
+        }
+
+        const cuddles = schema.cuddles;
+        const index = cuddles.findIndex((x: any) => x.userId === partnerId);
+        if (index === -1) {
+            cuddles.push({
+                userId: partnerId,
+                count: 1,
+            });
+        } else {
+            cuddles[index].count += 1;
+            cuddleCount = cuddles[index].count
+        }
+        schema.cuddles = cuddles;
+        schema.save(function (err: any) {
+            if (err) throw err;
+        });
+    });
+
+    (new AwardSystemService(CommandType.Cuddle)).checkForAward(guildId, userId, cuddleCount, message).then((result: boolean) => { })
+
+    cuddlesCache[`${guildId}-${userId}`] = cuddleCount;
+    return cuddleCount
+};
+
+export const getCuddle = async (guildId: string, userId: string, partnerId: string) => {
+    const cachedValue = cuddlesCache[`${guildId}-${userId}`];
+    if (cachedValue) {
+        return cachedValue;
+    }
+
+    console.log("Running findOne()");
+
+    const result = await counterSchema.findOne({
+        guildId,
+        userId,
+    });
+
+    let cuddles = 0;
+    if (result) {
+        result.cuddles.forEach(async (element: { userId: string, count: number }) => {
+            if (element.userId === partnerId) {
+                cuddles = element.count
+            }
+        });
+    } else {
+        console.log("Inserting a document");
+        await new counterSchema({
+            guildId,
+            userId,
+            cuddles: [{
+                userId: partnerId,
+                count: 0
+            }]
+        }).save();
+    }
+
+    cuddlesCache[`${guildId}-${userId}`] = cuddles;
+
+    return cuddles;
+};
+
+export const addPat = async (guildId: string, userId: string, partnerId: string, message: Message) => {
+    console.log("Running findOneAndUpdate()");
+    let patCount = 1
+
+    await counterSchema.findOne({
+        guildId,
+        userId,
+    }).then((schema: any) => {
+        if (!schema) {
+            schema = new counterSchema({
+                guildId,
+                userId,
+                pats: [{
+                    userId: partnerId,
+                    count: 1,
+                }],
+            });
+            schema.save(function (err: any) {
+                if (err) throw err;
+            });
+            return;
+        }
+
+        const pats = schema.pats;
+        const index = pats.findIndex((x: any) => x.userId === partnerId);
+        if (index === -1) {
+            pats.push({
+                userId: partnerId,
+                count: 1,
+            });
+        } else {
+            pats[index].count += 1;
+            patCount = pats[index].count
+        }
+        schema.pats = pats;
+        schema.save(function (err: any) {
+            if (err) throw err;
+        });
+    });
+
+    (new AwardSystemService(CommandType.Pat)).checkForAward(guildId, userId, patCount, message).then((result: boolean) => { })
+
+    patsCache[`${guildId}-${userId}`] = patCount;
+    return patCount
+};
+
+export const getPat = async (guildId: string, userId: string, partnerId: string) => {
+    const cachedValue = patsCache[`${guildId}-${userId}`];
+    if (cachedValue) {
+        return cachedValue;
+    }
+
+    console.log("Running findOne()");
+
+    const result = await counterSchema.findOne({
+        guildId,
+        userId,
+    });
+
+    let pats = 0;
+    if (result) {
+        result.pats.forEach(async (element: { userId: string, count: number }) => {
+            if (element.userId === partnerId) {
+                pats = element.count
+            }
+        });
+    } else {
+        console.log("Inserting a document");
+        await new counterSchema({
+            guildId,
+            userId,
+            pats: [{
+                userId: partnerId,
+                count: 0
+            }]
+        }).save();
+    }
+
+    patsCache[`${guildId}-${userId}`] = pats;
+
+    return pats;
 };
 
 export const config = {
