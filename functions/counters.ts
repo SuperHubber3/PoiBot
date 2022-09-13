@@ -133,7 +133,24 @@ export const addHug = async (guildId: string, userId: string, partnerId: string,
         });
     });
 
-    (new AwardSystemService(CommandType.Hug)).checkForAward(guildId, userId, hugCount, message).then((result: boolean) => { })
+    counterSchema.aggregate([
+        {
+            $match: {
+                userId: userId,
+                guildId: guildId,
+            }
+        },
+        {
+            $addFields: {
+                totalCount: {
+                    $sum: "$hugs.count"
+                }
+            }
+        }
+    ]).then((result: any) => {
+        let item = result[0];
+        (new AwardSystemService(CommandType.Hug)).checkForAward(guildId, userId, item.totalCount, message).then((result: boolean) => { })
+    });
 
     hugsCache[`${guildId}-${userId}`] = hugCount;
     return hugCount
@@ -213,7 +230,24 @@ export const addPunch = async (guildId: string, userId: string, partnerId: strin
         });
     });
 
-    (new AwardSystemService(CommandType.Punch)).checkForAward(guildId, userId, punchCount, message).then((result: boolean) => { })
+    counterSchema.aggregate([
+        {
+            $match: {
+                userId: userId,
+                guildId: guildId,
+            }
+        },
+        {
+            $addFields: {
+                totalCount: {
+                    $sum: "$punches.count"
+                }
+            }
+        }
+    ]).then((result: any) => {
+        let item = result[0];
+        (new AwardSystemService(CommandType.Punch)).checkForAward(guildId, userId, item.totalCount, message).then((result: boolean) => { })
+    });
 
     punchesCache[`${guildId}-${userId}`] = punchCount;
     return punchCount;
@@ -293,7 +327,24 @@ export const addGeh = async (guildId: string, userId: string, partnerId: string,
         });
     });
 
-    (new AwardSystemService(CommandType.Geh)).checkForAward(guildId, userId, gehCount, message).then((result: boolean) => { })
+    counterSchema.aggregate([
+        {
+            $match: {
+                userId: userId,
+                guildId: guildId,
+            }
+        },
+        {
+            $addFields: {
+                totalCount: {
+                    $sum: "$gehs.count"
+                }
+            }
+        }
+    ]).then((result: any) => {
+        let item = result[0];
+        (new AwardSystemService(CommandType.Geh)).checkForAward(guildId, userId, item.totalCount, message).then((result: boolean) => { })
+    });
 
     gehsCache[`${guildId}-${userId}`] = gehCount;
     return gehCount;
@@ -376,7 +427,24 @@ export const addSlap = async (guildId: string, userId: string, partnerId: string
         });
     });
 
-    (new AwardSystemService(CommandType.Slap)).checkForAward(guildId, userId, slapCount, message).then((result: boolean) => { })
+    counterSchema.aggregate([
+        {
+            $match: {
+                userId: userId,
+                guildId: guildId,
+            }
+        },
+        {
+            $addFields: {
+                totalCount: {
+                    $sum: "$slaps.count"
+                }
+            }
+        }
+    ]).then((result: any) => {
+        let item = result[0];
+        (new AwardSystemService(CommandType.Slap)).checkForAward(guildId, userId, item.totalCount, message).then((result: boolean) => { })
+    });
 
     slapsCache[`${guildId}-${userId}`] = slapCount;
     return slapCount
@@ -459,7 +527,24 @@ export const addKill = async (guildId: string, userId: string, partnerId: string
         });
     });
 
-    (new AwardSystemService(CommandType.Kill)).checkForAward(guildId, userId, killCount, message).then((result: boolean) => { })
+    counterSchema.aggregate([
+        {
+            $match: {
+                userId: userId,
+                guildId: guildId,
+            }
+        },
+        {
+            $addFields: {
+                totalCount: {
+                    $sum: "$kills.count"
+                }
+            }
+        }
+    ]).then((result: any) => {
+        let item = result[0];
+        (new AwardSystemService(CommandType.Kill)).checkForAward(guildId, userId, item.totalCount, message).then((result: boolean) => { })
+    });
 
     killsCache[`${guildId}-${userId}`] = killCount;
     return killCount
@@ -542,7 +627,24 @@ export const addBite = async (guildId: string, userId: string, partnerId: string
         });
     });
 
-    (new AwardSystemService(CommandType.Bite)).checkForAward(guildId, userId, biteCount, message).then((result: boolean) => { })
+    counterSchema.aggregate([
+        {
+            $match: {
+                userId: userId,
+                guildId: guildId,
+            }
+        },
+        {
+            $addFields: {
+                totalCount: {
+                    $sum: "$bites.count"
+                }
+            }
+        }
+    ]).then((result: any) => {
+        let item = result[0];
+        (new AwardSystemService(CommandType.Bite)).checkForAward(guildId, userId, item.totalCount, message).then((result: boolean) => { })
+    });
 
     bitesCache[`${guildId}-${userId}`] = biteCount;
     return biteCount
@@ -625,7 +727,24 @@ export const addCuddle = async (guildId: string, userId: string, partnerId: stri
         });
     });
 
-    (new AwardSystemService(CommandType.Cuddle)).checkForAward(guildId, userId, cuddleCount, message).then((result: boolean) => { })
+    counterSchema.aggregate([
+        {
+            $match: {
+                userId: userId,
+                guildId: guildId,
+            }
+        },
+        {
+            $addFields: {
+                totalCount: {
+                    $sum: "$cuddles.count"
+                }
+            }
+        }
+    ]).then((result: any) => {
+        let item = result[0];
+        (new AwardSystemService(CommandType.Cuddle)).checkForAward(guildId, userId, item.totalCount, message).then((result: boolean) => { })
+    });
 
     cuddlesCache[`${guildId}-${userId}`] = cuddleCount;
     return cuddleCount
@@ -708,7 +827,24 @@ export const addPat = async (guildId: string, userId: string, partnerId: string,
         });
     });
 
-    (new AwardSystemService(CommandType.Pat)).checkForAward(guildId, userId, patCount, message).then((result: boolean) => { })
+    counterSchema.aggregate([
+        {
+            $match: {
+                userId: userId,
+                guildId: guildId,
+            }
+        },
+        {
+            $addFields: {
+                totalCount: {
+                    $sum: "$pats.count"
+                }
+            }
+        }
+    ]).then((result: any) => {
+        let item = result[0];
+        (new AwardSystemService(CommandType.Pat)).checkForAward(guildId, userId, item.totalCount, message).then((result: boolean) => { })
+    });
 
     patsCache[`${guildId}-${userId}`] = patCount;
     return patCount
