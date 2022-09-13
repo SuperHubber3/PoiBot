@@ -95,13 +95,13 @@ export default {
         } else {
             let randomElement = Math.floor(Math.random() * badLuck.length)
             selectedString = badLuck[randomElement]
+
             if (selectedString.startsWith("🗡")) {
                 kills = await getKill(guild!.id, user.id, target)
                 rival = await addKill(guild!.id, target, user.id, message)
             } else if (selectedString.startsWith("<:vyrnstare")) {
                 kills = await addKill(guild!.id, user.id, luckyGuy!.user.id, message)
                 rival = await getKill(guild!.id, luckyGuy!.user.id, user.id)
-                targetName = luckyGuy!.user.username
             } else {
                 kills = await getKill(guild!.id, user.id, target)
                 rival = await getKill(guild!.id, target, user.id)
