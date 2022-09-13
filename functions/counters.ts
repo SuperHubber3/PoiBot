@@ -8,7 +8,7 @@ const hugsCache = {} as { [key: string]: number }
 const punchesCache = {} as { [key: string]: number }
 const gehsCache = {} as { [key: string]: number }
 const slapsCache = {} as { [key: string]: number }
-const killsCache = {} as { [key: string]: number }
+// const killsCache = {} as { [key: string]: number }
 const bitesCache = {} as { [key: string]: number }
 const cuddlesCache = {} as { [key: string]: number }
 const patsCache = {} as { [key: string]: number }
@@ -546,15 +546,15 @@ export const addKill = async (guildId: string, userId: string, partnerId: string
         (new AwardSystemService(CommandType.Kill)).checkForAward(guildId, userId, item.totalCount, message).then((result: boolean) => { })
     });
 
-    killsCache[`${guildId}-${userId}`] = killCount;
+    // killsCache[`${guildId}-${userId}`] = killCount;
     return killCount
 };
 
 export const getKill = async (guildId: string, userId: string, partnerId: string) => {
-    const cachedValue = killsCache[`${guildId}-${userId}`];
-    if (cachedValue) {
-        return cachedValue;
-    }
+    // const cachedValue = killsCache[`${guildId}-${userId}`];
+    // if (cachedValue) {
+    //     return cachedValue;
+    // }
 
     console.log("Running findOne()");
 
@@ -582,7 +582,7 @@ export const getKill = async (guildId: string, userId: string, partnerId: string
         }).save();
     }
 
-    killsCache[`${guildId}-${userId}`] = kills;
+    // killsCache[`${guildId}-${userId}`] = kills;
 
     return kills;
 };
