@@ -110,6 +110,8 @@ export default {
 
         let text = selectedString.replace(/{USR}/g, `**${targetName}**`)
 
+        if (selectedString.startsWith("<:vyrnstare")) targetName = luckyGuy!.user.username
+
         const embed = new MessageEmbed()
             .setColor("RANDOM")
             .setAuthor({
