@@ -7,7 +7,7 @@ export default (client: Client) => {
         if (guildId !== message.guildId) return
         if (set.has(true)) return
         const content = message.content;
-        if ((content.toLowerCase().includes("lewd") || content.toLowerCase().includes("lood")) && !content.toLowerCase().includes("blood")) {
+        if (content.toLowerCase() == "lewd" || content.toLowerCase() == "lood" || content.toLowerCase() == "so lood" || content.toLowerCase() == "so lewd") {
             set.add(true);
             setTimeout(() => {
                 set.delete(true)
