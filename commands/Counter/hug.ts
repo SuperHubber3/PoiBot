@@ -6,7 +6,7 @@ import { addHug } from '../../functions/counters';
 
 export default {
     name: 'hug',
-    category: 'Anime',
+    category: 'Counter',
     description: "Hug someone!",
     slash: 'both',
     minArgs: 1,

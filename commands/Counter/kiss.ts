@@ -6,7 +6,7 @@ import { addGeh } from '../../functions/counters';
 
 export default {
     name: "kiss",
-    category: "Anime",
+    category: "Counter",
     description: "Kiss someone!",
     slash: "both",
     minArgs: 1,

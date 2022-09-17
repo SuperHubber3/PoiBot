@@ -4,7 +4,7 @@ import { addKill, getKill } from "../../functions/counters";
 
 export default {
     name: "kill",
-    category: "Counter",
+    category: "Fun",
     description: "Kill someone!",
     slash: "both",
     minArgs: 1,

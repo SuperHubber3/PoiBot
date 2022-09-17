@@ -2,8 +2,8 @@ import { ICommand } from 'wokcommands'
 
 export default {
     name: 'profile',
-    category: 'profile',
-    description: 'Peek this one',
+    category: 'Profiles',
+    description: 'Coming soon!',
     slash: 'both',
     guildOnly: true,
     testOnly: true,
