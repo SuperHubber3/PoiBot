@@ -17,13 +17,14 @@ export default {
         { name: 'text', description: 'Thing to pay respects', type: 'STRING', required: true }
     ],
 
-    callback: async ({ interaction: msgInt, channel, user, message, args, guild }) => {
+    callback: async ({ interaction: msgInt, channel, args, client }) => {
         const text = msgInt?.options.getString('text') || args[0]
         if (!text) return ":MomijiStare:"
         let num = 0
         const msg = await channel.send({ content: `Press 🇫 to pay respects to **${text}**`, allowedMentions: { parse: [] } })
         await msg.react("🇫")
-        const collector = msg.createReactionCollector({ time: 1000 * 60 });
+        const filter = (reaction: any, user: any) => client.user?.id !== msg.author.id;
+        const collector = msg.createReactionCollector({ filter, time: 1000 * 60 });
         collector.on("collect", async (reaction, user) => {
             channel.send(`${user.username} has paid their respects.`)
             num++
