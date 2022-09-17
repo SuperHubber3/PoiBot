@@ -2,7 +2,7 @@ import { ICommand } from "wokcommands";
 
 export default {
     name: "ping",
-    category: "Anime",
+    category: "Test",
     description: "Replies with pong",
     slash: "both", // This is for the usage of the slash commands and message commands at the same time
     guildOnly: true,

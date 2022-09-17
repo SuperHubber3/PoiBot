@@ -6,7 +6,7 @@ import { addPunch } from '../../functions/counters';
 
 export default {
     name: 'punch',
-    category: 'Anime',
+    category: 'Counter',
     description: "Punch someone!",
     slash: 'both',
     minArgs: 1,

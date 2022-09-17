@@ -49,40 +49,35 @@ client.on("ready", async () => {
         .setDefaultPrefix("poi ")
         .setCategorySettings([
             {
-                name: "Anime",
-                emoji: "807590117669470228", // We should find a good emoji for this
-                customEmoji: true,
+                name: "Counter",
+                emoji: "1018261293515415685",
+                customEmoji: true
             },
             {
-                name: "Counter",
-                emoji: "🥰", // We should find a good emoji for this
-                // customEmoji: true,
+                name: "Fun",
+                emoji: "1018261297206407239",
+                customEmoji: true
             },
             {
                 name: "Info",
-                emoji: "💻", // We should find a good emoji for this
-                // customEmoji: true,
-            },
-            {
-                name: "Migration",
-                emoji: "👨‍💼", // We should find a good emoji for this
-                // customEmoji: true,
+                emoji: "1018260362371534949",
+                customEmoji: true
             },
             {
                 name: "Profiles",
-                emoji: "📇", // We should find a good emoji for this
-                // customEmoji: true,
+                emoji: "1018586218172264539",
+                customEmoji: true
             },
             {
                 name: "Reaction",
-                emoji: "👍", // We should find a good emoji for this
-                // customEmoji: true,
+                emoji: "1018261286125060146",
+                customEmoji: true
             },
             {
                 name: "Test",
-                emoji: "🛠️", // We should find a good emoji for this
-                // customEmoji: true,
-            },
+                emoji: "1018591268286238772",
+                customEmoji: true
+            }
         ]);
 });
 

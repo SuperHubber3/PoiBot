@@ -6,7 +6,7 @@ import { addGeh } from '../../functions/counters';
 
 export default {
     name: 'geh',
-    category: 'Anime',
+    category: 'Reaction',
     description: "Helly's second name",
     slash: 'both',
     minArgs: 1,

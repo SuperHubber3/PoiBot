@@ -4,7 +4,7 @@ import { addBoop } from "../../functions/counters";
 
 export default {
     name: "boop",
-    category: "Anime",
+    category: "Counter",
     description: "Boop someone!",
     slash: "both",
     minArgs: 1,
