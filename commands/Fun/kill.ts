@@ -26,7 +26,13 @@ export default {
             interactionUser = interactionUser.slice(0, -1)
         }
         let target: string = interactionUser
-        let targetName: string = ""
+        let targetName: string = msgInt?.options.getUser("user")?.username!
+
+        if (args[0] == "me") {
+            const embed = new MessageEmbed()
+                .setDescription("❤️ You change your mind.")
+            return embed
+        }
 
         const no = async () => {
             const reply = { content: `User ${interactionUser} not found!` }
@@ -57,7 +63,7 @@ export default {
 
         if (isNaN(parseInt(target))) return
 
-        if (args[0] == "me" || target == user.id) {
+        if (target == user.id) {
             const embed = new MessageEmbed()
                 .setDescription("❤️ You change your mind.")
             return embed

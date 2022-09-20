@@ -107,26 +107,26 @@ export class AwardSystemService {
                 {
                     type: CommandType.Hug.toString(),
                     rewardMessage: "Hug Addict!",
-                    countNeeded: 50,
-                    silverReward: 50
-                },
-                {
-                    type: CommandType.Hug.toString(),
-                    rewardMessage: "Hug Master!",
-                    countNeeded: 100,
-                    silverReward: 100
-                },
-                {
-                    type: CommandType.Hug.toString(),
-                    rewardMessage: "Hug Champion!",
                     countNeeded: 500,
                     silverReward: 500
                 },
                 {
                     type: CommandType.Hug.toString(),
-                    rewardMessage: "God Of All Hugs!",
+                    rewardMessage: "Hug Master!",
                     countNeeded: 1000,
                     silverReward: 1000
+                },
+                {
+                    type: CommandType.Hug.toString(),
+                    rewardMessage: "Hug Champion!",
+                    countNeeded: 5000,
+                    silverReward: 5000
+                },
+                {
+                    type: CommandType.Hug.toString(),
+                    rewardMessage: "God Of All Hugs!",
+                    countNeeded: 10000,
+                    silverReward: 10000
                 },
                 {
                     type: CommandType.Boop.toString(),
@@ -137,26 +137,26 @@ export class AwardSystemService {
                 {
                     type: CommandType.Boop.toString(),
                     rewardMessage: "Boop enthusiast!",
-                    countNeeded: 50,
-                    silverReward: 50
-                },
-                {
-                    type: CommandType.Boop.toString(),
-                    rewardMessage: "Boop Master!",
-                    countNeeded: 100,
-                    silverReward: 100
-                },
-                {
-                    type: CommandType.Boop.toString(),
-                    rewardMessage: "Boop Champion!",
                     countNeeded: 500,
                     silverReward: 500
                 },
                 {
                     type: CommandType.Boop.toString(),
-                    rewardMessage: "God Of All Boops!",
+                    rewardMessage: "Boop Master!",
                     countNeeded: 1000,
                     silverReward: 1000
+                },
+                {
+                    type: CommandType.Boop.toString(),
+                    rewardMessage: "Boop Champion!",
+                    countNeeded: 5000,
+                    silverReward: 5000
+                },
+                {
+                    type: CommandType.Boop.toString(),
+                    rewardMessage: "God Of All Boops!",
+                    countNeeded: 10000,
+                    silverReward: 10000
                 },
                 {
                     type: CommandType.Pat.toString(),
@@ -167,26 +167,26 @@ export class AwardSystemService {
                 {
                     type: CommandType.Pat.toString(),
                     rewardMessage: "Hair messy upper!",
-                    countNeeded: 50,
-                    silverReward: 50
-                },
-                {
-                    type: CommandType.Pat.toString(),
-                    rewardMessage: "Pat Master!",
-                    countNeeded: 100,
-                    silverReward: 100
-                },
-                {
-                    type: CommandType.Pat.toString(),
-                    rewardMessage: "Pat Champion!",
                     countNeeded: 500,
                     silverReward: 500
                 },
                 {
                     type: CommandType.Pat.toString(),
-                    rewardMessage: "God Of All Pats!",
+                    rewardMessage: "Pat Master!",
                     countNeeded: 1000,
                     silverReward: 1000
+                },
+                {
+                    type: CommandType.Pat.toString(),
+                    rewardMessage: "Pat Champion!",
+                    countNeeded: 5000,
+                    silverReward: 5000
+                },
+                {
+                    type: CommandType.Pat.toString(),
+                    rewardMessage: "God Of All Pats!",
+                    countNeeded: 10000,
+                    silverReward: 10000
                 },
                 {
                     type: CommandType.Slap.toString(),
@@ -197,26 +197,26 @@ export class AwardSystemService {
                 {
                     type: CommandType.Slap.toString(),
                     rewardMessage: "Mean!",
-                    countNeeded: 50,
-                    silverReward: 50
-                },
-                {
-                    type: CommandType.Slap.toString(),
-                    rewardMessage: "Fast Hands!",
-                    countNeeded: 100,
-                    silverReward: 100
-                },
-                {
-                    type: CommandType.Slap.toString(),
-                    rewardMessage: "They're Red!",
                     countNeeded: 500,
                     silverReward: 500
                 },
                 {
                     type: CommandType.Slap.toString(),
-                    rewardMessage: "Bleeding Hands!",
+                    rewardMessage: "Fast Hands!",
                     countNeeded: 1000,
                     silverReward: 1000
+                },
+                {
+                    type: CommandType.Slap.toString(),
+                    rewardMessage: "They're Red!",
+                    countNeeded: 5000,
+                    silverReward: 5000
+                },
+                {
+                    type: CommandType.Slap.toString(),
+                    rewardMessage: "Bleeding Hands!",
+                    countNeeded: 10000,
+                    silverReward: 10000
                 },
                 {
                     type: CommandType.Bite.toString(),
@@ -227,26 +227,26 @@ export class AwardSystemService {
                 {
                     type: CommandType.Bite.toString(),
                     rewardMessage: "It's Sharp!",
-                    countNeeded: 50,
-                    silverReward: 50
-                },
-                {
-                    type: CommandType.Bite.toString(),
-                    rewardMessage: "Bite Master!",
-                    countNeeded: 100,
-                    silverReward: 100
-                },
-                {
-                    type: CommandType.Bite.toString(),
-                    rewardMessage: "Bite Champion!",
                     countNeeded: 500,
                     silverReward: 500
                 },
                 {
                     type: CommandType.Bite.toString(),
-                    rewardMessage: "God Of All Bites!",
+                    rewardMessage: "Bite Master!",
                     countNeeded: 1000,
                     silverReward: 1000
+                },
+                {
+                    type: CommandType.Bite.toString(),
+                    rewardMessage: "Bite Champion!",
+                    countNeeded: 5000,
+                    silverReward: 5000
+                },
+                {
+                    type: CommandType.Bite.toString(),
+                    rewardMessage: "God Of All Bites!",
+                    countNeeded: 10000,
+                    silverReward: 10000
                 }
             ]
         )

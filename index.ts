@@ -8,7 +8,12 @@ dotenv.config();
 // // This is for testing only!
 // process.on('uncaughtException', function (err) {
 //     console.error(err);
+//     console.log(err.message)
+//     console.log(err.name)
+//     console.log(err.stack)
 //     console.log("Node NOT Exiting...");
+
+//     if (err.message == "Interaction has already been acknowledged.") { }
 // });
 
 const client = new DiscordJS.Client({

@@ -7,5 +7,6 @@ export enum CommandType {
     Kill = 'kill',
     Bite = 'bite',
     Cuddle = 'cuddle',
-    Pat = 'pat'
+    Pat = 'pat',
+    Smug = "smug"
 }
