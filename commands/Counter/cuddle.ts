@@ -12,6 +12,7 @@ export default {
     minArgs: 1,
     maxArgs: 1,
     expectedArgs: '<user>',
+    cooldown: '30s',
     guildOnly: true,
     testOnly: false,
     syntaxError: {
