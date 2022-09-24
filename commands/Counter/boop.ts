@@ -21,7 +21,7 @@ export default {
 
     callback: async ({ message, interaction: msgInt, guild, user, args, channel }) => {
         if (args[0] == "razor") {
-            const boops = await addBoop(guild!.id, user.id, "555484255363530782")
+            const boops = await addBoop(guild!.id, user.id, "555484255363530782", message)
             let content = `You gave <@555484255363530782> a boop! That's ${boops} boops now!`
             if (boops == 1) content = `You gave <@555484255363530782> a boop! Their first boop from you!`
             message.reply({ content, allowedMentions: { parse: [] } });
@@ -62,7 +62,7 @@ export default {
         if (isNaN(parseInt(target))) return
         if (target == user.id) return
 
-        const boops = await addBoop(guild!.id, user.id, target)
+        const boops = await addBoop(guild!.id, user.id, target, message)
         let content = `You gave <@${target}> a boop! That's ${boops} boops now!`
         if (boops == 1) content = `You gave <@${target}> a boop! Their first boop from you!`
         if (message) {
