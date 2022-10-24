@@ -10,15 +10,16 @@ export default {
     ownerOnly: true,
 
     callback: async ({ guild, user, args, message }) => {
-        if (!args) return;
+        const msg = args.join(" ")
+        if (!msg) return;
         message.delete();
-        if (args.length > 2000) {
-          const first = args.slice(0, 2000);
-          const rest = args.slice(2000, args.length);
+        if (msg.length > 2000) {
+          const first = msg.slice(0, 2000);
+          const rest = msg.slice(2000, msg.length);
           message.channel.send(first);
           message.channel.send(rest);
           return;
         }
-      message.channel.send(args);
+      message.channel.send(msg);
     },
 } as ICommand;
