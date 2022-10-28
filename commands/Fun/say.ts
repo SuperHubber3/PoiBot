@@ -7,7 +7,7 @@ export default {
   slash: false,
   minArgs: 1,
   expectedArgs: '<text>',
-  globalCooldown: "10s",
+  cooldown: "10s",
   guildOnly: true,
   testOnly: false,
   syntaxError: {
