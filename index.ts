@@ -36,8 +36,29 @@ const client = new DiscordJS.Client({
     ],
 });
 
+const games = [
+    "Genshin Impact 2",
+    "Tower Of Fantasy 2",
+    "BlueStacks 6",
+    "Dota 3",
+    "Overwatch 3",
+    "GTA VI",
+    "NoxPlayer 2",
+    "Destiny 3",
+    "CounterSide 2",
+    "Cyberpunk 3077",
+    "Minecraft 2"
+];
+
 client.on("ready", async () => {
     console.log("PoiBot Online");
+    const game = games[Math.floor(Math.random() * games.length)];
+    client.user!.setActivity({ name: game, type: 0 })
+    function changeStatus() {
+        const game = games[Math.floor(Math.random() * games.length)];
+        client.user!.setActivity({ name: game, type: 0 })
+    }
+    setInterval(changeStatus, 1000 * 60 * 60 * 3);
     new WOKCommands(client, {
         commandsDir: path.join(__dirname, "commands"),
         featuresDir: path.join(__dirname, "features"),
@@ -48,7 +69,7 @@ client.on("ready", async () => {
             keepAlive: true
         },
         botOwners: ["338760814884290562", "193749488135962625"],
-        testServers: ["993084390722772992"],
+        testServers: ["993084390722772992", "697026200769396736"],
         debug: true,
     })
         .setDefaultPrefix("poi ")

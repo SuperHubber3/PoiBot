@@ -1,6 +1,7 @@
 import { Client, Message } from 'discord.js'
 import { CommandType } from '../enums/command.enum';
 import counterSchema from '../models/command-counter-schema'
+import profileSchema from '../models/profile-schema';
 import { AwardSystemService } from '../services/award-system.service';
 
 const boopsCache = {} as { [key: string]: number }
@@ -12,6 +13,7 @@ const slapsCache = {} as { [key: string]: number }
 const bitesCache = {} as { [key: string]: number }
 const cuddlesCache = {} as { [key: string]: number }
 const patsCache = {} as { [key: string]: number }
+const bdCache = {} as { [key: string]: Date }
 
 export default (client: Client) => { }
 
@@ -913,6 +915,52 @@ export const getPat = async (guildId: string, userId: string, partnerId: string)
     patsCache[`${guildId}-${userId}`] = pats;
 
     return pats;
+};
+
+export const setBd = async (guildId: string, userId: string, date: Date) => {
+    console.log("Running findOneAndUpdate()");
+
+    const result = await profileSchema.findOneAndUpdate(
+        {
+            guildId,
+            userId,
+        },
+        {
+            guildId,
+            userId,
+            bd: date,
+        },
+        {
+            upsert: true,
+            new: true,
+        }
+    );
+
+    bdCache[`${guildId}-${userId}`] = date;
+    return result
+};
+
+export const getBd = async (guildId: string, userId: string) => {
+    const cachedValue = bdCache[`${guildId}-${userId}`];
+    if (cachedValue) {
+        return cachedValue;
+    }
+
+    console.log("Running findOne()");
+
+    const result = await profileSchema.findOne({
+        guildId,
+        userId,
+    });
+
+    let date = undefined;
+    if (result) {
+        date = result.bd;
+    }
+
+    bdCache[`${guildId}-${userId}`] = date;
+
+    return date;
 };
 
 export const config = {

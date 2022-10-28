@@ -10,6 +10,7 @@ const profileSchema = new mongoose.Schema({
     silver: reqInt,
     level: regInt,
     xp: reqInt,
+    bd: Date
 });
 
 const name = 'profiles'
