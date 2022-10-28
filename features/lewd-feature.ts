@@ -1,6 +1,6 @@
 import type { Client, Sticker } from "discord.js";
-const guildId = "735499671648206889"
 const set = new Set();
+const guildId = "735499671648206889"
 
 export default (client: Client) => {
     client.on("messageCreate", async (message) => {

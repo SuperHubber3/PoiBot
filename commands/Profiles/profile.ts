@@ -8,7 +8,7 @@ export default {
     guildOnly: true,
     testOnly: true,
 
-    callback: async ({ guild, user, message, interaction }) => {
+    callback: async ({ guild, user, message, interaction: msgInt }) => {
 
     },
 } as ICommand
