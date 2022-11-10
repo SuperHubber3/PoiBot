@@ -26,7 +26,7 @@ export default {
             interactionUser = interactionUser.slice(0, -1)
         }
         let target: string = interactionUser
-        let targetName: string = msgInt?.options.getUser("user")?.username! || client.users.fetch(interactionUser)
+        let targetName: string = msgInt?.options.getUser("user")?.username! || (await client.users.fetch(interactionUser)).username
 
         if (args[0] == "me") {
             const embed = new MessageEmbed()
