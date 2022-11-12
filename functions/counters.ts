@@ -5,7 +5,7 @@ import profileSchema from '../models/profile-schema';
 import { AwardSystemService } from '../services/award-system.service';
 
 const boopsCache = {} as { [key: string]: number }
-const hugsCache = {} as { [key: string]: number }
+// const hugsCache = {} as { [key: string]: number }
 const punchesCache = {} as { [key: string]: number }
 const gehsCache = {} as { [key: string]: number }
 const slapsCache = {} as { [key: string]: number }
@@ -115,7 +115,7 @@ export const getBoop = async (guildId: string, userId: string, partnerId: string
     return boops;
 };
 
-export const addHug = async (guildId: string, userId: string, partnerId: string, message: Message) => {
+export const addHug = async (guildId: string, userId: string, partnerId: string, message: Message, mode?: boolean) => {
     console.log("Running findOneAndUpdate()");
     let hugCount = 1
 
@@ -146,7 +146,7 @@ export const addHug = async (guildId: string, userId: string, partnerId: string,
                 count: 1,
             });
         } else {
-            hugs[index].count += 1;
+            hugs[index].count += mode ? -1 : 1;
             hugCount = hugs[index].count
         }
         schema.hugs = hugs;
@@ -175,15 +175,15 @@ export const addHug = async (guildId: string, userId: string, partnerId: string,
         (new AwardSystemService(CommandType.Hug)).checkForAward(guildId, userId, item.totalCount, message).then((result: boolean) => { })
     });
 
-    hugsCache[`${guildId}-${userId}`] = hugCount;
+    // hugsCache[`${guildId}-${userId}`] = hugCount;
     return hugCount
 };
 
 export const getHug = async (guildId: string, userId: string, partnerId: string) => {
-    const cachedValue = hugsCache[`${guildId}-${userId}`];
-    if (cachedValue) {
-        return cachedValue;
-    }
+    // const cachedValue = hugsCache[`${guildId}-${userId}`];
+    // if (cachedValue) {
+    //     return cachedValue;
+    // }
 
     console.log("Running findOne()");
 
@@ -211,7 +211,7 @@ export const getHug = async (guildId: string, userId: string, partnerId: string)
         }).save();
     }
 
-    hugsCache[`${guildId}-${userId}`] = hugs;
+    // hugsCache[`${guildId}-${userId}`] = hugs;
 
     return hugs;
 };
