@@ -1,8 +1,9 @@
 import { ICommand } from 'wokcommands'
-import { Collection, GuildMember, MessageEmbed } from "discord.js"
+import { Client, Collection, GuildMember, MessageEmbed } from "discord.js"
 import { MediaService } from '../../services/media.service';
 import { CommandType } from '../../enums/command.enum';
 import { addHug } from '../../functions/counters';
+let count = 0
 
 export default {
     name: 'hug',
@@ -21,6 +22,39 @@ export default {
     options: [
         { name: "user", description: "User to hug", type: "USER", required: true },
     ],
+
+    init: (client: Client) => {
+        client.on('messageCreate', async message => {
+            const { guild } = message
+            let target: string
+            let userId: string
+            let isHug: boolean
+            message.embeds.forEach(async e => {
+                const desc = e.description
+                if (!desc || !desc?.includes("hug")) return isHug = false
+                const parse = desc.substring(desc.length - 20)
+                target = parse.slice(0, -2)
+                const parsedeez = desc.substring(0, 21)
+                userId = parsedeez.slice(3, desc.length)
+                isHug = true
+            });
+            if (message.embeds.length < 1 || message.author.id !== "993069924362760202" || !target! || !userId! || !isHug!) return
+            count++
+            if (count > 5) {
+                const gif = Math.ceil(Math.random() * 2);
+                const hugs = await addHug(guild!.id, userId!, target!, message, true)
+                let text = `That's ${hugs} hug` + (hugs > 1 ? "s " : " ") + "now."
+                const embed = new MessageEmbed({ footer: { text } })
+                    .setColor("RANDOM")
+                    .setTitle('You got dodged!')
+                    .setURL('https://discord.com/api/oauth2/authorize?client_id=993069924362760202&permissions=8&scope=bot%20applications.commands')
+                    .setDescription(`*<@${target!}> dodges <@${userId!}>*`)
+                    .setImage(gif == 1 ? "https://cdn.discordapp.com/attachments/768414521978126346/1040954686699741254/acchi-kocchi-my-chance-to-hug-him.gif" : "https://cdn.discordapp.com/attachments/768414521978126346/1040954687035297812/kuroshitsuji-grell-sutcliff.gif")
+                message.edit({ embeds: [embed] })
+                count = 0
+            }
+        })
+    },
 
     callback: async ({ interaction: msgInt, channel, user, message, args, guild }) => {
         let interactionUser = msgInt?.options.getUser("user")?.toString() || args[0];

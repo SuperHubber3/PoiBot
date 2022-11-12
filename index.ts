@@ -46,7 +46,7 @@ const games = [
     "NoxPlayer 2",
     "Destiny 3",
     "CounterSide 2",
-    "Cyberpunk 3077",
+    "Cyberpunk 3079",
     "Minecraft 2"
 ];
 
