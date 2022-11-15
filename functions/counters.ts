@@ -70,7 +70,7 @@ export const addBoop = async (guildId: string, userId: string, partnerId: string
         }
     ]).then((result: any) => {
         let item = result[0];
-        if (isNaN(item.totalCount)) return
+        if (isNaN(item?.totalCount)) return
         (new AwardSystemService(CommandType.Boop)).checkForAward(guildId, userId, item.totalCount, message).then((result: boolean) => { })
     });
 
@@ -171,7 +171,7 @@ export const addHug = async (guildId: string, userId: string, partnerId: string,
         }
     ]).then((result: any) => {
         let item = result[0];
-        if (isNaN(item.totalCount)) return
+        if (isNaN(item?.totalCount)) return
         (new AwardSystemService(CommandType.Hug)).checkForAward(guildId, userId, item.totalCount, message).then((result: boolean) => { })
     });
 
@@ -269,7 +269,7 @@ export const addPunch = async (guildId: string, userId: string, partnerId: strin
     //     }
     // ]).then((result: any) => {
     //     let item = result[0];
-    //     if (isNaN(item.totalCount)) return
+    //     if (isNaN(item?.totalCount)) return
     //     (new AwardSystemService(CommandType.Punch)).checkForAward(guildId, userId, item.totalCount, message).then((result: boolean) => { })
     // });
 
@@ -367,7 +367,7 @@ export const addGeh = async (guildId: string, userId: string, partnerId: string,
     //     }
     // ]).then((result: any) => {
     //     let item = result[0];
-    //     if (isNaN(item.totalCount)) return
+    //     if (isNaN(item?.totalCount)) return
     //     (new AwardSystemService(CommandType.Geh)).checkForAward(guildId, userId, item.totalCount, message).then((result: boolean) => { })
     // });
 
@@ -468,7 +468,7 @@ export const addSlap = async (guildId: string, userId: string, partnerId: string
         }
     ]).then((result: any) => {
         let item = result[0];
-        if (isNaN(item.totalCount)) return
+        if (isNaN(item?.totalCount)) return
         (new AwardSystemService(CommandType.Slap)).checkForAward(guildId, userId, item.totalCount, message).then((result: boolean) => { })
     });
 
@@ -569,7 +569,7 @@ export const addKill = async (guildId: string, userId: string, partnerId: string
     //     }
     // ]).then((result: any) => {
     //     let item = result[0];
-    //     if (isNaN(item.totalCount)) return
+    //     if (isNaN(item?.totalCount)) return
     //     (new AwardSystemService(CommandType.Kill)).checkForAward(guildId, userId, item.totalCount, message).then((result: boolean) => { })
     // });
 
@@ -670,7 +670,7 @@ export const addBite = async (guildId: string, userId: string, partnerId: string
         }
     ]).then((result: any) => {
         let item = result[0];
-        if (isNaN(item.totalCount)) return
+        if (isNaN(item?.totalCount)) return
         (new AwardSystemService(CommandType.Bite)).checkForAward(guildId, userId, item.totalCount, message).then((result: boolean) => { })
     });
 
@@ -771,7 +771,7 @@ export const addCuddle = async (guildId: string, userId: string, partnerId: stri
     //     }
     // ]).then((result: any) => {
     //     let item = result[0];
-    //     if (isNaN(item.totalCount)) return
+    //     if (isNaN(item?.totalCount)) return
     //     (new AwardSystemService(CommandType.Cuddle)).checkForAward(guildId, userId, item.totalCount, message).then((result: boolean) => { })
     // });
 
@@ -872,7 +872,7 @@ export const addPat = async (guildId: string, userId: string, partnerId: string,
         }
     ]).then((result: any) => {
         let item = result[0];
-        if (isNaN(item.totalCount)) return
+        if (isNaN(item?.totalCount)) return
         (new AwardSystemService(CommandType.Pat)).checkForAward(guildId, userId, item.totalCount, message).then((result: boolean) => { })
     });
 
