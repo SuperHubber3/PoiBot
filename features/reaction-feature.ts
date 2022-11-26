@@ -6,7 +6,7 @@ let cC = {} as { [key: string]: boolean }
 const cc = (str: string) => {
     setTimeout(() => {
         cC[str] = false;
-    }, 1000 * 5);
+    }, 1000 * 60 * 5);
 };
 
 function sc(s: string) {
@@ -37,10 +37,10 @@ export default (client: Client) => {
         } if (c == "bad bot") {
             m.react(TUp)
             sc(s)
-        } if (cd(c, "sus")) {
+        } if (c == "sus") {
             m.react(sus)
             sc(s)
-        } if (cd(c, "deez")) {
+        } if (cd(c, "forgor")) {
             m.react("💀")
             sc(s)
         }
