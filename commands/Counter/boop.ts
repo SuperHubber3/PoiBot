@@ -1,6 +1,8 @@
-import { Collection, GuildMember } from "discord.js";
+import { Client, Collection, GuildMember } from "discord.js";
 import { ICommand } from "wokcommands";
 import { addBoop } from "../../functions/counters";
+let razorCache = false
+let messageCount = 0
 
 export default {
     name: "boop",
@@ -12,6 +14,7 @@ export default {
     expectedArgs: '<user>',
     guildOnly: true,
     testOnly: false,
+    cooldown: "5s",
     syntaxError: {
         'user': 'Incorrect usage! Use `{PREFIX}`boop {ARGUMENTS}'
     },
@@ -19,7 +22,15 @@ export default {
         { name: "user", description: "User to boop", type: "USER", required: true },
     ],
 
+    init: (client: Client) => {
+        client.on('messageCreate', async message => {
+            messageCount++
+            if (message.author.id == "555484255363530782") razorCache = true
+        })
+    },
+
     callback: async ({ message, interaction: msgInt, guild, user, args, channel }) => {
+        //if (messageCount < 15) return
         if (args[0] == "razor") {
             const boops = await addBoop(guild!.id, user.id, "555484255363530782", message)
             let content = `You gave <@555484255363530782> a boop! That's ${boops} boops now!`
@@ -61,6 +72,12 @@ export default {
         }
         if (isNaN(parseInt(target))) return
         if (target == user.id) return
+        if (target == "555484255363530782" && !razorCache) {
+            razorCache = false
+            return
+        }
+
+        messageCount = 0
 
         const boops = await addBoop(guild!.id, user.id, target, message)
         let content = `You gave <@${target}> a boop! That's ${boops} boops now!`

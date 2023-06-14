@@ -10,6 +10,7 @@ export default {
     slash: 'both',
     guildOnly: true,
     testOnly: false,
+    cooldown: "5s",
 
     callback: async ({ }) => {
         let mediaString = (new MediaService(CommandType.Smug)).getMedia()

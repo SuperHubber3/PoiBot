@@ -14,6 +14,7 @@ export default {
     expectedArgs: '<user>',
     guildOnly: true,
     testOnly: false,
+    cooldown: "5s",
     syntaxError: {
         'user': 'Incorrect usage! Use `{PREFIX}`punch {ARGUMENTS}'
     },

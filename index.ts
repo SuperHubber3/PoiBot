@@ -5,16 +5,16 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-// // This is for testing only!
-// process.on('uncaughtException', function (err) {
-//     console.error(err);
-//     console.log(err.message)
-//     console.log(err.name)
-//     console.log(err.stack)
-//     console.log("Node NOT Exiting...");
+// This is for testing only!
+process.on('uncaughtException', function (err) {
+    console.error(err);
+    console.log(err.message)
+    console.log(err.name)
+    console.log(err.stack)
+    console.log("Node NOT Exiting...");
 
-//     if (err.message == "Interaction has already been acknowledged.") { }
-// });
+    if (err.message == "Interaction has already been acknowledged.") { }
+});
 
 const client = new DiscordJS.Client({
     intents: [
@@ -37,15 +37,14 @@ const client = new DiscordJS.Client({
 });
 
 const games = [
-    "Genshin Impact 2",
-    "Tower Of Fantasy 2",
-    "BlueStacks 6",
+    "YKS 2",
+    "Arknights 2",
+    "LDPlayer 10",
     "Dota 3",
     "Overwatch 3",
     "GTA VI",
-    "NoxPlayer 2",
     "Destiny 3",
-    "CounterSide 2",
+    "Counter Strike 2",
     "Cyberpunk 3079",
     "Minecraft 2"
 ];
@@ -68,7 +67,7 @@ client.on("ready", async () => {
         dbOptions: {
             keepAlive: true
         },
-        botOwners: ["338760814884290562", "193749488135962625"],
+        botOwners: ["338760814884290562"],
         testServers: ["993084390722772992", "697026200769396736"],
         debug: true,
     })

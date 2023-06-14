@@ -7,13 +7,14 @@ import { addGeh } from '../../functions/counters';
 export default {
     name: 'geh',
     category: 'Reaction',
-    description: "Helly's second name",
+    description: "Why are they geh?",
     slash: 'both',
     minArgs: 1,
     maxArgs: 1,
     expectedArgs: '<user>',
     guildOnly: true,
     testOnly: false,
+    cooldown: "5s",
     syntaxError: {
         'user': 'Incorrect usage! Use `{PREFIX}`geh {ARGUMENTS}'
     },
