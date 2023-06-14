@@ -12,9 +12,9 @@ export default {
     minArgs: 1,
     maxArgs: 1,
     expectedArgs: '<user>',
-    cooldown: '30s',
     guildOnly: true,
     testOnly: false,
+    cooldown: '5s',
     syntaxError: {
         'user': 'Incorrect usage! Use `{PREFIX}`cuddle {ARGUMENTS}'
     },

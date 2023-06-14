@@ -816,7 +816,7 @@ export const getCuddle = async (guildId: string, userId: string, partnerId: stri
     return cuddles;
 };
 
-export const addPat = async (guildId: string, userId: string, partnerId: string, message: Message) => {
+export const addPat = async (guildId: string, userId: string, partnerId: string, message: Message, mode?: boolean) => {
     console.log("Running findOneAndUpdate()");
     let patCount = 1
 
@@ -847,7 +847,7 @@ export const addPat = async (guildId: string, userId: string, partnerId: string,
                 count: 1,
             });
         } else {
-            pats[index].count += 1;
+            pats[index].count += mode ? -1 : 1;
             patCount = pats[index].count
         }
         schema.pats = pats;

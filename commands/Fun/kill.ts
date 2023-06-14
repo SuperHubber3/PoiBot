@@ -12,6 +12,7 @@ export default {
     expectedArgs: '<user>',
     guildOnly: true,
     testOnly: false,
+    cooldown: "5s",
     syntaxError: {
         'user': 'Incorrect usage! Use `{PREFIX}`kill {ARGUMENTS}'
     },
@@ -20,6 +21,15 @@ export default {
     ],
 
     callback: async ({ message, interaction: msgInt, guild, user, args, channel, client }) => {
+        if (!msgInt) {
+            message.channel.send("/kill <user>")
+                .then((m) => {
+                    setTimeout(() => {
+                        m.delete().catch((e) => { })
+                    }, 1000 * 3);
+                })
+            return
+        }
         let interactionUser = msgInt?.options.getUser("user")?.toString() || args[0];
         if (interactionUser.startsWith('<')) {
             interactionUser = interactionUser.substring(2)
@@ -69,9 +79,9 @@ export default {
             return embed
         }
 
-        const luckyGuy = client.guilds.cache.get("735499671648206889")!.members.cache.random()
+        // const luckyGuy = client.guilds.cache.get("735499671648206889")!.members.cache.random()
 
-        const luck = Math.ceil(Math.random() * 2);
+        let luck = Math.ceil(Math.random() * 2);
         const goodLuck = [
             "🏹 *You shoot at {USR} piercing them with an arrow!*",
             "🗡 *You stab {USR} in the back of the heart!*",
@@ -88,8 +98,9 @@ export default {
             "💣 *Your bomb fails to detonate, {USR} looks at you in shame.*",
             "🔪 *You lunge at {USR} but clearly misjudged the distance.*",
             "🗡 *You brought a knife to a gunfight, {USR} takes you out.*",
-            `<:vyrnstare:807590123184717834> *You try to no-scope {USR} but you end up killing **${luckyGuy!.user.username}** instead.*`,
+            // `<:vyrnstare:807590123184717834> *You try to no-scope {USR} but you end up killing **${luckyGuy!.user.username}** instead.*`,
         ]
+        if (target == "993069924362760202") { target = "159985870458322944"; targetName = "MEE6"; luck = 1 }
         let selectedString: string
         let kills: number
         let rival: number
@@ -105,10 +116,11 @@ export default {
             if (selectedString.startsWith("🗡")) {
                 kills = await getKill(guild!.id, user.id, target)
                 rival = await addKill(guild!.id, target, user.id, message)
-            } else if (selectedString.startsWith("<:vyrnstare")) {
-                kills = await addKill(guild!.id, user.id, luckyGuy!.user.id, message)
-                rival = await getKill(guild!.id, luckyGuy!.user.id, user.id)
-            } else {
+                // } else if (selectedString.startsWith("<:vyrnstare")) {
+                //     kills = await addKill(guild!.id, user.id, luckyGuy!.user.id, message)
+                //     rival = await getKill(guild!.id, luckyGuy!.user.id, user.id)
+            }
+            else {
                 kills = await getKill(guild!.id, user.id, target)
                 rival = await getKill(guild!.id, target, user.id)
             }
@@ -116,7 +128,7 @@ export default {
 
         let text = selectedString.replace(/{USR}/g, `**${targetName}**`)
 
-        if (selectedString.startsWith("<:vyrnstare")) targetName = luckyGuy!.user.username
+        // if (selectedString.startsWith("<:vyrnstare")) targetName = luckyGuy!.user.username
 
         const embed = new MessageEmbed()
             .setColor("RANDOM")

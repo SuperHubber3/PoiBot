@@ -7,9 +7,9 @@ export default {
   slash: false,
   minArgs: 1,
   expectedArgs: '<text>',
-  cooldown: "10s",
   guildOnly: true,
   testOnly: false,
+  globalCooldown: "3m",
   syntaxError: {
     'text': 'Incorrect usage! Use `{PREFIX}`say {ARGUMENTS}'
   },

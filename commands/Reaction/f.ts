@@ -10,6 +10,7 @@ export default {
     expectedArgs: '<text>',
     guildOnly: true,
     testOnly: false,
+    cooldown: "5s",
     syntaxError: {
         'text': 'Incorrect usage! Use `{PREFIX}`f {ARGUMENTS}'
     },
