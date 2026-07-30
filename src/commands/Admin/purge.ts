@@ -1,7 +1,14 @@
 import { ApplyOptions } from '@sapphire/decorators'
 import { Args, Command } from '@sapphire/framework'
 import { resolveKey } from '@sapphire/plugin-i18next'
-import { ChatInputCommandInteraction, Message, MessageFlags, PermissionFlagsBits, TextChannel } from 'discord.js'
+import {
+    ChatInputCommandInteraction,
+    Message,
+    MessageFlags,
+    PermissionFlagsBits,
+    RESTJSONErrorCodes,
+    TextChannel,
+} from 'discord.js'
 import { sendable } from '../../lib/util/send.js'
 import { guildOnly } from '../../lib/util/install-context.js'
 
@@ -36,7 +43,22 @@ export class PurgeCommand extends Command {
         // one is the `poi purge N` invocation itself. Drop that separately rather
         // than asking for amount + 1: at amount = 100 the extra doesn't fit under
         // Discord's cap, and only 99 real messages would go.
-        await message.delete().catch(() => null)
+        // A failure here isn't cosmetic: if the invocation is still sitting there
+        // it takes one of the `amount` slots and only amount - 1 real messages go.
+        // Already-gone is the exception, since then it isn't occupying a slot.
+        const clearedInvocation = await message
+            .delete()
+            .then(() => true)
+            .catch((error: any) => {
+                if (error?.code === RESTJSONErrorCodes.UnknownMessage) return true
+                this.container.logger.warn('[purge] could not delete the invocation', error)
+                return false
+            })
+        if (!clearedInvocation) {
+            await sendable(message).send(await resolveKey(message, 'misc:purgeInvocationFailed'))
+            return
+        }
+
         const deleted = await (message.channel as TextChannel).bulkDelete(amount, true).catch((error) => {
             this.container.logger.warn('[purge] bulk delete failed', error)
             return null

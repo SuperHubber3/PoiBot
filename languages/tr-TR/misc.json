@@ -30,6 +30,7 @@
 	"sendFailed": "Oraya gönderilemedi. O kanalda mesaj atma iznim var mı bir bak.",
 	"sendMissingText": "Gönderilecek bir mesaj gir.",
 	"purgeInvalidAmount": "Silinecek mesaj sayısını tam sayı olarak gir.",
+	"purgeInvocationFailed": "Komut mesajını silemedim, bu yüzden hiçbir şey temizlenmedi. Burada mesajları yönetebildiğimden emin ol.",
 	"userArgTooShort": "<user> argümanı en az 2 karakter uzunluğunda olmalı!",
 	"userNotFound": "{{query}} kullanıcısı bulunamadı!",
 	"userInfoTitle": "{{user}} için kullanıcı bilgisi",

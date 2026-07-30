@@ -30,6 +30,7 @@
 	"sendFailed": "Couldn't post there. Check that I can send messages in that channel.",
 	"sendMissingText": "Provide a message to send.",
 	"purgeInvalidAmount": "Provide a whole number of messages to delete.",
+	"purgeInvocationFailed": "I couldn't delete your command message, so nothing was purged. Check that I can manage messages here.",
 	"userArgTooShort": "Argument <user> should be at least 2 characters long!",
 	"userNotFound": "User {{query}} not found!",
 	"userInfoTitle": "User info for {{user}}",
