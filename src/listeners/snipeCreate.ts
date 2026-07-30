@@ -11,7 +11,7 @@ export class SnipeCreateListener extends Listener<typeof Events.MessageCreate> {
         if (message.content.toLowerCase() !== 'poi snipe') return
         if (snipeState.wasFetched(message.guild.id)) return
 
-        const snipe = snipeCache[message.guild.id]
+        const snipe = snipeCache.get(message.guild.id)
         if (!snipe || snipe.channelId !== message.channelId) return
 
         if (message.channel.isTextBased() && 'send' in message.channel) {
@@ -23,6 +23,9 @@ export class SnipeCreateListener extends Listener<typeof Events.MessageCreate> {
                 })
                 .catch(() => {})
         }
+        // The content has been shown, so drop it rather than keeping a deleted
+        // message resurrectable for the rest of the process's life.
+        snipeCache.consume(message.guild.id)
         snipeState.markFetched(message.guild.id)
     }
 }

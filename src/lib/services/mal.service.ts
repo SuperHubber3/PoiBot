@@ -6,6 +6,8 @@ const MAX_ANIME_ID = 61599
 const MAL_BASE = 'https://api.myanimelist.net/v2'
 const REQUEST_TIMEOUT_MS = 5_000
 const ROLL_BUDGET_MS = 15_000
+/** Pause after a 429 before trying another id, so we stop leaning on the API. */
+const THROTTLE_BACKOFF_MS = 1_000
 
 class MalRequestError extends Error {
     public constructor(public readonly status: number, message: string) {
@@ -187,6 +189,18 @@ export async function getRandomAnimeCharacters(
             await failed.addFailedId(animeId, 'no characters')
         } catch (error) {
             if (error instanceof MalRequestError && [401, 403, 408, 429].includes(error.status)) {
+                // A 429 means we are already being throttled. Retrying instantly
+                // against a different id burns the whole roll budget hammering the
+                // same throttled endpoint and risks a longer ban, so pause first,
+                // but never past the deadline the caller is waiting on.
+                if (error.status === 429) {
+                    const pause = Math.min(THROTTLE_BACKOFF_MS, Math.max(0, deadline - Date.now()))
+                    if (pause <= 0) return null
+                    await new Promise((resolve) => {
+                        const timer = setTimeout(resolve, pause)
+                        timer.unref?.()
+                    })
+                }
                 continue
             }
             // Network and upstream failures are not evidence that the anime id is

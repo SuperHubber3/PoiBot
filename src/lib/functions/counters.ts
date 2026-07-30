@@ -35,8 +35,41 @@ const META: Record<CounterField, FieldMeta> = {
     kisses: { award: CommandType.Kiss, cache: true },
 }
 
-const countCache = {} as { [key: string]: number }
-const bdCache = {} as { [key: string]: Date }
+/**
+ * Bounded LRU caches.
+ *
+ * These used to be plain objects that nothing ever deleted from. `countCache` is
+ * keyed by (field, guild, user, partner), so on a busy server it grew with every
+ * new pair of people who interacted and never shrank for the life of the process.
+ * A Map preserves insertion order, so evicting the oldest key is a shift off the
+ * front, and re-reading a key moves it back to the end.
+ */
+const CACHE_LIMIT = 5_000
+
+class LruCache<T> {
+    private readonly entries = new Map<string, T>()
+
+    get(key: string): T | undefined {
+        if (!this.entries.has(key)) return undefined
+        const value = this.entries.get(key)!
+        // Re-insert so this key counts as recently used.
+        this.entries.delete(key)
+        this.entries.set(key, value)
+        return value
+    }
+
+    set(key: string, value: T): void {
+        this.entries.delete(key)
+        this.entries.set(key, value)
+        if (this.entries.size > CACHE_LIMIT) {
+            const oldest = this.entries.keys().next().value
+            if (oldest !== undefined) this.entries.delete(oldest)
+        }
+    }
+}
+
+const countCache = new LruCache<number>()
+const bdCache = new LruCache<Date>()
 
 const cacheKey = (field: CounterField, guildId: string, userId: string, partnerId: string) =>
     `${field}:${guildId}-${userId}-${partnerId}`
@@ -126,7 +159,7 @@ async function addCount(
         }
     }
 
-    if (meta.cache) countCache[cacheKey(field, guildId, userId, partnerId)] = count;
+    if (meta.cache) countCache.set(cacheKey(field, guildId, userId, partnerId), count);
     return count;
 }
 
@@ -139,7 +172,8 @@ async function getCount(
     const meta = META[field];
     if (meta.cache) {
         const key = cacheKey(field, guildId, userId, partnerId)
-        if (Object.hasOwn(countCache, key)) return countCache[key]
+        const cached = countCache.get(key)
+        if (cached !== undefined) return cached
     }
 
     const result = await counterSchema.findOne({ guildId, userId });
@@ -151,7 +185,7 @@ async function getCount(
         });
     }
 
-    if (meta.cache) countCache[cacheKey(field, guildId, userId, partnerId)] = count;
+    if (meta.cache) countCache.set(cacheKey(field, guildId, userId, partnerId), count);
     return count;
 }
 
@@ -212,12 +246,12 @@ export const setBd = async (guildId: string, userId: string, date: Date) => {
         { upsert: true, new: true }
     );
 
-    bdCache[`${guildId}-${userId}`] = date;
+    bdCache.set(`${guildId}-${userId}`, date);
     return result;
 };
 
 export const getBd = async (guildId: string, userId: string): Promise<Date | undefined> => {
-    const cachedValue = bdCache[`${guildId}-${userId}`];
+    const cachedValue = bdCache.get(`${guildId}-${userId}`);
     if (cachedValue) return cachedValue;
 
     const result = await profileSchema.findOne({ guildId, userId });
@@ -225,6 +259,6 @@ export const getBd = async (guildId: string, userId: string): Promise<Date | und
     let date: Date | undefined = undefined;
     if (result) date = result.bd;
 
-    if (date) bdCache[`${guildId}-${userId}`] = date;
+    if (date) bdCache.set(`${guildId}-${userId}`, date);
     return date;
 };

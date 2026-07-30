@@ -3,7 +3,7 @@ import { Args, Command } from '@sapphire/framework'
 import { resolveKey } from '@sapphire/plugin-i18next'
 import { ChatInputCommandInteraction, Message, MessageFlags } from 'discord.js'
 import { REDEEM_CODE_REWARD } from '../../lib/economy/prices.js'
-import { addSilver, getSilver } from '../../lib/functions/economy.js'
+import { addSilverOnce, getSilver } from '../../lib/functions/economy.js'
 import { cancelRefund, fundRefund, scheduleRefund } from '../../lib/functions/refunds.js'
 import { auditLog } from '../../lib/util/audit.js'
 import codesSchema from '../../lib/models/codes-schema.js'
@@ -64,12 +64,23 @@ export class RedeemCommand extends Command {
             } catch (error: any) {
                 // The row exists and already holds this code, so the filter missed
                 // and the upsert collided with the unique (guild,user) index.
-                if (error?.code === 11000) return resolveKey(ctx, 'common:redeemAlreadyUsed')
-                throw error
+                if (error?.code !== 11000) throw error
+                claimed = null
             }
-            if (!claimed) return resolveKey(ctx, 'common:redeemAlreadyUsed')
 
-            await addSilver(guildId, userId, REDEEM_CODE_REWARD)
+            // Whether this call recorded the code or found it already recorded,
+            // the credit runs under the same durable key. Recording the code and
+            // then dying before the payout used to lock the reward away forever,
+            // because every retry saw "already used" and stopped. addSilverOnce is
+            // a no-op once the credit has landed, so retrying is free and the
+            // reward can still only ever be paid a single time.
+            const paid = await addSilverOnce(
+                guildId,
+                userId,
+                REDEEM_CODE_REWARD,
+                `redeem:${guildId}:${userId}:${normalizedCode}`
+            )
+            if (!claimed && !paid) return resolveKey(ctx, 'common:redeemAlreadyUsed')
             return resolveKey(ctx, 'common:redeemSuccess')
         }
 

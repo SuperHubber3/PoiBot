@@ -29,9 +29,8 @@ export class LyricsHandler extends InteractionHandler {
             return
         }
 
-        const page = id.action === 'page' ? Number(id.arg ?? 0) : 0
-        await interaction.update(
-            v2Update(await renderLyricsPage(interaction, id.owner, session, Number.isNaN(page) ? 0 : page))
-        )
+        const parsed = id.action === 'page' ? Number(id.arg ?? 0) : 0
+        const page = Number.isNaN(parsed) ? 0 : parsed
+        await interaction.update(v2Update(await renderLyricsPage(interaction, id.owner, session, page)))
     }
 }

@@ -24,6 +24,10 @@ const profileSchema = new mongoose.Schema({
 });
 
 profileSchema.index({ guildId: 1, userId: 1 }, { unique: true })
+// addSilverOnce / spendSilverOnce / hasAppliedDebit all filter on these arrays.
+// Multikey indexes keep those checks off a collection scan as the ledgers grow.
+profileSchema.index({ guildId: 1, userId: 1, appliedCredits: 1 })
+profileSchema.index({ guildId: 1, userId: 1, appliedDebits: 1 })
 
 const name = 'profiles'
 

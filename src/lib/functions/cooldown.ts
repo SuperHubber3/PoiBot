@@ -53,10 +53,12 @@ export async function checkCooldown(
         return { allowed: count < limit, currentCount: count, limit }
     }
 
-    // Three attempts is plenty: each pass either succeeds, proves the limit is
-    // reached, or loses one race to a concurrent caller — who has then created
-    // the document that the next pass needs.
-    for (let attempt = 0; attempt < 3; attempt++) {
+    // Each pass either succeeds, proves the limit is reached, or loses one race
+    // to a concurrent caller. Only a lost race repeats, and the pass below
+    // returns `allowed: false` as soon as the window is genuinely full, so this
+    // cap exists purely to bound pathological contention. Three was too tight:
+    // losing three races in a row denied a claim that still had capacity.
+    for (let attempt = 0; attempt < 10; attempt++) {
         // Already counting this hour and still under the limit.
         const bumped = await CooldownModel.findOneAndUpdate(
             { ...key, lastReset: { $gte: hourStart }, count: { $lt: limit } },

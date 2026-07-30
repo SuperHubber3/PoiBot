@@ -1,3 +1,4 @@
+import { container } from '@sapphire/framework'
 import sessionSchema from '../models/session-schema.js'
 
 /**
@@ -60,9 +61,21 @@ export const sessions = {
         return doc.data as T
     },
 
-    async delete(key: string): Promise<void> {
+    /**
+     * Drops a session. Returns false when the persisted copy could not be
+     * removed, so a caller that treats deletion as "this is now consumed" can
+     * tell the difference instead of carrying on against a session that is
+     * still reachable from another click or after a restart.
+     */
+    async delete(key: string): Promise<boolean> {
         this.deleteMemory(key)
-        await sessionSchema.deleteOne({ key }).catch(() => {})
+        try {
+            await sessionSchema.deleteOne({ key })
+            return true
+        } catch (error) {
+            container.logger.warn(`[sessions] could not delete persisted session ${key}`, error)
+            return false
+        }
     },
 
     /** Atomically consumes a session, returning it only to the winning caller. */

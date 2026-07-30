@@ -49,7 +49,13 @@ export function waifuPrice(waifu: Partial<OwnedWaifu> | undefined | null): numbe
 export async function resolveWaifuPrices(
     guildId: string,
     userId: string,
-    waifus: OwnedWaifu[]
+    waifus: OwnedWaifu[],
+    /**
+     * Set false when the cards are no longer in the stored array (the sell path
+     * resolves prices on entries it just `$pull`ed). The backfill could never
+     * match them, so it is pure cost: an extra findOne plus a wasted save.
+     */
+    backfill = true
 ): Promise<OwnedWaifu[]> {
     if (waifus.every((w) => storedPrice(w) !== null)) return waifus
 
@@ -69,6 +75,8 @@ export async function resolveWaifuPrices(
     // NOTE: `waifus` may be a *filtered* view (blacklisted entries removed), so the
     // write has to merge by id into the stored array — writing `resolved` wholesale
     // would silently delete every skipped character.
+    if (!backfill) return resolved
+
     const byKey = new Map(resolved.map((w) => [`${w.id}:${w.claimedAt}`, w.price]))
     await waifuSchema
         .findOne({ guildId, userId })
@@ -263,7 +271,9 @@ export async function removeWaifusByUid(guildId: string, userId: string, uids: s
     const removed = ((doc.waifus as OwnedWaifu[]) ?? []).filter(
         (waifu) => !waifu.blacklisted && unique.includes(waifu.uid)
     )
-    return resolveWaifuPrices(guildId, userId, removed)
+    // These entries are already pulled out of the stored array, so there is
+    // nothing left for the backfill to write to.
+    return resolveWaifuPrices(guildId, userId, removed, false)
 }
 
 /**

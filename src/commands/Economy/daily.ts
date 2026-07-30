@@ -3,7 +3,7 @@ import { Command } from '@sapphire/framework'
 import { resolveKey } from '@sapphire/plugin-i18next'
 import { ChatInputCommandInteraction, Message, MessageFlags } from 'discord.js'
 import { DAILY_REWARD } from '../../lib/economy/prices.js'
-import { addSilver } from '../../lib/functions/economy.js'
+import { addSilverOnce, getSilver } from '../../lib/functions/economy.js'
 import dailyRewardsSchema from '../../lib/models/daily-rewards-schema.js'
 import { guildOnly } from '../../lib/util/install-context.js'
 
@@ -45,8 +45,9 @@ export class DailyCommand extends Command {
 
         const obj = { guildId, userId }
         const cutoff = new Date(Date.now() - 1000 * 60 * 60 * 24)
+        let claimed: any
         try {
-            const claimed = await dailyRewardsSchema.findOneAndUpdate(
+            claimed = await dailyRewardsSchema.findOneAndUpdate(
                 {
                     ...obj,
                     $or: [{ updatedAt: { $lte: cutoff } }, { updatedAt: { $exists: false } }],
@@ -57,18 +58,33 @@ export class DailyCommand extends Command {
                 },
                 { upsert: true, new: true }
             )
-            if (!claimed) return resolveKey(ctx, 'common:dailyAlready')
         } catch (error: any) {
             // A concurrent first claim can win the unique (guild,user) upsert.
-            if (error?.code === 11000) {
-                claimedCache.push(cacheKey)
-                return resolveKey(ctx, 'common:dailyAlready')
-            }
-            throw error
+            if (error?.code !== 11000) throw error
+            claimed = null
+        }
+
+        // The reservation above already moved `updatedAt`, so the next 24 hours are
+        // spoken for whether or not the payout lands. Keying the credit on that
+        // exact reservation timestamp means a retry after a failed payout can still
+        // complete it, while a second claim inside the window finds the key already
+        // applied and gets nothing.
+        const reservedAt = claimed?.updatedAt ?? (await dailyRewardsSchema.findOne(obj))?.updatedAt
+        if (!reservedAt) return resolveKey(ctx, 'common:dailyAlready')
+
+        const paid = await addSilverOnce(
+            guildId,
+            userId,
+            DAILY_REWARD,
+            `daily:${guildId}:${userId}:${new Date(reservedAt).getTime()}`
+        )
+        if (!paid) {
+            claimedCache.push(cacheKey)
+            return resolveKey(ctx, 'common:dailyAlready')
         }
         claimedCache.push(cacheKey)
 
-        const total = await addSilver(guildId, userId, DAILY_REWARD)
+        const total = await getSilver(guildId, userId)
         return resolveKey(ctx, 'common:dailyClaimed', { amount: DAILY_REWARD, total })
     }
 }

@@ -8,12 +8,12 @@ import { snipeCache, snipeState } from '../lib/state/snipe.js'
 export class SnipeDeleteListener extends Listener<typeof Events.MessageDelete> {
     public override run(message: Message | PartialMessage) {
         if (!message.guild || !message.author || message.author.bot) return
-        snipeCache[message.guild.id] = {
+        snipeCache.set(message.guild.id, {
             timestamp: Math.floor(message.createdTimestamp / 1000),
             tag: message.author.tag,
             content: message.content ?? '',
             channelId: message.channelId,
-        }
+        })
         snipeState.clearFetched(message.guild.id)
     }
 }

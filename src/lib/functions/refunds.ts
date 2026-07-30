@@ -29,12 +29,26 @@ async function settle(id: unknown): Promise<void> {
 
 const debitKey = (id: unknown) => `refund-debit:${String(id)}`
 
-function armRefund(id: unknown, dueAt: Date): void {
+/** Backoff between in-process settle retries, capped so it stays bounded. */
+const RETRY_DELAYS_MS = [5_000, 30_000, 120_000]
+
+function armRefund(id: unknown, dueAt: Date, attempt = 0): void {
     const remaining = Math.max(0, new Date(dueAt).getTime() - Date.now())
     const timer = setTimeout(() => {
-        void settle(id).catch((error) =>
+        void settle(id).catch((error) => {
             container.logger.error('[refunds] scheduled refund failed', error)
-        )
+            // settle() leaves the row funded and un-settling, so the debt is still
+            // durable — but without re-arming, nothing retries it until the next
+            // restart and the user's silver just sits there. Back off and retry.
+            const delay = RETRY_DELAYS_MS[attempt]
+            if (delay === undefined) {
+                container.logger.error(
+                    `[refunds] giving up on ${String(id)} in this process; it will be retried on next startup`
+                )
+                return
+            }
+            armRefund(id, new Date(Date.now() + delay), attempt + 1)
+        })
     }, remaining)
     timer.unref?.()
 }

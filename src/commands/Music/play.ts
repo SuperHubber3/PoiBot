@@ -10,6 +10,9 @@ import { MusicCtx, voiceChannelOf } from '../../lib/util/music-ctx.js'
 import { v2 } from '../../lib/util/v2.js'
 import { guildOnly } from '../../lib/util/install-context.js'
 
+/** Upper bound on how much of a resolved playlist gets queued in one go. */
+const MAX_PLAYLIST_TRACKS = 500
+
 @ApplyOptions<Command.Options>({
     name: 'play',
     aliases: ['p'],
@@ -69,7 +72,17 @@ export class PlayCommand extends Command {
             )
 
             const requesterId = ctx instanceof Message ? ctx.author.id : ctx.user.id
-            const tracks = found.playlistName ? found.tracks : found.tracks.slice(0, 1)
+            // A public playlist can hold thousands of entries, and every one of
+            // them would sit in memory and be walked on each /queue render. Take
+            // the front of it and say so rather than silently keeping the lot.
+            const tracks = found.playlistName
+                ? found.tracks.slice(0, MAX_PLAYLIST_TRACKS)
+                : found.tracks.slice(0, 1)
+            if (found.playlistName && found.tracks.length > tracks.length) {
+                this.container.logger.info(
+                    `[music] playlist "${found.playlistName}" truncated: queued ${tracks.length} of ${found.tracks.length}`
+                )
+            }
             for (const track of tracks) queue.add(track, requesterId)
             queue.voiceChannelName = channel.name
             await queue.start()

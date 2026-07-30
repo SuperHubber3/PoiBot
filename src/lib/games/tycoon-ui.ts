@@ -93,12 +93,17 @@ async function rows(ctx: I18nCtx, owner: string, view: TycoonView, s: PanelState
         return [row(home, upgrades, buy)]
     }
     if (view === 'convert') {
-        return [row(home, ...TYCOON_CONVERSIONS.map((tier) =>
+        const tiers = TYCOON_CONVERSIONS.map((tier) =>
             btn(owner, 'conv', String(tier.points))
                 .setEmoji('💰')
                 .setLabel(`${tier.points.toLocaleString('en-US')} → ${tier.silver}`)
                 .setStyle(ButtonStyle.Primary)
-                .setDisabled(s.points < tier.points)))]
+                .setDisabled(s.points < tier.points))
+        // Home plus the current four tiers is exactly Discord's five-per-row limit,
+        // so a fifth tier added in prices.ts would be rejected at runtime, far from
+        // the edit that caused it. Chunking makes the tier list free to grow.
+        const [first, ...rest] = chunk([home, ...tiers], 5)
+        return [row(...first), ...rest.map((group) => row(...group))]
     }
     return [row(
         upgrades,
@@ -107,6 +112,12 @@ async function rows(ctx: I18nCtx, owner: string, view: TycoonView, s: PanelState
 
 function row(...buttons: ButtonBuilder[]) {
     return new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(...buttons)
+}
+
+function chunk<T>(items: T[], size: number): T[][] {
+    const groups: T[][] = []
+    for (let i = 0; i < items.length; i += size) groups.push(items.slice(i, i + size))
+    return groups.length ? groups : [[]]
 }
 
 /**

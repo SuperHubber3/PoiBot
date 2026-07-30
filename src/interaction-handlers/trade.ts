@@ -89,8 +89,16 @@ export class TradeHandler extends InteractionHandler {
             return
         }
 
-        // --- the offer itself: one shot, so the session goes now ---
-        await sessions.delete(interaction.message.id)
+        // --- the offer itself: one shot ---
+        // take() consumes the session atomically and hands it back only to the
+        // winning caller. Deleting and carrying on would let a failed delete (or a
+        // second click landing first) run the swap against a session that is still
+        // reachable from another click or after a restart.
+        const claimed = await sessions.take<TradeSession>(interaction.message.id)
+        if (!claimed) {
+            await interaction.update(v2Update(v2Container(await resolveKey(interaction, 'common:menuExpired'))))
+            return
+        }
         if (id.action === 'decline') {
             await interaction.update(v2Update(v2Container(await resolveKey(interaction, 'waifu:tradeDeclined'))))
             return
@@ -101,10 +109,10 @@ export class TradeHandler extends InteractionHandler {
         // swap is refused outright, so neither side gives something for nothing.
         const swapped = await swapCards(
             guildId,
-            session.initiatorId,
-            session.partnerId,
-            session.myCard,
-            session.theirCard
+            claimed.initiatorId,
+            claimed.partnerId,
+            claimed.myCard,
+            claimed.theirCard
         )
         const key = swapped ? 'waifu:tradeComplete' : 'waifu:tradeFailed'
         await interaction.update(v2Update(v2Container(await resolveKey(interaction, key))))
