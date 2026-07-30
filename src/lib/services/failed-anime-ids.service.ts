@@ -16,10 +16,12 @@ export class FailedAnimeIdsService {
         try {
             const records = await FailedAnimeIdsSchema.find({}, { animeId: 1 })
             this.failedIds = new Set(records.map((r: any) => r.animeId))
+            // Only on success: marking it here regardless would drop the persisted
+            // blacklist for the whole process life after one transient DB error.
+            this.initialized = true
         } catch {
-            /* keep whatever is in memory */
+            /* keep whatever is in memory, and try again on the next call */
         }
-        this.initialized = true
     }
 
     isFailedId(animeId: number): boolean {

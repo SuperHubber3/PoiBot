@@ -41,7 +41,8 @@ export class TradeHandler extends InteractionHandler {
 
         // --- guided picker stages (session survives; only the offer consumes it) ---
         if (id.action === 'page') {
-            const page = Number(id.arg?.split('.')[0] ?? 0)
+            const parsed = Number(id.arg?.split('.')[0] ?? 0)
+            const page = Number.isNaN(parsed) ? 0 : parsed
             await interaction.update(v2Update(await renderTradePicker(interaction, session, page)))
             return
         }
@@ -61,9 +62,15 @@ export class TradeHandler extends InteractionHandler {
 
             if (session.stage === 'mine') {
                 session.myCard = card
-                session.stage = 'theirs'
+                // The command may already have named their card, in which case
+                // there is nothing left to pick.
+                session.stage = session.theirsFixed ? 'offer' : 'theirs'
                 await sessions.create(interaction.message.id, session, { persist: true })
-                await interaction.update(v2Update(await renderTradePicker(interaction, session, 0)))
+                const next =
+                    session.stage === 'offer'
+                        ? await renderTradeOffer(interaction, session)
+                        : await renderTradePicker(interaction, session, 0)
+                await interaction.update(v2Update(next))
                 return
             }
 
@@ -74,7 +81,13 @@ export class TradeHandler extends InteractionHandler {
             return
         }
 
-        if (id.action !== 'accept' && id.action !== 'decline') return
+        // Anything else that reaches here (a 'pick' that isn't a select menu, an
+        // id from an older build) still has to be acknowledged, or the click dies
+        // as "This interaction failed".
+        if (id.action !== 'accept' && id.action !== 'decline') {
+            await interaction.deferUpdate().catch(() => {})
+            return
+        }
 
         // --- the offer itself: one shot, so the session goes now ---
         await sessions.delete(interaction.message.id)

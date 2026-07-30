@@ -61,12 +61,6 @@
 		"humanDenied": "🤖 You admitted it. Honest of you.\nThe heist is over anyway. Better luck next time."
 	},
 	"story": {
-		"completed": "You've already completed this month's story! Come back next month.",
-		"unknownOrCompleted": "Unknown task, or you already completed the task.",
-		"placeholder": "Your choice...",
-		"storyTitle": "## 📖 {{title}}",
-		"timeout": "The story timed out.",
-		"doneAck": "Task completed!",
 		"branches": {
 			"akyk": {
 				"title": "The anime girl lost her bed",
@@ -131,7 +125,7 @@
 		},
 		"aiTitle": "📖 Story Time",
 		"rewardLine": "🎁 You earned **{{xp}} XP** and **{{silver}} silver**!",
-		"noReward": "No reward this time… come back next month!",
+		"noReward": "No reward this time. Come back tomorrow!",
 		"onCooldown": "You already played today's story! Come back tomorrow."
 	},
 	"tycoon": {

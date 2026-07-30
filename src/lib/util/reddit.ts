@@ -1,8 +1,12 @@
 // Fetches a random post URL from a subreddit via Reddit's public JSON API (no lib/deps).
 export async function randomRedditPost(subreddit: string): Promise<string | null> {
+    // A stalled connection would otherwise hang the fun command indefinitely and,
+    // on the slash path, leave the deferred reply unresolved.
+    const abort = AbortSignal.timeout(8000)
     try {
         const res = await fetch(`https://www.reddit.com/r/${subreddit}/new.json?limit=75`, {
             headers: { 'User-Agent': 'PoiBot/2.0' },
+            signal: abort,
         })
         if (!res.ok) return null
         const json = (await res.json()) as any

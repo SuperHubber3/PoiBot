@@ -228,12 +228,14 @@ export class BlackjackCommand extends Command {
 
         // Doubling costs a second stake, so only offer it if they can pay it.
         const canDouble = remaining >= bet
+        let sessionId: string | null = null
         try {
             const sent = await this.reply(
                 ctx,
                 v2Payload(await renderBlackjack(ctx, user.id, session, false, clampNotice, 'lose', canDouble, false))
             )
             await sessions.create<BlackjackSession>(sent.id, session, { persist: true })
+            sessionId = sent.id
 
             if (blackjackHandValue(session.player) === 21) {
                 const claimed = await sessions.take<BlackjackSession>(sent.id)
@@ -246,6 +248,10 @@ export class BlackjackCommand extends Command {
                 v2Update(await renderBlackjack(ctx, user.id, session, false, clampNotice, 'lose', canDouble))
             )
         } catch (error) {
+            // Kill the hand before handing the stake back. The session is already
+            // persisted and playable at this point, so refunding on its own would
+            // let the button handler settle and pay out on a bet that was returned.
+            if (sessionId) await sessions.delete(sessionId)
             await addSilver(guildId, user.id, bet)
             throw error
         }

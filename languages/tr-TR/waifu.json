@@ -31,6 +31,7 @@
 	"upgradeLabelClaims": "sahiplenmeler",
 	"upgradeLabelPulls": "çekimler",
 	"upgradeNotEnough": "Bu yükseltme için {{cost}} gümüşe ihtiyacın var!",
+	"upgradeRaced": "İşlem sırasında seviyen değişti. Hiçbir şey düşülmedi, tekrar dene.",
 	"upgradeSuccess": "**{{key}}** {{level}}. seviyeye yükseltildi! Yeni limit: {{limit}}/saat.",
 	"tradeFailed": "❌ Takas iptal edildi. Karakterlerden biri artık sahibinin koleksiyonunda değil.",
 	"skipNotEnough": "Atlamak için **{{cost}}** gümüş gerek ama sadece **{{balance}}** gümüşün var. Sahiplen ya da sat!",
@@ -69,5 +70,6 @@
 	"forceSummary": "{{user}} için **{{count}}** karakter çekildi.\nToplam değer **{{total}}** 🪙 · ortalama **{{average}}** 🪙\n-# Bunlar hak harcamaz. Aşağıdan her birini al, atla ya da sat.",
 	"forceSent": "{{user}} kişisine **{{count}}** kart gönderildi.",
 	"forceNoneAvailable": "Bu animede, sahip olmadığı ya da atlamadığı karakter kalmamış.",
+	"forceNoChannel": "Kartları buraya gönderemiyorum. Bu kanalı görüp yazabildiğimden emin ol.",
 	"forceNotYours": "Bu çekim başka birine verildi."
 }

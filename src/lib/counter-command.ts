@@ -17,8 +17,8 @@ import type { AwardReplyTarget } from './types.js'
 import { v2Container, v2Payload } from './util/v2.js'
 import { anywhere } from './util/install-context.js'
 
-/** Counter bucket used when there is no server — DMs and group DMs. */
-export const DM_SCOPE = '@dm'
+import { DM_SCOPE } from './constants.js'
+export { DM_SCOPE }
 
 type TargetContext = Message | ChatInputCommandInteraction
 

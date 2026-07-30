@@ -60,9 +60,12 @@ export class BoopCommand extends Command {
     }
 
     public override async chatInputRun(interaction: ChatInputCommandInteraction) {
+        // Target resolution and the counter write both run before the first
+        // response, so ack up front the way the shared counter factory does.
+        await interaction.deferReply()
         const rawTarget = interaction.options.getUser('user')?.toString() ?? undefined
         await this.execute(interaction, interaction.guild, interaction.guildId ?? DM_SCOPE, interaction.user, rawTarget, interaction, (payload) =>
-            interaction.reply({ ...payload, allowedMentions: { parse: [] } })
+            interaction.editReply({ ...payload, allowedMentions: { parse: [] } })
         )
     }
 

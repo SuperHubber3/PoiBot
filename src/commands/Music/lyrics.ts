@@ -80,8 +80,11 @@ export async function renderLyricsPage(ctx: LyricsCtx, owner: string, session: L
 
 function lavalinkBaseUrl(): string {
     const secure = process.env.LAVALINK_SECURE === 'true'
+    // LAVALINK_URL is a websocket address as far as the node is concerned, so it
+    // may carry ws:// or wss://. Strip whichever scheme is there — leaving one in
+    // place would build "http://ws://host" and make new URL() throw.
     const host = (process.env.LAVALINK_URL ?? 'localhost:2333')
-        .replace(/^https?:\/\//i, '')
+        .replace(/^(?:wss?|https?):\/\//i, '')
         .replace(/\/+$/, '')
     return `${secure ? 'https' : 'http'}://${host}`
 }

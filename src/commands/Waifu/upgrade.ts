@@ -98,19 +98,36 @@ export async function buyUpgrade(ctx: UpgradeCtx, guildId: string, userId: strin
     if ((await spendSilver(guildId, userId, cost)) === null) {
         return resolveKey(ctx, 'waifu:upgradeNotEnough', { cost })
     }
+    // The price doubles per level, so the increment has to be conditional on the
+    // level the price was quoted for. An unconditional $inc lets two fast clicks
+    // both read level N, both pay cost(N) and both increment — two levels for the
+    // price of one and a half.
     let updated: any
     try {
         updated = await userCommandUpgradeSchema.findOneAndUpdate(
-            { guildId, userId, commandKey: cfg.key },
+            {
+                guildId,
+                userId,
+                commandKey: cfg.key,
+                $or: [{ upgradeLevel: level }, { upgradeLevel: { $exists: false } }],
+            },
             {
                 $setOnInsert: { guildId, userId, commandKey: cfg.key },
                 $inc: { upgradeLevel: 1 },
             },
             { upsert: true, new: true }
         )
-    } catch (error) {
+    } catch (error: any) {
         await addSilver(guildId, userId, cost)
+        // The row exists at a different level, so the filter missed and the upsert
+        // collided with the unique (guild,user,command) index — someone else's
+        // click landed first.
+        if (error?.code === 11000) return resolveKey(ctx, 'waifu:upgradeRaced')
         throw error
+    }
+    if (!updated) {
+        await addSilver(guildId, userId, cost)
+        return resolveKey(ctx, 'waifu:upgradeRaced')
     }
     const newLevel = updated?.upgradeLevel ?? level + 1
     return resolveKey(ctx, 'waifu:upgradeSuccess', {

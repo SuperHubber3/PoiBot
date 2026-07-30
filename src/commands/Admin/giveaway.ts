@@ -140,7 +140,11 @@ export class GiveawayCommand extends Command {
                 if (page.size < 100) break
                 after = page.last()!.id
             }
-        } catch {
+        } catch (error) {
+            // Partial results would draw from whoever happened to fit in the pages
+            // that came back, so the draw is abandoned. Log it: otherwise a failed
+            // fetch is indistinguishable from a giveaway nobody entered.
+            this.container.logger.warn('[giveaway] could not read entrants', error)
             users.clear()
         }
         const entrants = [...users.values()].filter((u) => !u.bot)

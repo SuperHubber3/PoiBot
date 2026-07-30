@@ -116,6 +116,27 @@ export async function showPanel(
     channel: SendableChannels,
     ownerId: string
 ): Promise<void> {
+    // channel.send takes long enough that two near-simultaneous /play calls both
+    // pass the checks in createPanel and both post, leaving the first message
+    // orphaned in the channel with nothing tracking it. Serialising per guild
+    // means the second call sees the panel the first one registered and reuses it.
+    const previous = panelCreations.get(queue.guildId) ?? Promise.resolve()
+    const work = previous.catch(() => {}).then(() => createPanel(queue, channel, ownerId))
+    panelCreations.set(queue.guildId, work)
+    try {
+        await work
+    } finally {
+        if (panelCreations.get(queue.guildId) === work) panelCreations.delete(queue.guildId)
+    }
+}
+
+const panelCreations = new Map<string, Promise<void>>()
+
+async function createPanel(
+    queue: MusicQueue,
+    channel: SendableChannels,
+    ownerId: string
+): Promise<void> {
     const existing = panels.get(queue.guildId)
 
     // Reuse the existing panel if it is still in the same channel.

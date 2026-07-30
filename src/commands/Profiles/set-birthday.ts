@@ -77,18 +77,34 @@ export async function renderBirthday(
     ]
 
     if (month !== null) {
-        const dayMenu = new StringSelectMenuBuilder()
-            .setCustomId(encodeId({ cmd: BIRTHDAY_CMD, owner: user.id, action: 'day', arg: String(month) }))
-            .setPlaceholder(
-                await resolveKey(ctx, 'counter:birthdayPickDay', { month: monthName(locale, month) })
-            )
-            .addOptions(
-                Array.from({ length: daysInMonth(month) }, (_, i) => ({
-                    label: String(i + 1),
-                    value: String(i + 1),
-                }))
-            )
-        rows.push(new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(dayMenu as any))
+        // A select menu takes at most 25 options and every month has more days
+        // than that would leave room for in one go, so the days are split across
+        // two menus. The chunk index only rides in the customId to keep the two
+        // menus distinct; the handler reads the day off the selected value.
+        const total = daysInMonth(month)
+        const half = Math.ceil(total / 2)
+        for (let chunk = 0; chunk * half < total; chunk++) {
+            const first = chunk * half + 1
+            const last = Math.min(total, first + half - 1)
+            const dayMenu = new StringSelectMenuBuilder()
+                .setCustomId(
+                    encodeId({ cmd: BIRTHDAY_CMD, owner: user.id, action: 'day', arg: `${month}.${chunk}` })
+                )
+                .setPlaceholder(
+                    await resolveKey(ctx, 'counter:birthdayPickDayRange', {
+                        month: monthName(locale, month),
+                        first,
+                        last,
+                    })
+                )
+                .addOptions(
+                    Array.from({ length: last - first + 1 }, (_, i) => ({
+                        label: String(first + i),
+                        value: String(first + i),
+                    }))
+                )
+            rows.push(new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(dayMenu as any))
+        }
     }
 
     return v2Container(

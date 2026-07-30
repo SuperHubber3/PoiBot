@@ -2,7 +2,7 @@ import { ApplyOptions } from '@sapphire/decorators'
 import { Args, Command } from '@sapphire/framework'
 import { resolveKey } from '@sapphire/plugin-i18next'
 import { ChatInputCommandInteraction, Message, User } from 'discord.js'
-import { addSilver } from '../../lib/functions/economy.js'
+import { addSilver, getSilver } from '../../lib/functions/economy.js'
 import { guildOnly } from '../../lib/util/install-context.js'
 
 @ApplyOptions<Command.Options>({
@@ -41,7 +41,18 @@ export class ChangeBalanceCommand extends Command {
         if (!target) return resolveKey(ctx, 'common:payMissingTarget')
         if (isNaN(amount) || amount === 0) return resolveKey(ctx, 'common:payInvalidAmount')
 
-        const total = await addSilver(ctx.guild!.id, target.id, amount)
-        return resolveKey(ctx, 'common:changeBalanceSuccess', { target: `<@${target.id}>`, amount, total })
+        const guildId = ctx.guild!.id
+        // A debit larger than the balance would leave it negative, and every spend
+        // path filters on `silver: { $gte: amount }` — the account would be soft
+        // locked with no command able to bring it back up. Clamp to what's there.
+        let applied = amount
+        if (amount < 0) {
+            const balance = await getSilver(guildId, target.id)
+            applied = -Math.min(balance, -amount)
+            if (applied === 0) return resolveKey(ctx, 'common:changeBalanceNothingToTake', { target: `<@${target.id}>` })
+        }
+
+        const total = await addSilver(guildId, target.id, applied)
+        return resolveKey(ctx, 'common:changeBalanceSuccess', { target: `<@${target.id}>`, amount: applied, total })
     }
 }

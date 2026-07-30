@@ -61,12 +61,6 @@
 		"humanDenied": "🤖 İtiraf ettin. Dürüstsün.\nYine de soygun bitti. Bir dahakine bol şans."
 	},
 	"story": {
-		"completed": "Bu ayki hikayeyi zaten tamamladın! Gelecek ay tekrar gel.",
-		"unknownOrCompleted": "Bilinmeyen görev ya da görevi zaten tamamladın.",
-		"placeholder": "Kararın...",
-		"storyTitle": "## 📖 {{title}}",
-		"timeout": "Hikaye zaman aşımına uğradı.",
-		"doneAck": "Görevi tamamladınız!",
 		"branches": {
 			"akyk": {
 				"title": "Anime kızı yatağını kaybetmiş",
@@ -131,7 +125,7 @@
 		},
 		"aiTitle": "📖 Hikaye Zamanı",
 		"rewardLine": "🎁 **{{xp}} XP** ve **{{silver}} gümüş** kazandın!",
-		"noReward": "Bu sefer ödül yok… gelecek ay tekrar gel!",
+		"noReward": "Bu sefer ödül yok. Yarın tekrar gel!",
 		"onCooldown": "Bugünkü hikayeyi zaten oynadın! Yarın tekrar gel."
 	},
 	"tycoon": {

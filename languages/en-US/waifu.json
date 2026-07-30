@@ -31,6 +31,7 @@
 	"upgradeLabelClaims": "claims",
 	"upgradeLabelPulls": "pulls",
 	"upgradeNotEnough": "You need {{cost}} silver for this upgrade!",
+	"upgradeRaced": "Your level changed while that was going through. Nothing was charged, so try again.",
 	"upgradeSuccess": "Upgraded **{{key}}** to level {{level}}! New limit: {{limit}}/hour.",
 	"tradeFailed": "❌ Trade cancelled. One of the characters is no longer in its owner's collection.",
 	"skipNotEnough": "You need **{{cost}}** silver to skip, but you only have **{{balance}}**. Claim or sell instead!",
@@ -69,5 +70,6 @@
 	"forceSummary": "Pulled **{{count}}** character(s) for {{user}}.\nTotal value **{{total}}** 🪙 · average **{{average}}** 🪙\n-# These cost no claims. Claim, skip or sell each one below.",
 	"forceSent": "Sent **{{count}}** card(s) to {{user}}.",
 	"forceNoneAvailable": "That anime has no characters left that they don't already own or skip.",
+	"forceNoChannel": "I can't post the cards here. Check that I can see and send in this channel.",
 	"forceNotYours": "That pull was granted to someone else."
 }

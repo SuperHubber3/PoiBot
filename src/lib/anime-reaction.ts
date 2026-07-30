@@ -72,11 +72,15 @@ export function createAnimeReaction(config: AnimeReactionConfig) {
 
         public override async chatInputRun(interaction: ChatInputCommandInteraction) {
             const target = interaction.options.getUser('person')
+            // The body embeds <@!id> mentions, so the slash path needs the same
+            // mention suppression the message path applies — otherwise the same
+            // command pings on one route and not the other.
+            const mentions = { allowedMentions: { parse: [] as never[] } }
             if (config.apiCategory) {
                 await interaction.deferReply()
-                return interaction.editReply(await this.build(interaction, interaction.user, target))
+                return interaction.editReply({ ...(await this.build(interaction, interaction.user, target)), ...mentions })
             }
-            return interaction.reply(await this.build(interaction, interaction.user, target))
+            return interaction.reply({ ...(await this.build(interaction, interaction.user, target)), ...mentions })
         }
     }
 

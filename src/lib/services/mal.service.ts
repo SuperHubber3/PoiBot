@@ -101,7 +101,10 @@ export async function priceForAnime(animeId: number | undefined | null): Promise
     if (cached !== undefined) return cached
     const meta = await fetchAnimeMeta(animeId).catch(() => null)
     const price = priceFromMean(meta?.mean)
-    priceCache.set(animeId, price)
+    // A failed lookup computes the floor price. Caching that would pin every
+    // character from this anime to the minimum for the rest of the process life
+    // because of one timeout, so only a real answer is remembered.
+    if (meta) priceCache.set(animeId, price)
     return price
 }
 

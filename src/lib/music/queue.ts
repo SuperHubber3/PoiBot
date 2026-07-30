@@ -128,13 +128,18 @@ export class MusicQueue {
             this.skipping = false
             await this.advance(skipped)
         })
+        // Lavalink always follows an exception with an end event (reason
+        // "loadFailed"), so advancing here too would move the queue twice and
+        // silently eat the next track. `end` owns progression; this only logs.
         this.player.on('exception', (err: any) => {
             container.logger.warn(`[music:${this.guildId}] track exception`, err?.exception ?? err)
-            void this.advance()
         })
+        // A stuck track never ends on its own, so stop it and let the resulting
+        // end event advance. Routing through skip() also bypasses track-repeat,
+        // which would otherwise put the same stuck track straight back on.
         this.player.on('stuck', () => {
             container.logger.warn(`[music:${this.guildId}] track stuck, skipping`)
-            void this.advance()
+            void this.skip().catch(() => {})
         })
         this.player.on('closed', () => void this.destroy())
     }
@@ -194,7 +199,11 @@ export class MusicQueue {
             void updatePanel(this)
         } catch (error) {
             container.logger.error(`[music:${this.guildId}] failed to play`, error)
-            await this.advance()
+            // Drop the entry before advancing. Under repeat it would otherwise be
+            // replayed (track) or pushed back onto the queue (queue), and since it
+            // just failed that is an unbounded retry loop rather than a recovery.
+            this.current = null
+            await this.advance(true)
         }
     }
 

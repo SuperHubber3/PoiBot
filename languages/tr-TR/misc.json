@@ -27,6 +27,7 @@
 	"musicRequestedBy": "İsteyen: {{user}}",
 	"sendSuccess": "✅ Gönderildi!",
 	"sendNotTextChannel": "Bu kanal bir metin kanalı değil.",
+	"sendFailed": "Oraya gönderilemedi. O kanalda mesaj atma iznim var mı bir bak.",
 	"sendMissingText": "Gönderilecek bir mesaj gir.",
 	"purgeInvalidAmount": "Silinecek mesaj sayısını tam sayı olarak gir.",
 	"userArgTooShort": "<user> argümanı en az 2 karakter uzunluğunda olmalı!",

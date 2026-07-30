@@ -3,6 +3,7 @@ import { CommandType } from '../enums/command.enum.js';
 import counterSchema from '../models/command-counter-schema.js'
 import profileSchema from '../models/profile-schema.js';
 import { AwardSystemService } from '../services/award-system.service.js';
+import { DM_SCOPE } from '../constants.js'
 import { container } from '@sapphire/framework'
 
 /**
@@ -95,16 +96,30 @@ async function addCount(
     )
 
     const meta = META[field];
-    if (meta.award) {
+    // Awards pay silver, and silver is per-guild. In DMs there is no guild, so the
+    // counter falls into the shared DM_SCOPE bucket — paying out there would mint
+    // silver into a synthetic profile that no economy command can ever reach.
+    if (meta.award && guildId !== DM_SCOPE) {
         try {
-            const result: any[] = await counterSchema.aggregate([
-                { $match: { userId, guildId } },
-                { $addFields: { totalCount: { $sum: `$${field}.count` } } },
-            ])
-            const item = result[0];
-            if (!isNaN(item?.totalCount)) {
-                await new AwardSystemService(meta.award)
-                    .checkForAward(guildId, userId, item.totalCount, message)
+            // The write above already returned the whole per-partner array, so the
+            // running total comes off that instead of a second round trip on every
+            // counted interaction. The aggregate is only a fallback for the rare
+            // triple-race path where `updated` came back null.
+            let total: number | undefined
+            if (updated?.[field]) {
+                total = (updated[field] as Array<{ count?: number }>).reduce(
+                    (sum, entry) => sum + (entry.count ?? 0),
+                    0
+                )
+            } else {
+                const result: any[] = await counterSchema.aggregate([
+                    { $match: { userId, guildId } },
+                    { $addFields: { totalCount: { $sum: `$${field}.count` } } },
+                ])
+                total = result[0]?.totalCount
+            }
+            if (total !== undefined && !isNaN(total)) {
+                await new AwardSystemService(meta.award).checkForAward(guildId, userId, total, message)
             }
         } catch (error) {
             container.logger.error('[counters] award processing failed', error)

@@ -3,7 +3,7 @@ import { Args, Command } from '@sapphire/framework'
 import { resolveKey } from '@sapphire/plugin-i18next'
 import { ChatInputCommandInteraction, GuildMember, Message, PermissionFlagsBits } from 'discord.js'
 import profileSchema from '../../lib/models/profile-schema.js'
-import { isVip } from './shop.js'
+import { isVip } from '../../lib/functions/economy.js'
 import { v2 } from '../../lib/util/v2.js'
 import { guildOnly } from '../../lib/util/install-context.js'
 

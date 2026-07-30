@@ -4,7 +4,7 @@ import { AnySelectMenuInteraction, ButtonInteraction, MessageFlags } from 'disco
 import { ComponentId, isOwner, matchId } from '../lib/util/component-id.js'
 import { v2Container, v2Update } from '../lib/util/v2.js'
 import { addSilver } from '../lib/functions/economy.js'
-import { getWaifus, removeWaifusByUid, restoreWaifus } from '../lib/functions/waifu.js'
+import { countWaifus, getWaifus, removeWaifusByUid, restoreWaifus } from '../lib/functions/waifu.js'
 import { jumpModal, pageCount } from '../lib/waifu/picker.js'
 import { renderSellPage, WAIFU_SELL_CMD } from '../commands/Waifu/sell.js'
 
@@ -36,13 +36,20 @@ export class WaifuSellHandler extends InteractionHandler {
         // arg carries the current page; sell attaches no extra tag.
         const page = Number(id.arg?.split('.')[0] ?? 0)
 
+        // Both the pager and the sale itself read the collection first, and that
+        // read resolves prices, which can fan out into MAL lookups plus a backfill
+        // write. Acknowledge before doing any of it, or a slow lookup blows the
+        // 3-second window on a path that has already moved cards and silver.
         if (id.action === 'page' && interaction.isButton()) {
-            await interaction.update(v2Update(await renderSellPage(interaction, id.owner, page)))
+            await interaction.deferUpdate()
+            await interaction.editReply(v2Update(await renderSellPage(interaction, id.owner, page)))
             return
         }
 
         if (id.action === 'jump' && interaction.isButton()) {
-            const pages = pageCount((await getWaifus(guildId, id.owner)).length)
+            // Count only: getWaifus resolves prices, which can hit MAL, and a
+            // modal has to open inside the 3-second window.
+            const pages = pageCount(await countWaifus(guildId, id.owner))
             await interaction.showModal(
                 await jumpModal(interaction, WAIFU_SELL_CMD, id.owner, String(page), pages, 'page')
             )
@@ -54,17 +61,18 @@ export class WaifuSellHandler extends InteractionHandler {
             return
         }
 
+        await interaction.deferUpdate()
         const current = await getWaifus(guildId, id.owner)
         const selected = new Set(interaction.values)
         const uids = current.filter((waifu) => selected.has(waifu.uid)).map((waifu) => waifu.uid)
         if (uids.length !== selected.size) {
-            await interaction.update(v2Update(v2Container(await resolveKey(interaction, 'waifu:listEmpty'))))
+            await interaction.editReply(v2Update(v2Container(await resolveKey(interaction, 'waifu:listEmpty'))))
             return
         }
 
         const removed = await removeWaifusByUid(guildId, id.owner, uids)
         if (removed.length !== uids.length) {
-            await interaction.update(v2Update(v2Container(await resolveKey(interaction, 'waifu:listEmpty'))))
+            await interaction.editReply(v2Update(v2Container(await resolveKey(interaction, 'waifu:listEmpty'))))
             return
         }
         const total = removed.reduce((s, w) => s + w.price, 0)
@@ -81,6 +89,6 @@ export class WaifuSellHandler extends InteractionHandler {
             total,
             balance: bal,
         })
-        await interaction.update(v2Update(v2Container(text)))
+        await interaction.editReply(v2Update(v2Container(text)))
     }
 }

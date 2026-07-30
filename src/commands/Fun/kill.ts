@@ -53,6 +53,9 @@ export class KillCommand extends Command {
     }
 
     public override async chatInputRun(interaction: ChatInputCommandInteraction) {
+        // Several counter reads and writes happen before the first response, so
+        // ack up front rather than racing Discord's 3-second deadline.
+        await interaction.deferReply()
         // No guild in a DM — kill tallies share the DM bucket, like the other counters.
         const guildId = interaction.guildId ?? DM_SCOPE
         const user = interaction.user
@@ -62,7 +65,7 @@ export class KillCommand extends Command {
         let targetName = targetUser.username
 
         if (target === user.id) {
-            return interaction.reply(v2(await resolveKey(interaction, 'fun:killSelf')))
+            return interaction.editReply(v2(await resolveKey(interaction, 'fun:killSelf')))
         }
 
         let luck = Math.ceil(Math.random() * 2)
@@ -102,6 +105,6 @@ export class KillCommand extends Command {
         })
         const text = await resolveKey(interaction, `fun:${selectedKey}`, { target: `**${targetName}**` })
 
-        return interaction.reply(v2([`## ${title}`, text], { thumbnail: user.displayAvatarURL() }))
+        return interaction.editReply(v2([`## ${title}`, text], { thumbnail: user.displayAvatarURL() }))
     }
 }

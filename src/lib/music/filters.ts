@@ -169,10 +169,6 @@ export function buildFilterPayload(state: MusicFilterState): FilterOptions {
 }
 
 /**
- * Schedules a debounced flush of the guild's filter state to Lavalink.
- * Repeated calls within the window collapse into one payload.
- */
-/**
  * Pushes the guild's filter state to a player immediately, no debounce.
  *
  * Used when a track starts, so filters chosen while nothing was playing are
@@ -199,12 +195,22 @@ export function hasActiveFilters(guildId: string): boolean {
     return Boolean(state) && describeFilters(state!).length > 0
 }
 
+/**
+ * Schedules a debounced flush of the guild's filter state to Lavalink.
+ * Repeated calls within the window collapse into one payload.
+ */
 export function scheduleFilterFlush(guildId: string, player: Player | null | undefined): void {
+    // Drop any queued flush first, even when there is no player now: the queue
+    // may have been torn down since it was scheduled, and firing it later would
+    // call setFilters on a disposed player.
+    const existing = pending.get(guildId)
+    if (existing) {
+        clearTimeout(existing.timer)
+        pending.delete(guildId)
+    }
+
     // No player yet: the state is still recorded and gets applied on play().
     if (!player) return
-
-    const existing = pending.get(guildId)
-    if (existing) clearTimeout(existing.timer)
 
     const timer = setTimeout(async () => {
         pending.delete(guildId)

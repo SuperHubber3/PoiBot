@@ -35,7 +35,10 @@ export class WaifuJumpHandler extends InteractionHandler {
             return
         }
 
-        const raw = Number(interaction.fields.getTextInputValue('value').trim())
+        // The box is free-form, so "2.5" arrives as a finite number. A fractional
+        // page encodes as "1.5" and "." is the component-id tag separator, and a
+        // fractional index reads list[1.5] as undefined — truncate before either.
+        const raw = Number.parseInt(interaction.fields.getTextInputValue('value').trim(), 10)
         const [current, tag] = (id.arg ?? '0').split('.')
 
         if (id.cmd === WAIFU_SELL_CMD) {

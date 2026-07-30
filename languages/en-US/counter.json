@@ -74,5 +74,5 @@
 	},
 	"birthdayHint": "-# Pick a month, then a day.",
 	"birthdayPickMonth": "Month",
-	"birthdayPickDay": "Day in {{month}}"
+	"birthdayPickDayRange": "{{month}} {{first}}-{{last}}"
 }

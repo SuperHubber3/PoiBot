@@ -105,7 +105,10 @@ function portOpen(host: string, port: number, timeoutMs = 2000): Promise<boolean
 async function superviseNode() {
     const option = nodeOption()
     const [host, rawPort] = option.url.replace(/^wss?:\/\//, '').split(':')
-    const port = Number(rawPort) || (option.secure ? 443 : 80)
+    // A port-less plain URL means someone wrote "lavalink.internal" — probe
+    // Lavalink's own default rather than 80, which nothing there listens on.
+    // A port-less secure URL really is behind a TLS proxy, so 443 stands.
+    const port = Number(rawPort) || (option.secure ? 443 : 2333)
 
     // Shoukaku needs the bot's user id, which only exists once the client is ready.
     if (!container.client.isReady()) {
@@ -127,7 +130,11 @@ async function superviseNode() {
                 announcedWait = true
             }
         }
-        await new Promise((r) => setTimeout(r, 5000))
+        // unref'd so this endless loop never keeps the process alive on its own.
+        await new Promise((r) => {
+            const timer = setTimeout(r, 5000)
+            timer.unref?.()
+        })
     }
 }
 

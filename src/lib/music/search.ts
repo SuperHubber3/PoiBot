@@ -1,3 +1,4 @@
+import { container } from '@sapphire/framework'
 import type { Track } from 'shoukaku'
 import { idealNode } from '../services/lavalink.service.js'
 
@@ -17,6 +18,27 @@ export interface ResolvedQuery {
 }
 
 const isUrl = (query: string) => /^https?:\/\//i.test(query)
+
+/**
+ * Runs one resolve attempt, logging anything that isn't a plain miss.
+ *
+ * A rejection or an `error` load type means the node is unreachable, the
+ * credentials are wrong or the source plugin blew up — folding those into the
+ * same silent null as "no results" is what makes /play look like it simply
+ * couldn't find the song.
+ */
+async function attempt(query: string): Promise<any> {
+    try {
+        const result: any = await idealNode()!.rest.resolve(query)
+        if (result?.loadType === 'error') {
+            container.logger.warn(`[music] resolve error for "${query}"`, result.data ?? result)
+        }
+        return result
+    } catch (error) {
+        container.logger.warn(`[music] resolve failed for "${query}"`, error)
+        return undefined
+    }
+}
 
 function unwrap(result: any): ResolvedQuery | null {
     if (!result) return null
@@ -48,12 +70,12 @@ export async function resolveQuery(query: string): Promise<ResolvedQuery | null>
 
     // Direct links (YouTube, Spotify via LavaSrc, SoundCloud, raw http streams…).
     if (isUrl(trimmed)) {
-        const found = unwrap(await node.rest.resolve(trimmed).catch(() => undefined))
+        const found = unwrap(await attempt(trimmed))
         return found && found.tracks.length ? found : null
     }
 
     for (const prefix of SEARCH_PREFIXES) {
-        const found = unwrap(await node.rest.resolve(`${prefix}:${trimmed}`).catch(() => undefined))
+        const found = unwrap(await attempt(`${prefix}:${trimmed}`))
         if (found && found.tracks.length) return found
     }
     return null

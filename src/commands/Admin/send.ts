@@ -1,7 +1,7 @@
 import { ApplyOptions } from '@sapphire/decorators'
 import { Args, Command } from '@sapphire/framework'
 import { resolveKey } from '@sapphire/plugin-i18next'
-import { ChatInputCommandInteraction, Message, MessageFlags, SendableChannels, TextChannel } from 'discord.js'
+import { ChannelType, ChatInputCommandInteraction, Message, MessageFlags, SendableChannels, TextChannel } from 'discord.js'
 import { guildOnly } from '../../lib/util/install-context.js'
 
 @ApplyOptions<Command.Options>({
@@ -16,7 +16,13 @@ export class SendCommand extends Command {
             guildOnly(builder)
                 .setName('send')
                 .setDescription('Send a message to a channel (owner only)')
-                .addChannelOption((opt) => opt.setName('channel').setDescription('Target channel').setRequired(true))
+                .addChannelOption((opt) =>
+                    opt
+                        .setName('channel')
+                        .setDescription('Target channel')
+                        .setRequired(true)
+                        .addChannelTypes(ChannelType.GuildText)
+                )
                 .addStringOption((opt) => opt.setName('text').setDescription('Message text').setRequired(true))
         )
     }
@@ -32,7 +38,15 @@ export class SendCommand extends Command {
             await message.reply(await resolveKey(message, 'misc:sendMissingText'))
             return
         }
-        await (channel as SendableChannels).send(text)
+        // Missing Send Messages in the target channel is the common case, and an
+        // unhandled throw here becomes an unhandled rejection with no reply.
+        try {
+            await (channel as SendableChannels).send(text)
+        } catch (error) {
+            this.container.logger.warn('[send] could not post to target channel', error)
+            await message.reply(await resolveKey(message, 'misc:sendFailed'))
+            return
+        }
         await message.reply(await resolveKey(message, 'misc:sendSuccess'))
     }
 
@@ -43,7 +57,16 @@ export class SendCommand extends Command {
             await interaction.reply({ content: await resolveKey(interaction, 'misc:sendNotTextChannel'), flags: MessageFlags.Ephemeral })
             return
         }
-        await channel.send(text)
+        try {
+            await channel.send(text)
+        } catch (error) {
+            this.container.logger.warn('[send] could not post to target channel', error)
+            await interaction.reply({
+                content: await resolveKey(interaction, 'misc:sendFailed'),
+                flags: MessageFlags.Ephemeral,
+            })
+            return
+        }
         await interaction.reply({ content: await resolveKey(interaction, 'misc:sendSuccess'), flags: MessageFlags.Ephemeral })
     }
 }

@@ -6,7 +6,7 @@ import { readFileSync } from 'node:fs'
 import { GACHA_CONSTELLATION_MAX_REWARD } from '../economy/prices.js'
 import { addSilver, addWishes, getWishes, spendWishes } from '../functions/economy.js'
 import gachaSchema from '../models/gacha-schema.js'
-import { isVip } from '../../commands/Economy/shop.js'
+import { isVip } from '../functions/economy.js'
 import { v2 } from '../util/v2.js'
 import { guildOnly } from '../util/install-context.js'
 
@@ -35,6 +35,17 @@ interface PullResult extends GachaCharacter {
 }
 
 const BANNERS: GachaBanner[] = ['standart', 'premium', 'limited']
+
+/**
+ * What the banner picker shows. The stored values keep the original bot's
+ * spelling because the roster files are keyed by it, but "standart" has no
+ * business appearing in a dropdown.
+ */
+const BANNER_LABELS: Record<GachaBanner, string> = {
+    standart: 'Standard',
+    premium: 'Premium',
+    limited: 'Limited',
+}
 const MAX_BATCH = 8
 const MAX_CONSTELLATION = 6
 
@@ -226,7 +237,7 @@ export function createGachaCommand(config: GachaCommandConfig) {
                             .setName('banner')
                             .setDescription('Banner to pull from')
                             .setRequired(true)
-                            .addChoices(...BANNERS.map((banner) => ({ name: banner, value: banner })))
+                            .addChoices(...BANNERS.map((banner) => ({ name: BANNER_LABELS[banner], value: banner })))
                     )
                     .addIntegerOption((option) =>
                         option

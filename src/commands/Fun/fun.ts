@@ -11,16 +11,17 @@ import {
     SendableChannels,
     User,
 } from 'discord.js'
-import md5 from 'md5'
+import { percentFrom } from '../../lib/util/percent.js'
 import { randomRedditPost } from '../../lib/util/reddit.js'
 import { v2 } from '../../lib/util/v2.js'
 import { guildOnly } from '../../lib/util/install-context.js'
+import { OWO_BOT_ID } from '../../lib/constants.js'
 
 // Hardcoded meme targets carried over from the source bots.
 const ID_KIRImiZi = '300561167619981312'
 const ID_OWNER = '338760814884290562'
 const ID_SATIS = '279494365221486593'
-const ID_OWO = '744986923357175858'
+const ID_OWO = OWO_BOT_ID
 
 interface FunContext {
     source: Message | ChatInputCommandInteraction
@@ -46,9 +47,9 @@ const t = (ctx: FunContext, key: string, vars?: Record<string, unknown>) => reso
 
 function loveMeter(a: GuildMember, b: GuildMember): number {
     const members = [a, b].sort((x, y) => x.id < y.id ? -1 : x.id > y.id ? 1 : 0)
-    const hash = md5(`${members[0].id}${members[1].user.username}${members[0].user.username}${members[1].id}`)
-    const digits = hash.split('').filter((e: any) => !isNaN(e)).join('')
-    return parseInt(digits.substring(0, 2), 10)
+    return percentFrom(
+        `${members[0].id}${members[1].user.username}${members[0].user.username}${members[1].id}`
+    )
 }
 
 const EIGHTBALL = [
@@ -188,7 +189,11 @@ const HANDLERS: Record<string, FunHandler> = {
                 `https://nekobot.xyz/api/imagegen?type=ship` +
                 `&user1=${first.user.displayAvatarURL({ extension: 'png', size: 512 })}` +
                 `&user2=${second.user.displayAvatarURL({ extension: 'png', size: 512 })}`
-            const res = await fetch(encodeURI(url))
+            // Bounded like `kedi` above: an unresponsive nekobot would otherwise
+            // leave this awaiting forever, and the slash path's deferred reply
+            // never resolves.
+            const res = await fetch(encodeURI(url), { signal: AbortSignal.timeout(8_000) })
+            if (!res.ok) return t(ctx, 'error')
             const json = (await res.json()) as any
             await ctx.send(v2(await t(ctx, 'shipTitle'), { image: json.message }))
             await ctx.deleteInvoking().catch(() => { })

@@ -15,7 +15,8 @@ import { buttonRow, v2Container, v2Payload } from '../../lib/util/v2.js'
 import { encodeId } from '../../lib/util/component-id.js'
 import { guildOnly } from '../../lib/util/install-context.js'
 
-const OWO_BOT_ID = '744986923357175858'
+import { OWO_BOT_ID } from '../../lib/constants.js'
+
 export const MARRY_CMD = 'marry'
 
 @ApplyOptions<Command.Options>({

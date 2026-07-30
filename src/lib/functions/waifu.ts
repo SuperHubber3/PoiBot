@@ -123,6 +123,18 @@ export async function getWaifus(guildId: string, userId: string): Promise<OwnedW
 }
 
 /**
+ * How many cards the collection view would show.
+ *
+ * Same filter as `getWaifus` but without the price resolution, which can fan out
+ * into MAL lookups and a backfill write. The jump modals only need a page count,
+ * and they have to open inside the interaction's 3-second window.
+ */
+export async function countWaifus(guildId: string, userId: string): Promise<number> {
+    const doc = await waifuSchema.findOne({ guildId, userId }).select('waifus.blacklisted').lean()
+    return ((doc?.waifus as Array<{ blacklisted?: boolean }>) ?? []).filter((w) => !w.blacklisted).length
+}
+
+/**
  * Every character id this user has seen — owned *and* skipped.
  *
  * This is what stops a pull handing back a duplicate, and it's why skips are
@@ -254,11 +266,25 @@ export async function removeWaifusByUid(guildId: string, userId: string, uids: s
     return resolveWaifuPrices(guildId, userId, removed)
 }
 
+/**
+ * Puts cards back after a sell whose payout failed.
+ *
+ * Each uid is pushed on its own and only when it isn't already there: a write can
+ * land before the driver reports a failure, so a retried restore would otherwise
+ * duplicate the card. Same guard `giveCard` uses in the trade path.
+ */
 export async function restoreWaifus(guildId: string, userId: string, waifus: OwnedWaifu[]): Promise<void> {
     if (!waifus.length) return
-    await waifuSchema.findOneAndUpdate(
-        { guildId, userId },
-        { $setOnInsert: { guildId, userId }, $push: { waifus: { $each: waifus } } },
-        { upsert: true }
-    )
+    for (const waifu of waifus) {
+        await waifuSchema.findOneAndUpdate(
+            { guildId, userId, 'waifus.uid': { $ne: waifu.uid } },
+            { $setOnInsert: { guildId, userId }, $push: { waifus: waifu } },
+            { upsert: true }
+        ).catch((error: any) => {
+            // Row exists and already holds the card, so the filter missed and the
+            // upsert hit the unique (guild,user) index. Nothing left to restore.
+            if (error?.code !== 11000) throw error
+            return null
+        })
+    }
 }

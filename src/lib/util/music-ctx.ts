@@ -24,10 +24,16 @@ export function canControlQueue(ctx: MusicCtx, queue: MusicQueue): boolean {
     return voiceChannelOf(ctx)?.id === queue.voiceChannelId
 }
 
-/** Unified reply for both message and interaction contexts. */
+/**
+ * Unified reply for both message and interaction contexts.
+ *
+ * Mentions are suppressed on both paths: replies interpolate track and playlist
+ * titles straight from the resolver, and a track called "@everyone" would
+ * otherwise ping the server.
+ */
 export async function replyTo(ctx: MusicCtx, content: string) {
     if (ctx instanceof Message) return ctx.reply({ content, allowedMentions: { parse: [] } })
-    return ctx.reply({ content })
+    return ctx.reply({ content, allowedMentions: { parse: [] } })
 }
 
 export async function replyKey(ctx: MusicCtx, key: string, vars?: Record<string, unknown>) {

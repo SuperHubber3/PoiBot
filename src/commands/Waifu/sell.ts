@@ -69,7 +69,10 @@ export class SellCommand extends Command {
             return ctx.fetchReply()
         }
 
-        if (!list.length) return void reply(v2(await resolveKey(ctx, 'waifu:listEmpty')))
+        if (!list.length) {
+            await reply(v2(await resolveKey(ctx, 'waifu:listEmpty')))
+            return
+        }
         await reply(v2Payload(await renderSellPage(ctx, user.id, 0, list)))
     }
 }

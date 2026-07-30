@@ -14,5 +14,16 @@ export const BOT_OWNERS = ['338760814884290562']
 
 export const POI_EMOJI = '<:poi:1018591254356963458>'
 
+/**
+ * Counter bucket used when there is no server — DMs and group DMs.
+ *
+ * Lives here rather than next to the counter command so `lib/functions/counters`
+ * can check for it without importing the command module back.
+ */
+export const DM_SCOPE = '@dm'
+
+/** OwO bot. Both `/fun` and `/marry` have jokes keyed to it. */
+export const OWO_BOT_ID = '744986923357175858'
+
 /** Error shown when a user targets themselves with a command that disallows it. */
 export const cantTargetSelf = (verb: string) => `You can't ${verb} yourself! ${POI_EMOJI}`

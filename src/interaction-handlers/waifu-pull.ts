@@ -167,6 +167,8 @@ export class WaifuPullHandler extends InteractionHandler {
         }
         const locked = await sessions.acquire<WaifuPullSession>(interaction.message.id)
         if (!locked) return this.busy(interaction)
+        let consumedClaim = false
+        let balance: number
         try {
             if (!session.force) {
                 const consumed = await checkCooldown(guildId, userId, CLAIM_KEY, DEFAULT_CLAIM_LIMIT, true)
@@ -178,15 +180,16 @@ export class WaifuPullHandler extends InteractionHandler {
                     })
                     return
                 }
+                consumedClaim = true
             }
-        } catch (error) {
-            await sessions.patch<WaifuPullSession>(interaction.message.id, { busy: false })
-            throw error
-        }
-        let balance: number
-        try {
             balance = await addSilver(guildId, userId, locked.character.price)
         } catch (error) {
+            // Quick-sell costs a claim just like keeping the card does, so a failed
+            // payout has to hand it back — otherwise a DB blip burns one of the
+            // hourly claims for nothing. Same compensation claim() already does.
+            if (consumedClaim) {
+                await refundCooldownUse(guildId, userId, CLAIM_KEY).catch(() => false)
+            }
             await sessions.patch<WaifuPullSession>(interaction.message.id, { busy: false })
             throw error
         }

@@ -45,7 +45,15 @@ export class WaifuSummaryHandler extends InteractionHandler {
             return
         }
 
-        await interaction.deferUpdate()
+        // The lease is already held. A rejected ack would otherwise skip the
+        // `busy: false` cleanup below and wedge every later Claim All click on
+        // the "already working" response.
+        try {
+            await interaction.deferUpdate()
+        } catch (error) {
+            await sessions.patch<WaifuSummarySession>(interaction.message.id, { busy: false })
+            throw error
+        }
         const guildId = interaction.guild!.id
         const userId = summary.initiatorId
         let claimed = 0

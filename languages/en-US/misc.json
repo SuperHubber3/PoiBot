@@ -27,6 +27,7 @@
 	"musicRequestedBy": "Requested by {{user}}",
 	"sendSuccess": "✅ Sent!",
 	"sendNotTextChannel": "That channel is not a text channel.",
+	"sendFailed": "Couldn't post there. Check that I can send messages in that channel.",
 	"sendMissingText": "Provide a message to send.",
 	"purgeInvalidAmount": "Provide a whole number of messages to delete.",
 	"userArgTooShort": "Argument <user> should be at least 2 characters long!",

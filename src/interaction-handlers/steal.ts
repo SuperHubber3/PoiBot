@@ -106,11 +106,19 @@ export class StealHandler extends InteractionHandler {
                 v2Update(v2Container(await resolveKey(interaction, key, { amount: all }), { color: covered ? 0xf1c40f : 0xe74c3c }))
             )
         } else if (answer > STEAL_SUCC_RATE_2) {
+            // The fee is already charged, so the staged flavour text must not be
+            // able to abort the sequence: if the prompt gets deleted mid-heist the
+            // edits fail, and an unhandled throw here would leave the user paying
+            // for an outcome they never see.
             await interaction.update(v2Update(v2Container(await resolveKey(interaction, 'games:steal.stageTrying'), { color: 0x5865f2 })))
             await wait(2500)
-            await interaction.message.edit(v2Update(v2Container(await resolveKey(interaction, 'games:steal.stagePackets'), { color: 0x5865f2 })))
+            await interaction.message
+                .edit(v2Update(v2Container(await resolveKey(interaction, 'games:steal.stagePackets'), { color: 0x5865f2 })))
+                .catch(() => null)
             await wait(2500)
-            await interaction.message.edit(v2Update(v2Container(await resolveKey(interaction, 'games:steal.stageTraffic'), { color: 0xf1c40f })))
+            await interaction.message
+                .edit(v2Update(v2Container(await resolveKey(interaction, 'games:steal.stageTraffic'), { color: 0xf1c40f })))
+                .catch(() => null)
             await wait(3000)
             // The original reacted 👍/👎 here and collected nothing — the "captcha"
             // is a troll, and the heist has already failed. Real buttons now, so the
@@ -125,9 +133,13 @@ export class StealHandler extends InteractionHandler {
                     .setEmoji('👎')
                     .setStyle(ButtonStyle.Danger)
             )
-            await interaction.message.edit(
-                v2Update(v2Container(await resolveKey(interaction, 'games:steal.stageHuman'), { rows: [humanRow], color: 0xf1c40f }))
-            )
+            await interaction.message
+                .edit(
+                    v2Update(
+                        v2Container(await resolveKey(interaction, 'games:steal.stageHuman'), { rows: [humanRow], color: 0xf1c40f })
+                    )
+                )
+                .catch(() => null)
         } else if (answer > STEAL_SUCC_RATE) {
             const balance = await addSilver(guildId, id.owner, STEAL_SMALL_WIN)
             await interaction.update(

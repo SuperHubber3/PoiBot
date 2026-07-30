@@ -50,60 +50,77 @@ export class AutomodCommand extends Command {
 
         const block = [{ type: AutoModerationActionType.BlockMessage }]
 
-        try {
-            let name = ''
-            switch (rule) {
-                case 'anti-invite':
-                    name = 'PoiBot • Anti-Invite'
-                    await guild.autoModerationRules.create({
-                        name,
-                        eventType: AutoModerationRuleEventType.MessageSend,
-                        triggerType: AutoModerationRuleTriggerType.Keyword,
-                        triggerMetadata: { regexPatterns: ['(discord\\.gg|discord(app)?\\.com/invite)/\\S+'] },
-                        actions: block,
-                        enabled: true,
-                    })
-                    break
-                case 'anti-spam':
-                    name = 'PoiBot • Anti-Spam'
-                    await guild.autoModerationRules.create({
-                        name,
-                        eventType: AutoModerationRuleEventType.MessageSend,
-                        triggerType: AutoModerationRuleTriggerType.Spam,
-                        actions: block,
-                        enabled: true,
-                    })
-                    break
-                case 'anti-mention':
-                    name = 'PoiBot • Anti-Mention-Spam'
-                    await guild.autoModerationRules.create({
-                        name,
-                        eventType: AutoModerationRuleEventType.MessageSend,
-                        triggerType: AutoModerationRuleTriggerType.MentionSpam,
-                        triggerMetadata: { mentionTotalLimit: 8 },
-                        actions: block,
-                        enabled: true,
-                    })
-                    break
-                case 'keyword': {
-                    const words = keywords.split(',').map((w) => w.trim()).filter(Boolean)
-                    if (!words.length) {
-                        await interaction.reply(v2(await resolveKey(interaction, 'misc:automodKeywordRequired'), { ephemeral: true }))
-                        return
-                    }
-                    name = 'PoiBot • Keyword Filter'
-                    await guild.autoModerationRules.create({
-                        name,
-                        eventType: AutoModerationRuleEventType.MessageSend,
-                        triggerType: AutoModerationRuleTriggerType.Keyword,
-                        triggerMetadata: { keywordFilter: words },
-                        actions: block,
-                        enabled: true,
-                    })
-                    break
+        let payload: {
+            name: string
+            eventType: AutoModerationRuleEventType
+            triggerType: AutoModerationRuleTriggerType
+            triggerMetadata?: Record<string, unknown>
+            actions: typeof block
+            enabled: boolean
+        } | null = null
+
+        switch (rule) {
+            case 'anti-invite':
+                payload = {
+                    name: 'PoiBot • Anti-Invite',
+                    eventType: AutoModerationRuleEventType.MessageSend,
+                    triggerType: AutoModerationRuleTriggerType.Keyword,
+                    triggerMetadata: { regexPatterns: ['(discord\\.gg|discord(app)?\\.com/invite)/\\S+'] },
+                    actions: block,
+                    enabled: true,
                 }
+                break
+            case 'anti-spam':
+                payload = {
+                    name: 'PoiBot • Anti-Spam',
+                    eventType: AutoModerationRuleEventType.MessageSend,
+                    triggerType: AutoModerationRuleTriggerType.Spam,
+                    actions: block,
+                    enabled: true,
+                }
+                break
+            case 'anti-mention':
+                payload = {
+                    name: 'PoiBot • Anti-Mention-Spam',
+                    eventType: AutoModerationRuleEventType.MessageSend,
+                    triggerType: AutoModerationRuleTriggerType.MentionSpam,
+                    triggerMetadata: { mentionTotalLimit: 8 },
+                    actions: block,
+                    enabled: true,
+                }
+                break
+            case 'keyword': {
+                const words = keywords.split(',').map((w) => w.trim()).filter(Boolean)
+                if (!words.length) {
+                    await interaction.reply(v2(await resolveKey(interaction, 'misc:automodKeywordRequired'), { ephemeral: true }))
+                    return
+                }
+                payload = {
+                    name: 'PoiBot • Keyword Filter',
+                    eventType: AutoModerationRuleEventType.MessageSend,
+                    triggerType: AutoModerationRuleTriggerType.Keyword,
+                    triggerMetadata: { keywordFilter: words },
+                    actions: block,
+                    enabled: true,
+                }
+                break
             }
-            await interaction.reply(await resolveKey(interaction, 'common:automodCreated', { name }))
+        }
+        if (!payload) return
+
+        try {
+            // Re-running /automod for a rule that already exists used to either
+            // stack a duplicate (keyword) or hit Discord's one-per-trigger-type
+            // cap and fail (spam, mention, invite). Update ours in place instead.
+            const existing = (await guild.autoModerationRules.fetch()).find(
+                (candidate) => candidate.name === payload!.name
+            )
+            if (existing) {
+                await existing.edit(payload as any)
+            } else {
+                await guild.autoModerationRules.create(payload as any)
+            }
+            await interaction.reply(await resolveKey(interaction, 'common:automodCreated', { name: payload.name }))
         } catch (error) {
             this.container.logger.error('[automod] failed to create rule', error)
             await interaction.reply({ content: await resolveKey(interaction, 'common:automodFailed'), flags: MessageFlags.Ephemeral })

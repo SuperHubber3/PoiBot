@@ -24,7 +24,9 @@ export class NekoHandler extends InteractionHandler {
         if (id.action === 'delete') {
             try {
                 await interaction.deferUpdate()
-                await interaction.deleteReply()
+                // The card is a plain channel message for prefix invocations, so
+                // delete it directly rather than through the interaction webhook.
+                await interaction.message.delete()
             } catch (error) {
                 this.container.logger.warn('[neko] failed to delete interaction response', error)
             }

@@ -5,6 +5,9 @@ import { ChatInputCommandInteraction, Message, MessageReaction, User } from 'dis
 import { sendable } from '../../lib/util/send.js'
 import { guildOnly } from '../../lib/util/install-context.js'
 
+/** Leaves room for the surrounding prompt inside Discord's 2000-char message cap. */
+const RESPECTS_MAX_LENGTH = 200
+
 @ApplyOptions<Command.Options>({
     name: 'f',
     description: 'Pay respects to something',
@@ -17,12 +20,21 @@ export class FCommand extends Command {
             guildOnly(builder)
                 .setName('f')
                 .setDescription('Pay respects to something')
-                .addStringOption((opt) => opt.setName('text').setDescription('Thing to pay respects').setRequired(true))
+                .addStringOption((opt) =>
+                    opt
+                        .setName('text')
+                        .setDescription('Thing to pay respects')
+                        .setRequired(true)
+                        .setMaxLength(RESPECTS_MAX_LENGTH)
+                )
         )
     }
 
     public override async messageRun(message: Message, args: Args) {
-        const text = await args.rest('string').catch(() => undefined)
+        // The prompt interpolates this into a message that also carries the
+        // surrounding template, so an unbounded value pushes the send past
+        // Discord's 2000-character limit and throws before the collector starts.
+        const text = (await args.rest('string').catch(() => undefined))?.slice(0, RESPECTS_MAX_LENGTH)
         if (!text) {
             await message.reply(await resolveKey(message, 'counter:respectsMissing'))
             return

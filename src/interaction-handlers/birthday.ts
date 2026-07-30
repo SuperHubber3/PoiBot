@@ -48,7 +48,9 @@ export class BirthdayHandler extends InteractionHandler {
 
         if (id.action !== 'day') return
 
-        const month = Number(id.arg)
+        // arg is `month.chunk`; the chunk index exists only to keep the two day
+        // menus' customIds distinct.
+        const month = Number(id.arg?.split('.')[0])
         if (!Number.isInteger(month)) return
 
         const date = new Date(2000, month, picked)

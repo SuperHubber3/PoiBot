@@ -3,18 +3,11 @@ import { Args, Command } from '@sapphire/framework'
 import { resolveKey } from '@sapphire/plugin-i18next'
 import { ChatInputCommandInteraction, Guild, Message, User } from 'discord.js'
 import { sendable } from '../../lib/util/send.js'
-import md5 from 'md5'
+import { percentFrom } from '../../lib/util/percent.js'
 import { resolveTarget } from '../../lib/util/resolveTarget.js'
 import { anywhere } from '../../lib/util/install-context.js'
 
-function ratePercent(id: string): number {
-    const hash: string = md5(id)
-    const digits = hash
-        .split('')
-        .filter((e: any) => !isNaN(e))
-        .join('')
-    return parseInt(digits.substring(0, 2), 10)
-}
+const ratePercent = (id: string) => percentFrom(id)
 
 const rateLine = (ctx: Message | ChatInputCommandInteraction, name: string | undefined, percent: number) =>
     resolveKey(ctx, 'fun:rateLine', { name, percent, heart: percent >= 50 ? '❤️' : '💔' })
@@ -72,7 +65,13 @@ export class RateCommand extends Command {
         if (resolved.invalid || !resolved.targetId) return
 
         const target = resolved.targetId
-        const targetName = resolved.targetName ?? optionName
+        // resolveTarget only reports a name when it got there by searching, and
+        // the message path has no option to fall back on — so `poi rate @user`
+        // used to render "I rate the user **undefined**". Look the id up instead.
+        const targetName =
+            resolved.targetName ??
+            optionName ??
+            (await ctx.client.users.fetch(target).catch(() => null))?.username
 
         if (target === user.id) {
             await send(await rateLine(ctx, targetName, ratePercent(user.id)))

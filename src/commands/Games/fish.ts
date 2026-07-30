@@ -4,7 +4,7 @@ import { resolveKey } from '@sapphire/plugin-i18next'
 import { ChatInputCommandInteraction, Message, User } from 'discord.js'
 import { FISH_SILVER_PER_CM } from '../../lib/economy/prices.js'
 import { addSilver } from '../../lib/functions/economy.js'
-import { checkCooldown } from '../../lib/functions/cooldown.js'
+import { checkCooldown, refundCooldownUse } from '../../lib/functions/cooldown.js'
 import { v2 } from '../../lib/util/v2.js'
 import { guildOnly } from '../../lib/util/install-context.js'
 
@@ -79,7 +79,16 @@ export class FishCommand extends Command {
         })
 
         const total = caught.reduce((s, f) => s + f.price, 0)
-        const newBalance = await addSilver(guildId, user.id, total)
+        // The hourly attempt was already consumed above. If the payout write dies
+        // the user would be locked out for the hour with nothing to show for it,
+        // so hand the attempt back before the error propagates.
+        let newBalance: number
+        try {
+            newBalance = await addSilver(guildId, user.id, total)
+        } catch (error) {
+            await refundCooldownUse(guildId, user.id, 'fish_catch').catch(() => false)
+            throw error
+        }
         const rarest = caught.reduce((a, b) => (b.rarity.weight < a.rarity.weight ? b : a))
         const lines = await Promise.all(
             caught.map(async (f) =>

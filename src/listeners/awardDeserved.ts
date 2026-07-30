@@ -25,9 +25,9 @@ export class AwardDeservedListener extends Listener {
         })
 
         if (target instanceof Message) {
-            await target.reply({ ...payload, allowedMentions: { parse: [] } }).catch((err) => console.error(err))
+            await target.reply({ ...payload, allowedMentions: { parse: [] } }).catch((err) => this.container.logger.warn('[awardDeserved] could not announce award', err))
         } else {
-            await target.followUp({ ...payload, allowedMentions: { parse: [] } }).catch((err) => console.error(err))
+            await target.followUp({ ...payload, allowedMentions: { parse: [] } }).catch((err) => this.container.logger.warn('[awardDeserved] could not announce award', err))
         }
     }
 }

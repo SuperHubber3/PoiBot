@@ -77,7 +77,14 @@ export class ForceWaifuCommand extends Command {
             return
         }
 
-        const channel = interaction.channel as SendableChannels
+        // Nullable when the channel isn't cached or View Channel is missing; the
+        // cast used to hide that and every send below would dereference null with
+        // the ephemeral defer left hanging.
+        const channel = interaction.channel
+        if (!channel?.isSendable()) {
+            await interaction.editReply(v2(await resolveKey(interaction, 'waifu:forceNoChannel')))
+            return
+        }
         const total = picked.reduce((sum, c) => sum + c.price, 0)
         const summary = await resolveKey(interaction, 'waifu:forceSummary', {
             user: `<@${target.id}>`,

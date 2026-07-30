@@ -239,6 +239,15 @@ export const spendWishes = async (guildId: string, userId: string, amount: numbe
  * Steal insurance: a one-shot shield against the 1% total-wipe roll.
  * Bought with /insurance and consumed the moment it saves someone.
  */
+/**
+ * VIP flag on the profile. Lives here rather than beside the shop command so
+ * `lib/gacha` can gate the premium banner without a lib -> command import.
+ */
+export const isVip = async (guildId: string, userId: string): Promise<boolean> => {
+    const doc = await profileSchema.findOne({ guildId, userId })
+    return Boolean(doc?.vip)
+}
+
 export const hasInsurance = async (guildId: string, userId: string): Promise<boolean> => {
     const result = await profileSchema.findOne({ guildId, userId })
     return Boolean(result?.insured)

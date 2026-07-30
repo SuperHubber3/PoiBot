@@ -38,6 +38,11 @@ export interface TradeSession {
     stage: TradeStage
     myCard?: OwnedWaifu
     theirCard?: OwnedWaifu
+    /**
+     * Set when the command already supplied `theirs`, so the picker asks only for
+     * the side that is still missing and then goes straight to the offer.
+     */
+    theirsFixed?: boolean
 }
 
 /** Picker over one side's collection, used for the `mine` and `theirs` stages. */
@@ -304,30 +309,35 @@ export class TradeCommand extends Command {
 
         const session: TradeSession = { initiatorId: me.id, partnerId: partner.id, stage: 'mine' }
 
-        // Fast path: both numbers given, go straight to the offer.
-        if (yours !== null && theirs !== null) {
+        // Whichever numbers were given are honoured. Give both and you go straight
+        // to the offer; give one and the picker opens on the other side rather than
+        // silently throwing away what was typed.
+        if (yours !== null) {
             const mine = await getWaifus(guildId, me.id)
-            const partnerCards = await getWaifus(guildId, partner.id)
             const myCard = yours > 0 ? mine[yours - 1] : undefined
-            const theirCard = theirs > 0 ? partnerCards[theirs - 1] : undefined
-
             if (yours > 0 && !myCard) {
                 return void interaction.reply(v2(await resolveKey(interaction, 'waifu:tradeInvalidYours'), { ephemeral: true }))
             }
+            session.myCard = myCard
+            session.stage = 'theirs'
+        }
+        if (theirs !== null) {
+            const partnerCards = await getWaifus(guildId, partner.id)
+            const theirCard = theirs > 0 ? partnerCards[theirs - 1] : undefined
             if (theirs > 0 && !theirCard) {
                 return void interaction.reply(v2(await resolveKey(interaction, 'waifu:tradeInvalidTheirs'), { ephemeral: true }))
             }
-            session.myCard = myCard
             session.theirCard = theirCard
-            session.stage = 'offer'
+            session.theirsFixed = true
+            session.stage = yours !== null ? 'offer' : 'mine'
         }
 
-        const container =
+        const rendered =
             session.stage === 'offer'
                 ? await renderTradeOffer(interaction, session)
                 : await renderTradePicker(interaction, session, 0)
 
-        await interaction.reply(v2Payload(container))
+        await interaction.reply(v2Payload(rendered))
         const msg = await interaction.fetchReply()
         // Real assets at stake — the session must survive a restart.
         await sessions.create<TradeSession>(msg.id, session, { persist: true })

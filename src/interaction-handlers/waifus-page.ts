@@ -3,7 +3,7 @@ import { resolveKey } from '@sapphire/plugin-i18next'
 import { ButtonInteraction, MessageFlags } from 'discord.js'
 import { ComponentId, isOwner, matchId } from '../lib/util/component-id.js'
 import { v2Update } from '../lib/util/v2.js'
-import { getWaifus } from '../lib/functions/waifu.js'
+import { countWaifus } from '../lib/functions/waifu.js'
 import { jumpModal } from '../lib/waifu/picker.js'
 import { renderWaifusPage, WAIFUS_PAGE_CMD } from '../commands/Waifu/waifus.js'
 
@@ -31,7 +31,9 @@ export class WaifusPageHandler extends InteractionHandler {
         const index = Number.isFinite(parsed) ? parsed : 0
 
         if (id.action === 'jump') {
-            const total = (await getWaifus(interaction.guild!.id, ownerId)).length
+            // Count only: getWaifus resolves prices, which can hit MAL, and a
+            // modal has to open inside the 3-second window.
+            const total = await countWaifus(interaction.guild!.id, ownerId)
             await interaction.showModal(
                 await jumpModal(interaction, WAIFUS_PAGE_CMD, id.owner, id.arg ?? '0', total, 'card')
             )

@@ -10,7 +10,7 @@ import {
     ModalSubmitInteraction,
 } from 'discord.js'
 import { VIP_COST, WISH_COST } from '../../lib/economy/prices.js'
-import { addSilver, addWishes, getSilver, getWishes, spendSilver } from '../../lib/functions/economy.js'
+import { addSilver, addWishes, getSilver, getWishes, spendSilver, isVip } from '../../lib/functions/economy.js'
 import profileSchema from '../../lib/models/profile-schema.js'
 import { buttonRow, v2Container, v2Payload } from '../../lib/util/v2.js'
 import { encodeId } from '../../lib/util/component-id.js'
@@ -23,10 +23,7 @@ export const MAX_WISH_PURCHASE = 100
 
 type ShopCtx = Message | ChatInputCommandInteraction | MessageComponentInteraction | ModalSubmitInteraction
 
-export async function isVip(guildId: string, userId: string): Promise<boolean> {
-    const doc = await profileSchema.findOne({ guildId, userId })
-    return Boolean(doc?.vip)
-}
+export { isVip }
 
 /**
  * The silver shop.

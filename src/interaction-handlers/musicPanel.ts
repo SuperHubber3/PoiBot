@@ -51,22 +51,35 @@ export class MusicPanelHandler extends InteractionHandler {
             return
         }
 
-        switch (id.action) {
-            case 'playpause':
-                await queue.player.setPaused(!queue.player.paused)
-                break
-            case 'skip':
-                await queue.skip()
-                break
-            case 'stop':
-                await interaction.deferUpdate().catch(() => {})
-                await queue.destroy()
-                return
-            case 'autoplay':
-                queue.autoplay = !queue.autoplay
-                break
-            default:
-                break
+        try {
+            switch (id.action) {
+                case 'playpause':
+                    await queue.player.setPaused(!queue.player.paused)
+                    break
+                case 'skip':
+                    await queue.skip()
+                    break
+                case 'stop':
+                    await interaction.deferUpdate().catch(() => {})
+                    await queue.destroy()
+                    return
+                case 'autoplay':
+                    queue.autoplay = !queue.autoplay
+                    break
+                default:
+                    break
+            }
+        } catch (error) {
+            // The node can drop mid-session. Without this the throw escapes before
+            // update() and the click dies as "This interaction failed".
+            this.container.logger.warn('[music:panel] control failed', error)
+            await interaction
+                .reply({
+                    content: await resolveKey(interaction, 'common:musicControlFailed'),
+                    flags: MessageFlags.Ephemeral,
+                })
+                .catch(() => {})
+            return
         }
 
         // update() acks and re-renders in one call, so the panel never "fails".

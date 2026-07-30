@@ -20,20 +20,28 @@ export class MigrationCommand extends Command {
         })
     }
 
-    private runMigration() {
-        new AwardSystemService(CommandType.Hug).createSchemaIfDoesntExists()
+    private async runMigration(): Promise<boolean> {
+        try {
+            await new AwardSystemService(CommandType.Hug).createSchemaIfDoesntExists()
+            return true
+        } catch (error) {
+            // Firing this unawaited turned a seed failure into an unhandled
+            // rejection and still reported success to whoever ran it.
+            this.container.logger.error('[migration] award seeding failed', error)
+            return false
+        }
     }
 
-    public override messageRun(message: Message) {
+    public override async messageRun(message: Message) {
         if (!message.guildId || !TEST_GUILDS.includes(message.guildId)) {
             return message.reply('Migration is not available in this server.')
         }
-        this.runMigration()
-        return message.reply('Migration executed!')
+        const ok = await this.runMigration()
+        return message.reply(ok ? 'Migration executed!' : 'Migration failed, check the logs.')
     }
 
-    public override chatInputRun(interaction: ChatInputCommandInteraction) {
-        this.runMigration()
-        return interaction.reply('Migration executed!')
+    public override async chatInputRun(interaction: ChatInputCommandInteraction) {
+        const ok = await this.runMigration()
+        return interaction.reply(ok ? 'Migration executed!' : 'Migration failed, check the logs.')
     }
 }

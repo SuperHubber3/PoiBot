@@ -74,5 +74,5 @@
 	},
 	"birthdayHint": "-# Önce ay, sonra gün seç.",
 	"birthdayPickMonth": "Ay",
-	"birthdayPickDay": "{{month}} ayında gün"
+	"birthdayPickDayRange": "{{month}} {{first}}-{{last}}"
 }

@@ -20,7 +20,6 @@ const counterSchema = new mongoose.Schema({
     bites: [emoteSchema],
     cuddles: [emoteSchema],
     pats: [emoteSchema],
-    smugs: [emoteSchema],
     kisses: [emoteSchema],
 });
 
