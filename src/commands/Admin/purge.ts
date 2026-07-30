@@ -33,15 +33,15 @@ export class PurgeCommand extends Command {
         }
         const amount = Math.min(100, Math.max(1, parsed))
         // bulkDelete works on the channel's most recent messages, and the newest
-        // one is the `poi purge N` invocation itself. Ask for one extra so N real
-        // messages go, and don't count the command message in what we report.
-        const deleted = await (message.channel as TextChannel)
-            .bulkDelete(Math.min(100, amount + 1), true)
-            .catch((error) => {
-                this.container.logger.warn('[purge] bulk delete failed', error)
-                return null
-            })
-        const count = deleted ? Math.max(0, deleted.size - 1) : 0
+        // one is the `poi purge N` invocation itself. Drop that separately rather
+        // than asking for amount + 1: at amount = 100 the extra doesn't fit under
+        // Discord's cap, and only 99 real messages would go.
+        await message.delete().catch(() => null)
+        const deleted = await (message.channel as TextChannel).bulkDelete(amount, true).catch((error) => {
+            this.container.logger.warn('[purge] bulk delete failed', error)
+            return null
+        })
+        const count = deleted?.size ?? 0
         const reply = await sendable(message).send(await resolveKey(message, 'common:purgeSuccess', { count }))
         setTimeout(() => reply.delete().catch(() => {}), 4000)
     }

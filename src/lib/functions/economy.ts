@@ -155,6 +155,40 @@ export const spendSilver = async (guildId: string, userId: string, amount: numbe
     return result.silver ?? 0
 }
 
+/**
+ * Takes up to `amount` silver, never going below zero. Returns what was actually
+ * taken and the balance left behind.
+ *
+ * `spendSilver` refuses outright when the balance is short, which is right for a
+ * purchase but not for an admin debit that should just empty the account. Reading
+ * the balance and then applying it unconditionally would be a race two concurrent
+ * debits could use to drive the balance negative, so each attempt re-reads and
+ * writes under a `$gte` guard, retrying if the balance moved underneath it.
+ */
+export const debitUpTo = async (
+    guildId: string,
+    userId: string,
+    amount: number
+): Promise<{ taken: number; silver: number }> => {
+    if (!Number.isFinite(amount) || amount <= 0) return { taken: 0, silver: await getSilver(guildId, userId) }
+    amount = Math.trunc(amount)
+
+    for (let attempt = 0; attempt < 5; attempt++) {
+        const balance = await getSilver(guildId, userId)
+        const take = Math.min(balance, amount)
+        if (take <= 0) return { taken: 0, silver: balance }
+
+        const result = await profileSchema.findOneAndUpdate(
+            { guildId, userId, silver: { $gte: take } },
+            { $inc: { silver: -take } },
+            { new: true }
+        )
+        if (result) return { taken: take, silver: result.silver ?? 0 }
+    }
+    // Lost five races in a row, so someone else is draining the account anyway.
+    return { taken: 0, silver: await getSilver(guildId, userId) }
+}
+
 /** Atomically applies a named debit once, allowing crash recovery to verify it. */
 export const spendSilverOnce = async (
     guildId: string,

@@ -35,10 +35,13 @@ export class WaifuJumpHandler extends InteractionHandler {
             return
         }
 
-        // The box is free-form, so "2.5" arrives as a finite number. A fractional
-        // page encodes as "1.5" and "." is the component-id tag separator, and a
-        // fractional index reads list[1.5] as undefined — truncate before either.
-        const raw = Number.parseInt(interaction.fields.getTextInputValue('value').trim(), 10)
+        // The box is free-form. Number() rejects the whole value, so "2junk" still
+        // falls through to the current page rather than navigating to 2 the way
+        // parseInt would. Truncating handles "2.5": a fractional page encodes as
+        // "1.5" and "." is the component-id tag separator, and a fractional index
+        // reads list[1.5] as undefined.
+        const entered = Number(interaction.fields.getTextInputValue('value').trim())
+        const raw = Number.isFinite(entered) ? Math.trunc(entered) : Number.NaN
         const [current, tag] = (id.arg ?? '0').split('.')
 
         if (id.cmd === WAIFU_SELL_CMD) {
