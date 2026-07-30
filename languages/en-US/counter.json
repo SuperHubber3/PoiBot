@@ -1,0 +1,78 @@
+{
+	"userNotFound": "User {{user}} not found!",
+	"argumentTooShort": "Argument <user> should be at least 2 characters long!",
+	"counterDescription": "*{{giver}} {{verb}} {{target}}*",
+	"firstCount": "Their first {{singular}} from you!",
+	"countNow": "That's {{count}} {{plural}} now!",
+	"boopFirst": "You gave {{target}} a boop! Their first boop from you!",
+	"boopCount": "You gave {{target}} a boop! That's {{count}} boops now!",
+	"razorNotRecent": "Razor has not spoken recently, so you cannot boop them yet.",
+	"respectsMissing": "<:MomijiStare:1413592241808736376>",
+	"respectsPrompt": "Press 🇫 to pay respects to **{{text}}**",
+	"respectsPaid": "{{user}} has paid their respects.",
+	"respectsEnd": "{{count}} people paid their respects to **{{text}}**",
+	"profileComingSoon": "Coming soon!",
+	"birthdayTitle": "VEry c00l c<:hoshinO:1532059793475506196>mmand",
+	"birthdayField": "Your Birthday",
+	"birthdayNotSet": "No Birthday Set",
+	"birthdaySet": "Saved: **{{date}}**.",
+	"actions": {
+		"bite": {
+			"title": "You gave a bite!",
+			"verb": "bites",
+			"singular": "bite",
+			"plural": "bites"
+		},
+		"boop": {
+			"title": "You gave a boop!",
+			"verb": "boops",
+			"singular": "boop",
+			"plural": "boops"
+		},
+		"cuddle": {
+			"title": "You gave a cuddle!",
+			"verb": "cuddles",
+			"singular": "cuddle",
+			"plural": "cuddles"
+		},
+		"geh": {
+			"description": "{{giver}} asks why {{target}} is so geh!",
+			"verb": "gehs",
+			"singular": "geh",
+			"plural": "gehs"
+		},
+		"hug": {
+			"title": "You gave a hug!",
+			"verb": "hugs",
+			"singular": "hug",
+			"plural": "hugs"
+		},
+		"kiss": {
+			"title": "You gave a kiss!",
+			"verb": "kisses",
+			"singular": "kiss",
+			"plural": "kisses"
+		},
+		"pat": {
+			"title": "You gave a pat!",
+			"verb": "pats",
+			"singular": "pat",
+			"plural": "pats"
+		},
+		"punch": {
+			"title": "You gave a punch!",
+			"verb": "punches",
+			"singular": "punch",
+			"plural": "punches"
+		},
+		"slap": {
+			"title": "You gave a slap!",
+			"verb": "slaps",
+			"singular": "slap",
+			"plural": "slaps"
+		}
+	},
+	"birthdayHint": "-# Pick a month, then a day.",
+	"birthdayPickMonth": "Month",
+	"birthdayPickDay": "Day in {{month}}"
+}

@@ -1,0 +1,136 @@
+server:
+  port: 2333
+  # Keep the node private. For a remote private node, replace this with its
+  # private-interface address; never expose Lavalink directly to the internet.
+  address: 127.0.0.1
+
+lavalink:
+  plugins:
+    # YouTube support (Lavalink v4 removed the built-in YouTube source).
+    - dependency: "dev.lavalink.youtube:youtube-plugin:1.18.2"
+      snapshot: false
+    # Spotify / Apple Music / Deezer link resolution.
+    - dependency: "com.github.topi314.lavasrc:lavasrc-plugin:4.8.3"
+      repository: "https://maven.lavalink.dev/releases"
+      snapshot: false
+    # Unified lyrics API (used by /lyrics; LavaSrc provides the actual sources).
+    - dependency: "com.github.topi314.lavalyrics:lavalyrics-plugin:1.1.0"
+      repository: "https://maven.lavalink.dev/releases"
+      snapshot: false
+
+  server:
+    password: "${LAVALINK_PASSWORD}"
+    sources:
+      # Handled by the youtube-plugin below instead of the deprecated built-in.
+      youtube: false
+      bandcamp: true
+      soundcloud: true
+      twitch: true
+      vimeo: true
+      nico: true
+      http: true
+      local: false
+    filters:
+      volume: true
+      equalizer: true
+      karaoke: true
+      timescale: true
+      tremolo: true
+      vibrato: true
+      distortion: true
+      rotation: true
+      channelMix: true
+      lowPass: true
+
+    # ---- Audio quality knobs (why this sounds better than in-process ffmpeg) ----
+    # Opus encoder quality, 0-10. 10 = best.
+    opusEncodingQuality: 10
+    # Resampler quality when the source sample rate != 48kHz. HIGH avoids artifacts.
+    resamplingQuality: HIGH
+    # JDA-NAS buffer. Larger = more resilient to GC/network hiccups (fewer stutters).
+    bufferDurationMs: 400
+    frameBufferDurationMs: 5000
+    trackStuckThresholdMs: 10000
+    useSeekGhosting: true
+
+    playerUpdateInterval: 5
+    youtubePlaylistLoadLimit: 6
+    youtubeSearchEnabled: true
+    soundcloudSearchEnabled: true
+    gc-warnings: true
+
+plugins:
+  youtube:
+    enabled: true
+    allowSearch: true
+    allowDirectVideoIds: true
+    allowDirectPlaylistIds: true
+    # Sign in with a YouTube account (Premium = higher bitrate audio + far less
+    # throttling). On first start the log prints a code and a link to visit once.
+    #
+    # ⚠️  Google may flag or terminate accounts used this way. YouTube's ToS does not
+    # allow it. Prefer a burner account over your main one. Set enabled:false to
+    # turn this off; playback still works anonymously, just at lower quality.
+    oauth:
+      enabled: false
+      # After the first successful login, copy the refresh token Lavalink logs to
+      # YOUTUBE_REFRESH_TOKEN in .env so it never asks again.
+      refreshToken: "${YOUTUBE_REFRESH_TOKEN:}"
+      skipInitialization: false
+    # Multiple InnerTube clients: if one fails to resolve/stream, the next is tried.
+    # This is what fixes the "some audios have issues" problem.
+    # Order matters: the first client that can serve a track wins.
+    # TV is the only OAuth-capable client, so it goes first: when OAuth is
+    # authorised this is what delivers the higher-bitrate (Premium) stream.
+    # The rest are anonymous fallbacks if TV fails or OAuth is off.
+    clients:
+      - TV
+      - MUSIC
+      - ANDROID_MUSIC
+      - ANDROID_VR
+      - WEB
+      - WEBEMBEDDED
+
+  lavasrc:
+    # ytmsearch first: YouTube's plain web-search endpoint currently returns empty
+    # results, while YouTube Music search works reliably.
+    providers:
+      - "ytmsearch:\"%ISRC%\""
+      - "ytmsearch:%QUERY%"
+      - "ytsearch:%QUERY%"
+      - "scsearch:%QUERY%"
+    sources:
+      # Spotify resolves METADATA only. Its audio is DRM'd and can never be
+      # streamed, so matching tracks are played from YouTube. Set spotify: true
+      # once SPOTIFY_CLIENT_ID/SECRET are in .env (a free API app is enough).
+      spotify: false
+      applemusic: false
+      deezer: false
+      yandexmusic: false
+      flowerytts: false
+      youtube: true
+    # Lyrics providers for the LavaLyrics plugin (/lyrics), tried in order.
+    lyricsSources:
+      spotify: true
+      deezer: false
+      youtube: true
+      yandexmusic: false
+    spotify:
+      clientId: "${SPOTIFY_CLIENT_ID:}"
+      clientSecret: "${SPOTIFY_CLIENT_SECRET:}"
+      countryCode: "US"
+
+metrics:
+  prometheus:
+    enabled: false
+
+logging:
+  level:
+    root: INFO
+    lavalink: INFO
+  file:
+    path: ./logs/
+  logback:
+    rollingpolicy:
+      max-history: 7
+      max-file-size: 25MB

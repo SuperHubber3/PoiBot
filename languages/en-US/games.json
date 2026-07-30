@@ -1,0 +1,194 @@
+{
+	"blackjack": {
+		"invalidBet": "Enter a valid bet!",
+		"betClamped": "Your bet was capped at **{{amount}}** silver.",
+		"notEnoughSilver": "You don't have enough silver!",
+		"hit": "Hit",
+		"stand": "Stand",
+		"board": "## 🃏 Blackjack\n**Your hand:** {{player}} ({{playerValue}})\n**Dealer:** {{dealer}}{{result}}",
+		"resultBust": "💥 Bust! You lost **{{amount}}** silver.",
+		"resultBlackjack": "✨ Blackjack! You win **{{amount}}** silver.",
+		"resultWin": "🎉 You win **{{amount}}** silver!",
+		"resultPush": "🤝 It's a push.",
+		"resultLose": "😔 You lost **{{amount}}** silver.",
+		"double": "Double ({{amount}})",
+		"notEnoughToDouble": "You don't have enough silver to double."
+	},
+	"fish": {
+		"cooldown": "🎣 You're fishing too fast! Try again in about {{minutes}} minute(s).",
+		"tripTitle": "## {{user}}'s Fishing Trip",
+		"nothing": "## Nothing but seaweed!\nBetter luck next time!",
+		"caughtTitle": "## 🎣 You caught {{count}} fish!",
+		"caughtLine": "{{emoji}} **{{rarity}} Fish**, {{length}}cm ({{price}} silver)",
+		"total": "💰 **Total:** {{total}} silver\n🏦 **Balance:** {{balance}} silver",
+		"rarities": {
+			"common": "Common",
+			"uncommon": "Uncommon",
+			"rare": "Rare",
+			"epic": "Epic",
+			"legendary": "Legendary",
+			"mythic": "Mythic"
+		}
+	},
+	"mug": {
+		"title": "## (1) {{member}} ⚔ {{target}} (0)",
+		"bad": {
+			"0": "🔪 {{user}} catches you trying to steal their wallet and stabs you.",
+			"count": "1"
+		},
+		"neutral": {
+			"0": "⛔ No bobux lol",
+			"count": "1"
+		},
+		"good": {
+			"0": "💰 When {{user}} gets out of their car to go shopping, you slip in and steal all their money.",
+			"count": "1"
+		}
+	},
+	"steal": {
+		"needSilver": "You need at least {{cost}} silver to attempt a heist!",
+		"prompt": "This command's success chance is {{chance}}%.. Or is it?\nAre you sure? (costs {{cost}} silver)",
+		"cancelled": "You coward >;)",
+		"caught": "💀 You got caught! You lost **everything**.\n-# Tip: `/insurance` would have saved you.",
+		"stageTrying": "Trying to steal...",
+		"stagePackets": "Sending Packets..",
+		"stageTraffic": "Unusual Traffic Detected!\nYou need to confirm you are human.",
+		"stageHuman": "Are You Human? 🤖",
+		"smallWin": "Success! A 19 dollar Fortnite card has been transferred to your account!\nYour balance: {{balance}}",
+		"bigWin": "Success! {{amount}} silver has been transferred to your account!\nYour balance: {{balance}}",
+		"caughtInsured": "🛡️ You got caught, but your **insurance** covered it. **{{amount}}** silver saved, and the policy is now spent.",
+		"humanClaimed": "🤖 Verification failed: a real human would have given up by now.\nThe heist is over. Your silver is not coming back.",
+		"humanDenied": "🤖 You admitted it. Honest of you.\nThe heist is over anyway. Better luck next time."
+	},
+	"story": {
+		"completed": "You've already completed this month's story! Come back next month.",
+		"unknownOrCompleted": "Unknown task, or you already completed the task.",
+		"placeholder": "Your choice...",
+		"storyTitle": "## 📖 {{title}}",
+		"timeout": "The story timed out.",
+		"doneAck": "Task completed!",
+		"branches": {
+			"akyk": {
+				"title": "The anime girl lost her bed",
+				"prompt": "You can't sleep tonight because anime girls are stuck in your head. Then you think about taking the pills, but just as you reach for them, someone knocks on your door. At first you think you heard wrong, but when the knocking comes again, you snap back to yourself. You open the door and an anime girl appears, suddenly hugging you. In shock, you jump back, and she says:\n- U-um {{user}}, I lost my bed. Could I sleep with you?\nThat is when you remember you were about to take the pills.",
+				"choices": {
+					"hap": "Take the pills",
+					"yatak": "Share the bed"
+				},
+				"endings": {
+					"hap": "You get so scared of the anime girl that you try to swallow the pill without water. It gets stuck in your throat and you die.\n**~THE END~**",
+					"yatak": "Anime Girl:\n- U-um, thank you {{user}}. I found this on the floor and thought it might help you :blush:\nYou gained {{xp}} XP and {{silver}} silver.\n**~THE END~**"
+				}
+			},
+			"dykt": {
+				"title": "Save the world",
+				"prompt": "You're playing Call Of Duty™ while listening to Spotify™ in the background, but one question is eating away at you:\n**Ceg or Jagged?**",
+				"choices": {
+					"ceg": "Ceg",
+					"jagged": "Jagged"
+				},
+				"endings": {
+					"jagged": "Sure bro, Jagged.\n**~THE END~**",
+					"ceg": "Then you ask yourself how you ever could have thought it was Jagged in the first place. Meanwhile, you've reached round 50 in Call Of Duty. The doorbell rings, and nobody else is home, so you pause the game and go open the door while grumbling. When you open it, you see Ceg and freeze. Ceg says:\n- {{user}}, thanks for not joining the idiots who call me Jagged. I brought these for you.\nYou gained {{xp}} XP and {{silver}} silver.\n**~THE END~**"
+				}
+			},
+			"badm": {
+				"title": "A Man",
+				"prompt": "One day while walking down the road, a man appears and says:\n- {{user}}, do you think anime girls are real?",
+				"choices": {
+					"evet": "Yes",
+					"hayir": "No"
+				},
+				"endings": {
+					"evet": "At that moment the man turns into an anime girl and cheerfully eats your insides 🤗.\n**~THE END~**",
+					"hayir": "tHaNk YoU fOr YoUr CoOpErAtIoN 👽.\nYou gained {{xp}} XP and {{silver}} silver.\n**~tHe EnD???~**"
+				}
+			},
+			"agac": {
+				"title": "Tree",
+				"prompt": "One day while walking down the road, you see a man in a tree. The man says:\n- {{user}}, do you think I should come down from this tree?",
+				"choices": {
+					"evet": "Yes",
+					"hayir": "No"
+				},
+				"endings": {
+					"evet": "The man climbs down from the tree and ruins your day in a very aggressive way 🤗.\n**~THE END~**",
+					"hayir": "The man throws you a box and tells you to open it when you get home. You open it at home and find 420 bobux inside 🥳.\nYou gained {{xp}} XP and {{silver}} silver.\n**~THE END~**"
+				}
+			},
+			"gank": {
+				"title": "Mission: Anime Girls",
+				"prompt": "You leave the university entrance exam happy because the questions were easy. On the way home, you wonder what you'll do once you get back. Then you remember your promise to play Black Ops 3 Zombies with canmertgaymingtr. When you get home and press the power button on your computer, the doorbell rings, and as usual, nobody else can answer it. You open the door and see three anime girls. You can't believe your eyes, so you go wash your face. When you come back, they are still there. One of them says:\n- {{user}}, we know you were going to play with canmertgamingtr, but somehow all three of us lost our computers at the same time. Could we play next to you?",
+				"choices": {
+					"evet": "Of course, anime girl",
+					"hayir": "How can you dumb anime girls lose your computers?"
+				},
+				"endings": {
+					"evet": "You invite the anime girls inside and play games with them. At night, they say they lost their beds too and want to sleep next to you. Since you're a virgin, you cannot pass up the chance. While you sleep, the anime girls quietly gather, mutilate you, and leave laughing 🤗.\n**~THE END~**",
+					"hayir": "You tell them to get lost, and they accept it. They come inside anyway and you all have a wild time. Later the anime girls say they may be addicted and cannot wait for next time 😉, then leave. You happily go to your computer and find a box with a note inside:\n- {{user}}, I hope you liked my gift. Thank you for choosing me instead of the anime girls.\nWith love, canmergaymingtr\nYou gained {{xp}} XP and {{silver}} silver.\n**~THE END~**"
+				}
+			}
+		},
+		"aiTitle": "📖 Story Time",
+		"rewardLine": "🎁 You earned **{{xp}} XP** and **{{silver}} silver**!",
+		"noReward": "No reward this time… come back next month!",
+		"onCooldown": "You already played today's story! Come back tomorrow."
+	},
+	"tycoon": {
+		"title": "🏭 Tycoon Simulator 2024",
+		"views": {
+			"home": "Your factory earns points on its own. Spend silver on upgrades to earn faster, then convert points back into silver.",
+			"upgrades": "Pick an upgrade to look at.",
+			"speed": "Speed shortens the idle interval, so ticks come more often.",
+			"multiply": "Multiplier increases how many points each tick is worth.",
+			"convert": "Trade points for silver. Bigger tiers pay more per point:",
+			"done": "Done."
+		},
+		"buttons": {
+			"home": "Home",
+			"upgrades": "Upgrades",
+			"convert": "Convert",
+			"speed": "Speed",
+			"multiply": "Multiplier",
+			"upgradeFor": "Upgrade ({{cost}} 🪙)"
+		},
+		"maxLevel": "You reached the max level!",
+		"retry": "That level changed while you were buying it. Your silver was refunded; try again.",
+		"insufficientSilver": "Insufficient silver.",
+		"insufficientPoints": "Insufficient points.",
+		"speedSuccess": "Success! Your speed upgrade level is now {{level}}.",
+		"multiplySuccess": "Success! Your multiplier is now {{level}}.",
+		"convertSuccess": "Success! You have {{silver}} silver now.",
+		"statsBalances": "**Points:** {{points}} · **Silver:** {{silver}} 🪙\n**Rate:** about {{rate}} points/min",
+		"statsSpeed": "**Speed:** {{speed}}/{{speedMax}}. Next level costs **{{speedCost}}** 🪙",
+		"statsMultiply": "**Multiplier:** {{multiply}}/{{multiplyMax}}. Next level costs **{{multiplyCost}}** 🪙",
+		"statsUpgrades": "**Speed:** {{speed}}/{{speedMax}} · **Multiplier:** {{multiply}}/{{multiplyMax}}"
+	},
+	"gacha": {
+		"genshinTitle": "💫 Genshin Impact Wishes",
+		"blueArchiveTitle": "💫 Blue Archive Wishes",
+		"usage": "Usage: `{{command}} <standart|premium|limited> <count>` (count: 1–8).",
+		"vipOnly": "👑 The premium banner is VIP-only. Buy VIP from `/shop` first.",
+		"notEnoughWishes": "You need **{{needed}}** wish tokens but have **{{wishes}}**. Buy more with `/shop`.",
+		"emptyBanner": "That banner has no available characters.",
+		"summary": "**{{banner}} banner** · {{count}} pull(s) · **{{wishes}}** wishes left",
+		"resultLine": "{{index}}. **{{name}}** · {{stars}} · C{{constellation}}{{payout}}",
+		"maxPayout": " · Already C6: **{{reward}} silver** awarded",
+		"allMaxed": "🎉 Every pull hit the constellation-6 payout. Congratulations!",
+		"banners": {
+			"standart": "Standard",
+			"premium": "Premium",
+			"limited": "Limited"
+		},
+		"collectionEmpty": "{{user}} hasn't pulled anything here yet. Buy tokens with `/shop`, then try `/wish` or `/bawish`.",
+		"collectionSummary": "**{{user}}**'s collection: **{{total}}** characters, **{{maxed}}** at C6\n-# Page {{page}} of {{pages}}"
+	},
+	"flip": {
+		"usage": "Usage: `paytoflip <yazı|tura> <stake>`. You win or lose **3x** your stake.",
+		"heads": "yazı",
+		"tails": "tura",
+		"win": "🪙 It landed **{{side}}**. You won **{{amount}}** silver.\nBalance: **{{balance}}**",
+		"lose": "🪙 It landed **{{side}}**. You lost **{{amount}}** silver.\nBalance: **{{balance}}**",
+		"notEnough": "A loss costs **{{risk}}** silver and you only have **{{balance}}**."
+	}
+}

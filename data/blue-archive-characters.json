@@ -1,0 +1,1277 @@
+{
+  "10000": {
+    "name": "Aru",
+    "star": 3,
+    "status": "premium"
+  },
+  "10001": {
+    "name": "Eimi",
+    "star": 3,
+    "status": "premium"
+  },
+  "10002": {
+    "name": "Haruna",
+    "star": 3,
+    "status": "premium"
+  },
+  "10003": {
+    "name": "Hifumi",
+    "star": 3,
+    "status": "premium"
+  },
+  "10004": {
+    "name": "Hina",
+    "star": 3,
+    "status": "premium"
+  },
+  "10005": {
+    "name": "Hoshino",
+    "star": 3,
+    "status": "premium"
+  },
+  "10006": {
+    "name": "Iori",
+    "star": 3,
+    "status": "premium"
+  },
+  "10007": {
+    "name": "Maki",
+    "star": 3,
+    "status": "premium"
+  },
+  "10008": {
+    "name": "Neru",
+    "star": 3,
+    "status": "premium"
+  },
+  "10009": {
+    "name": "Izumi",
+    "star": 3,
+    "status": "premium"
+  },
+  "10010": {
+    "name": "Shiroko",
+    "star": 3,
+    "status": "premium"
+  },
+  "10011": {
+    "name": "Shun",
+    "star": 3,
+    "status": "premium"
+  },
+  "10012": {
+    "name": "Sumire",
+    "star": 3,
+    "status": "premium"
+  },
+  "10013": {
+    "name": "Tsurugi",
+    "star": 3,
+    "status": "premium"
+  },
+  "10014": {
+    "name": "Izuna",
+    "star": 3,
+    "status": "premium"
+  },
+  "10015": {
+    "name": "Aris",
+    "star": 3,
+    "status": "premium"
+  },
+  "10016": {
+    "name": "Midori",
+    "star": 3,
+    "status": "premium"
+  },
+  "10017": {
+    "name": "Cherino",
+    "star": 3,
+    "status": "premium"
+  },
+  "10018": {
+    "name": "Yuzu",
+    "star": 3,
+    "status": "premium"
+  },
+  "10019": {
+    "name": "Azusa",
+    "star": 3,
+    "status": "premium"
+  },
+  "10020": {
+    "name": "Koharu",
+    "star": 3,
+    "status": "premium"
+  },
+  "10021": {
+    "name": "Azusa (Swimsuit)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10022": {
+    "name": "Hina (Swimsuit)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10023": {
+    "name": "Iori (Swimsuit)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10024": {
+    "name": "Shiroko (Cycling)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10025": {
+    "name": "Shun (Small)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10026": {
+    "name": "Neru (Bunny)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10027": {
+    "name": "Karin (Bunny)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10028": {
+    "name": "Asuna (Bunny)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10029": {
+    "name": "Natsu",
+    "star": 3,
+    "status": "premium"
+  },
+  "10030": {
+    "name": "Chinatsu (Hot Spring)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10031": {
+    "name": "Aru (New Year)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10032": {
+    "name": "Mutsuki (New Year)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10033": {
+    "name": "Wakamo",
+    "star": 3,
+    "status": "premium"
+  },
+  "10034": {
+    "name": "Mimori",
+    "star": 3,
+    "status": "premium"
+  },
+  "10035": {
+    "name": "Ui",
+    "star": 3,
+    "status": "premium"
+  },
+  "10036": {
+    "name": "Hinata",
+    "star": 3,
+    "status": "premium"
+  },
+  "10037": {
+    "name": "Marina",
+    "star": 3,
+    "status": "premium"
+  },
+  "10038": {
+    "name": "Miyako",
+    "star": 3,
+    "status": "premium"
+  },
+  "10039": {
+    "name": "Miyu",
+    "star": 3,
+    "status": "premium"
+  },
+  "10040": {
+    "name": "Tsukuyo",
+    "star": 3,
+    "status": "premium"
+  },
+  "10041": {
+    "name": "Misaki",
+    "star": 3,
+    "status": "limited"
+  },
+  "10042": {
+    "name": "Atsuko",
+    "star": 3,
+    "status": "premium"
+  },
+  "10043": {
+    "name": "Wakamo (Swimsuit)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10044": {
+    "name": "Nonomi (Swimsuit)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10045": {
+    "name": "Hoshino (Swimsuit)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10046": {
+    "name": "Izuna (Swimsuit)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10047": {
+    "name": "Chise (Swimsuit)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10048": {
+    "name": "Saori",
+    "star": 3,
+    "status": "premium"
+  },
+  "10049": {
+    "name": "Kazusa",
+    "star": 3,
+    "status": "premium"
+  },
+  "10050": {
+    "name": "Kokona",
+    "star": 3,
+    "status": "premium"
+  },
+  "10051": {
+    "name": "Utaha (Cheer Squad)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10052": {
+    "name": "Noa",
+    "star": 3,
+    "status": "premium"
+  },
+  "10053": {
+    "name": "Yuuka (Track)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10054": {
+    "name": "Mari (Track)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10055": {
+    "name": "Shigure",
+    "star": 3,
+    "status": "premium"
+  },
+  "10056": {
+    "name": "Serina (Christmas)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10057": {
+    "name": "Haruna (New Year)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10058": {
+    "name": "Mine",
+    "star": 3,
+    "status": "premium"
+  },
+  "10059": {
+    "name": "Mika",
+    "star": 3,
+    "status": "premium"
+  },
+  "10060": {
+    "name": "Megu",
+    "star": 3,
+    "status": "premium"
+  },
+  "10061": {
+    "name": "Sakurako",
+    "star": 3,
+    "status": "premium"
+  },
+  "10062": {
+    "name": "Toki",
+    "star": 3,
+    "status": "premium"
+  },
+  "10063": {
+    "name": "Koyuki",
+    "star": 3,
+    "status": "premium"
+  },
+  "10064": {
+    "name": "Kayoko (New Year)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10065": {
+    "name": "Kaho",
+    "star": 3,
+    "status": "premium"
+  },
+  "10066": {
+    "name": "Aris (Maid)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10067": {
+    "name": "Toki (Bunny)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10068": {
+    "name": "Reisa",
+    "star": 3,
+    "status": "premium"
+  },
+  "10069": {
+    "name": "Rumi",
+    "star": 3,
+    "status": "premium"
+  },
+  "10070": {
+    "name": "Mina",
+    "star": 3,
+    "status": "premium"
+  },
+  "10071": {
+    "name": "Miyako (Swimsuit)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10072": {
+    "name": "Saki (Swimsuit)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10073": {
+    "name": "Ui (Swimsuit)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10074": {
+    "name": "Hanako (Swimsuit)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10075": {
+    "name": "Meru",
+    "star": 3,
+    "status": "premium"
+  },
+  "10076": {
+    "name": "Kotori (Cheer Squad)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10077": {
+    "name": "Ichika",
+    "star": 3,
+    "status": "premium"
+  },
+  "10078": {
+    "name": "Kasumi",
+    "star": 3,
+    "status": "premium"
+  },
+  "10079": {
+    "name": "Misaka Mikoto",
+    "star": 3,
+    "status": "premium"
+  },
+  "10080": {
+    "name": "Shokuhou Misaki",
+    "star": 3,
+    "status": "premium"
+  },
+  "10081": {
+    "name": "Yukari",
+    "star": 3,
+    "status": "premium"
+  },
+  "10082": {
+    "name": "Renge",
+    "star": 3,
+    "status": "premium"
+  },
+  "10083": {
+    "name": "Kikyou",
+    "star": 3,
+    "status": "premium"
+  },
+  "10084": {
+    "name": "Kotama (Camp)",
+    "star": 3,
+    "status": "limited"
+  },
+  "10085": {
+    "name": "Hare (Camp)",
+    "star": 3,
+    "status": "limited"
+  },
+  "10086": {
+    "name": "Hina (Dress)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10087": {
+    "name": "Ako (Dress)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10088": {
+    "name": "Kayoko (Dress)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10089": {
+    "name": "Aru (Dress)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10090": {
+    "name": "Umika",
+    "star": 3,
+    "status": "premium"
+  },
+  "10091": {
+    "name": "Kazusa (Band)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10092": {
+    "name": "Yoshimi (Band)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10093": {
+    "name": "Kirara",
+    "star": 3,
+    "status": "premium"
+  },
+  "10094": {
+    "name": "Momoi (Maid)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10095": {
+    "name": "Midori (Maid)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10096": {
+    "name": "Kanna (Swimsuit)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10097": {
+    "name": "Moe (Swimsuit)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10098": {
+    "name": "Hoshino (Armed)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10100": {
+    "name": "Shiroko*Terror",
+    "star": 3,
+    "status": "premium"
+  },
+  "10101": {
+    "name": "Saori (Swimsuit)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10102": {
+    "name": "Hiyori (Swimsuit)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10103": {
+    "name": "Marina (Qipao)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10104": {
+    "name": "Reijo",
+    "star": 3,
+    "status": "premium"
+  },
+  "10105": {
+    "name": "Mari (Pop Idol)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10106": {
+    "name": "Sakurako (Pop Idol)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10107": {
+    "name": "Chiaki",
+    "star": 3,
+    "status": "premium"
+  },
+  "10108": {
+    "name": "Yuuka (Pajamas)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10109": {
+    "name": "Noa (Pajamas)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10110": {
+    "name": "Seia",
+    "star": 3,
+    "status": "premium"
+  },
+  "10111": {
+    "name": "Neru (School)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10112": {
+    "name": "Asuna (School)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10113": {
+    "name": "Sena (Casual)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10114": {
+    "name": "Juri (Part-Timer)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10115": {
+    "name": "Rei",
+    "star": 3,
+    "status": "premium"
+  },
+  "10116": {
+    "name": "Saori (Dress)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10117": {
+    "name": "Hikari",
+    "star": 3,
+    "status": "premium"
+  },
+  "10118": {
+    "name": "Nozomi",
+    "star": 3,
+    "status": "premium"
+  },
+  "10119": {
+    "name": "Nagusa",
+    "star": 3,
+    "status": "premium"
+  },
+  "10120": {
+    "name": "Natsu (Band)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10121": {
+    "name": "Yukari (Swimsuit)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10122": {
+    "name": "Mika (Swimsuit)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10123": {
+    "name": "Seia (Swimsuit)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10124": {
+    "name": "Hasumi (Swimsuit)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10125": {
+    "name": "Eri",
+    "star": 3,
+    "status": "premium"
+  },
+  "10126": {
+    "name": "Kanoe",
+    "star": 3,
+    "status": "premium"
+  },
+  "10127": {
+    "name": "Miyo",
+    "star": 3,
+    "status": "premium"
+  },
+  "10128": {
+    "name": "Fuyu",
+    "star": 3,
+    "status": "premium"
+  },
+  "10129": {
+    "name": "Suzumi (Magical)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10130": {
+    "name": "Subaru",
+    "star": 3,
+    "status": "premium"
+  },
+  "10131": {
+    "name": "Takane",
+    "star": 3,
+    "status": "premium"
+  },
+  "10132": {
+    "name": "Tsukuyo (Dress)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10133": {
+    "name": "Rio (Armed)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10134": {
+    "name": "Aris (Armed)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10135": {
+    "name": "Kei",
+    "star": 3,
+    "status": "premium"
+  },
+  "10136": {
+    "name": "Eimi (Armed)",
+    "star": 3,
+    "status": "premium"
+  },
+  "10137": {
+    "name": "Konoka",
+    "star": 3,
+    "status": "limited"
+  },
+  "10138": {
+    "name": "Rena",
+    "star": 3,
+    "status": "limited"
+  },
+  "13000": {
+    "name": "Akane",
+    "star": 2,
+    "status": "standart"
+  },
+  "13001": {
+    "name": "Chise",
+    "star": 2,
+    "status": "standart"
+  },
+  "13002": {
+    "name": "Akari",
+    "star": 2,
+    "status": "standart"
+  },
+  "13003": {
+    "name": "Hasumi",
+    "star": 2,
+    "status": "standart"
+  },
+  "13004": {
+    "name": "Nonomi",
+    "star": 2,
+    "status": "standart"
+  },
+  "13005": {
+    "name": "Kayoko",
+    "star": 2,
+    "status": "standart"
+  },
+  "13006": {
+    "name": "Mutsuki",
+    "star": 2,
+    "status": "standart"
+  },
+  "13007": {
+    "name": "Junko",
+    "star": 2,
+    "status": "standart"
+  },
+  "13008": {
+    "name": "Serika",
+    "star": 2,
+    "status": "standart"
+  },
+  "13009": {
+    "name": "Tsubaki",
+    "star": 2,
+    "status": "standart"
+  },
+  "13010": {
+    "name": "Yuuka",
+    "star": 2,
+    "status": "standart"
+  },
+  "13011": {
+    "name": "Momoi",
+    "star": 2,
+    "status": "standart"
+  },
+  "13012": {
+    "name": "Kirino",
+    "star": 2,
+    "status": "standart"
+  },
+  "13013": {
+    "name": "Momiji",
+    "star": 2,
+    "status": "standart"
+  },
+  "13014": {
+    "name": "Renge (Swimsuit)",
+    "star": 2,
+    "status": "standart"
+  },
+  "16000": {
+    "name": "Haruka",
+    "star": 1,
+    "status": "standart"
+  },
+  "16001": {
+    "name": "Asuna",
+    "star": 1,
+    "status": "standart"
+  },
+  "16002": {
+    "name": "Kotori",
+    "star": 1,
+    "status": "standart"
+  },
+  "16003": {
+    "name": "Suzumi",
+    "star": 1,
+    "status": "standart"
+  },
+  "16004": {
+    "name": "Pina",
+    "star": 1,
+    "status": "standart"
+  },
+  "16005": {
+    "name": "Tsurugi (Swimsuit)",
+    "star": 1,
+    "status": "standart"
+  },
+  "16006": {
+    "name": "Izumi (Swimsuit)",
+    "star": 1,
+    "status": "standart"
+  },
+  "16007": {
+    "name": "Tomoe",
+    "star": 1,
+    "status": "standart"
+  },
+  "16008": {
+    "name": "Fubuki",
+    "star": 1,
+    "status": "standart"
+  },
+  "16009": {
+    "name": "Michiru",
+    "star": 1,
+    "status": "standart"
+  },
+  "16010": {
+    "name": "Hibiki (Cheer Squad)",
+    "star": 1,
+    "status": "standart"
+  },
+  "16011": {
+    "name": "Hasumi (Track)",
+    "star": 1,
+    "status": "standart"
+  },
+  "16012": {
+    "name": "Junko (New Year)",
+    "star": 1,
+    "status": "standart"
+  },
+  "16013": {
+    "name": "Koharu (Swimsuit)",
+    "star": 1,
+    "status": "standart"
+  },
+  "16014": {
+    "name": "Ibuki",
+    "star": 1,
+    "status": "standart"
+  },
+  "16015": {
+    "name": "Airi (Band)",
+    "star": 1,
+    "status": "standart"
+  },
+  "16016": {
+    "name": "Mine (Pop Idol)",
+    "star": 1,
+    "status": "standart"
+  },
+  "16017": {
+    "name": "Aoba",
+    "star": 1,
+    "status": "standart"
+  },
+  "16018": {
+    "name": "Rabu",
+    "star": 1,
+    "status": "standart"
+  },
+  "16019": {
+    "name": "Toki (Armed)",
+    "star": 1,
+    "status": "standart"
+  },
+  "20000": {
+    "name": "Hibiki",
+    "star": 3,
+    "status": "premium"
+  },
+  "20001": {
+    "name": "Karin",
+    "star": 3,
+    "status": "premium"
+  },
+  "20002": {
+    "name": "Saya",
+    "star": 3,
+    "status": "premium"
+  },
+  "20003": {
+    "name": "Mashiro",
+    "star": 3,
+    "status": "premium"
+  },
+  "20004": {
+    "name": "Mashiro (Swimsuit)",
+    "star": 3,
+    "status": "premium"
+  },
+  "20005": {
+    "name": "Hifumi (Swimsuit)",
+    "star": 3,
+    "status": "premium"
+  },
+  "20006": {
+    "name": "Saya (Casual)",
+    "star": 3,
+    "status": "premium"
+  },
+  "20007": {
+    "name": "Hatsune Miku",
+    "star": 3,
+    "status": "premium"
+  },
+  "20008": {
+    "name": "Ako",
+    "star": 3,
+    "status": "premium"
+  },
+  "20009": {
+    "name": "Cherino (Hot Spring)",
+    "star": 3,
+    "status": "premium"
+  },
+  "20010": {
+    "name": "Nodoka (Hot Spring)",
+    "star": 3,
+    "status": "premium"
+  },
+  "20011": {
+    "name": "Serika (New Year)",
+    "star": 3,
+    "status": "premium"
+  },
+  "20012": {
+    "name": "Sena",
+    "star": 3,
+    "status": "premium"
+  },
+  "20013": {
+    "name": "Chihiro",
+    "star": 3,
+    "status": "premium"
+  },
+  "20014": {
+    "name": "Saki",
+    "star": 3,
+    "status": "premium"
+  },
+  "20015": {
+    "name": "Kaede",
+    "star": 3,
+    "status": "premium"
+  },
+  "20016": {
+    "name": "Iroha",
+    "star": 3,
+    "status": "premium"
+  },
+  "20017": {
+    "name": "Hiyori",
+    "star": 3,
+    "status": "premium"
+  },
+  "20018": {
+    "name": "Moe",
+    "star": 3,
+    "status": "premium"
+  },
+  "20019": {
+    "name": "Akane (Bunny)",
+    "star": 3,
+    "status": "premium"
+  },
+  "20020": {
+    "name": "Himari",
+    "star": 3,
+    "status": "premium"
+  },
+  "20021": {
+    "name": "Hanae (Christmas)",
+    "star": 3,
+    "status": "premium"
+  },
+  "20022": {
+    "name": "Fuuka (New Year)",
+    "star": 3,
+    "status": "premium"
+  },
+  "20023": {
+    "name": "Kanna",
+    "star": 3,
+    "status": "premium"
+  },
+  "20024": {
+    "name": "Nagisa",
+    "star": 3,
+    "status": "premium"
+  },
+  "20025": {
+    "name": "Haruka (New Year)",
+    "star": 3,
+    "status": "premium"
+  },
+  "20026": {
+    "name": "Minori",
+    "star": 3,
+    "status": "premium"
+  },
+  "20027": {
+    "name": "Shiroko (Swimsuit)",
+    "star": 3,
+    "status": "premium"
+  },
+  "20028": {
+    "name": "Hinata (Swimsuit)",
+    "star": 3,
+    "status": "premium"
+  },
+  "20029": {
+    "name": "Mimori (Swimsuit)",
+    "star": 3,
+    "status": "premium"
+  },
+  "20030": {
+    "name": "Haruna (Track)",
+    "star": 3,
+    "status": "premium"
+  },
+  "20031": {
+    "name": "Shigure (Hot Spring)",
+    "star": 3,
+    "status": "premium"
+  },
+  "20032": {
+    "name": "Eimi (Swimsuit)",
+    "star": 3,
+    "status": "premium"
+  },
+  "20033": {
+    "name": "Makoto",
+    "star": 3,
+    "status": "premium"
+  },
+  "20034": {
+    "name": "Akari (New Year)",
+    "star": 3,
+    "status": "premium"
+  },
+  "20035": {
+    "name": "Tsubaki (Guide)",
+    "star": 3,
+    "status": "premium"
+  },
+  "20036": {
+    "name": "Serika (Swimsuit)",
+    "star": 3,
+    "status": "premium"
+  },
+  "20037": {
+    "name": "Fubuki (Swimsuit)",
+    "star": 3,
+    "status": "premium"
+  },
+  "20038": {
+    "name": "Tomoe (Qipao)",
+    "star": 3,
+    "status": "premium"
+  },
+  "20039": {
+    "name": "Kisaki",
+    "star": 3,
+    "status": "premium"
+  },
+  "20040": {
+    "name": "Satsuki",
+    "star": 3,
+    "status": "premium"
+  },
+  "20041": {
+    "name": "Rio",
+    "star": 3,
+    "status": "premium"
+  },
+  "20042": {
+    "name": "Maki (Camp)",
+    "star": 3,
+    "status": "limited"
+  },
+  "20043": {
+    "name": "Izumi (New Year)",
+    "star": 3,
+    "status": "premium"
+  },
+  "20044": {
+    "name": "Sumire (Part-Timer)",
+    "star": 3,
+    "status": "premium"
+  },
+  "20045": {
+    "name": "Pina (Guide)",
+    "star": 3,
+    "status": "premium"
+  },
+  "20046": {
+    "name": "Niya",
+    "star": 3,
+    "status": "premium"
+  },
+  "20047": {
+    "name": "Kikyou (Swimsuit)",
+    "star": 3,
+    "status": "premium"
+  },
+  "20048": {
+    "name": "Nagisa (Swimsuit)",
+    "star": 3,
+    "status": "premium"
+  },
+  "20049": {
+    "name": "Misaki (Swimsuit)",
+    "star": 3,
+    "status": "premium"
+  },
+  "20050": {
+    "name": "Ritsu",
+    "star": 3,
+    "status": "premium"
+  },
+  "20051": {
+    "name": "Reisa (Magical)",
+    "star": 3,
+    "status": "premium"
+  },
+  "20052": {
+    "name": "Yakumo",
+    "star": 3,
+    "status": "premium"
+  },
+  "20053": {
+    "name": "Michiru (Dress)",
+    "star": 3,
+    "status": "premium"
+  },
+  "20054": {
+    "name": "Himari (Armed)",
+    "star": 3,
+    "status": "premium"
+  },
+  "20055": {
+    "name": "Yuzu (Armed)",
+    "star": 3,
+    "status": "premium"
+  },
+  "20056": {
+    "name": "Koyuki (Pajamas)",
+    "star": 3,
+    "status": "premium"
+  },
+  "23000": {
+    "name": "Airi",
+    "star": 2,
+    "status": "standart"
+  },
+  "23001": {
+    "name": "Fuuka",
+    "star": 2,
+    "status": "standart"
+  },
+  "23002": {
+    "name": "Hanae",
+    "star": 2,
+    "status": "standart"
+  },
+  "23003": {
+    "name": "Hare",
+    "star": 2,
+    "status": "standart"
+  },
+  "23004": {
+    "name": "Utaha",
+    "star": 2,
+    "status": "standart"
+  },
+  "23005": {
+    "name": "Ayane",
+    "star": 2,
+    "status": "standart"
+  },
+  "23006": {
+    "name": "Shizuko",
+    "star": 2,
+    "status": "standart"
+  },
+  "23007": {
+    "name": "Hanako",
+    "star": 2,
+    "status": "standart"
+  },
+  "23008": {
+    "name": "Mari",
+    "star": 2,
+    "status": "standart"
+  },
+  "26000": {
+    "name": "Chinatsu",
+    "star": 1,
+    "status": "standart"
+  },
+  "26001": {
+    "name": "Kotama",
+    "star": 1,
+    "status": "standart"
+  },
+  "26002": {
+    "name": "Juri",
+    "star": 1,
+    "status": "standart"
+  },
+  "26003": {
+    "name": "Serina",
+    "star": 1,
+    "status": "standart"
+  },
+  "26004": {
+    "name": "Shimiko",
+    "star": 1,
+    "status": "standart"
+  },
+  "26005": {
+    "name": "Yoshimi",
+    "star": 1,
+    "status": "standart"
+  },
+  "26006": {
+    "name": "Nodoka",
+    "star": 1,
+    "status": "standart"
+  },
+  "26007": {
+    "name": "Ayane (Swimsuit)",
+    "star": 1,
+    "status": "standart"
+  },
+  "26008": {
+    "name": "Shizuko (Swimsuit)",
+    "star": 1,
+    "status": "standart"
+  },
+  "26009": {
+    "name": "Yuzu (Maid)",
+    "star": 1,
+    "status": "standart"
+  },
+  "26010": {
+    "name": "Miyu (Swimsuit)",
+    "star": 1,
+    "status": "standart"
+  },
+  "26011": {
+    "name": "Saten Ruiko",
+    "star": 1,
+    "status": "standart"
+  },
+  "26012": {
+    "name": "Kirino (Swimsuit)",
+    "star": 1,
+    "status": "standart"
+  },
+  "26013": {
+    "name": "Atsuko (Swimsuit)",
+    "star": 1,
+    "status": "standart"
+  },
+  "26014": {
+    "name": "Karin (School)",
+    "star": 1,
+    "status": "standart"
+  },
+  "26015": {
+    "name": "Ichika (Swimsuit)",
+    "star": 1,
+    "status": "standart"
+  }
+}

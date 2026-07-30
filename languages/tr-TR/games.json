@@ -1,0 +1,194 @@
+{
+	"blackjack": {
+		"invalidBet": "Geçerli bir bahis gir!",
+		"betClamped": "Bahsin **{{amount}}** gümüş ile sınırlandırıldı.",
+		"notEnoughSilver": "Yeterli gümüşün yok!",
+		"hit": "Kart çek",
+		"stand": "Kal",
+		"board": "## 🃏 Blackjack\n**Elin:** {{player}} ({{playerValue}})\n**Krupiye:** {{dealer}}{{result}}",
+		"resultBust": "💥 Battın! **{{amount}}** gümüş kaybettin.",
+		"resultBlackjack": "✨ Blackjack! **{{amount}}** gümüş kazandın.",
+		"resultWin": "🎉 **{{amount}}** gümüş kazandın!",
+		"resultPush": "🤝 Berabere.",
+		"resultLose": "😔 **{{amount}}** gümüş kaybettin.",
+		"double": "Katla ({{amount}})",
+		"notEnoughToDouble": "Katlamak için yeterli gümüşün yok."
+	},
+	"fish": {
+		"cooldown": "🎣 Çok hızlı balık tutuyorsun! Yaklaşık {{minutes}} dakika sonra tekrar dene.",
+		"tripTitle": "## {{user}} için Balık Gezisi",
+		"nothing": "## Yosundan başka bir şey yok!\nBir dahaki sefere artık!",
+		"caughtTitle": "## 🎣 {{count}} balık tuttun!",
+		"caughtLine": "{{emoji}} **{{rarity}} Balık**, {{length}}cm ({{price}} gümüş)",
+		"total": "💰 **Toplam:** {{total}} gümüş\n🏦 **Bakiye:** {{balance}} gümüş",
+		"rarities": {
+			"common": "Yaygın",
+			"uncommon": "Sıradışı",
+			"rare": "Nadir",
+			"epic": "Epik",
+			"legendary": "Efsanevi",
+			"mythic": "Mitik"
+		}
+	},
+	"mug": {
+		"title": "## (1) {{member}} ⚔ {{target}} (0)",
+		"bad": {
+			"0": "🔪 {{user}} cüzdanını çalmaya çalıştığını fark eder ve seni bıçaklar.",
+			"count": "1"
+		},
+		"neutral": {
+			"0": "⛔ Bobux yok lol",
+			"count": "1"
+		},
+		"good": {
+			"0": "💰 {{user}} alışveriş yapmak için arabasından çıkınca arabasına girip tüm parasını çalıyorsun.",
+			"count": "1"
+		}
+	},
+	"steal": {
+		"needSilver": "Soyguna kalkışmak için en az {{cost}} gümüşün olmalı!",
+		"prompt": "Bu komutun başarı şansı %{{chance}}.. Yoksa değil mi?\nEmin misin? ({{cost}} gümüş tutar)",
+		"cancelled": "Korktun tabii >;)",
+		"caught": "💀 Yakalandın! **Her şeyini** kaybettin.\n-# İpucu: `/insurance` seni kurtarabilirdi.",
+		"stageTrying": "Çalmaya çalışılıyor...",
+		"stagePackets": "Paketler gönderiliyor..",
+		"stageTraffic": "Olağan Dışı Trafik Algılandı!\nİnsan olduğunu doğrulaman gerekiyor.",
+		"stageHuman": "İnsan mısın? 🤖",
+		"smallWin": "Başarılı! 19 dolarlık Fortnite kartı hesabınıza aktarılmıştır!\nBakiyeniz: {{balance}}",
+		"bigWin": "Başarılı! {{amount}} gümüş hesabınıza aktarılmıştır!\nBakiyeniz: {{balance}}",
+		"caughtInsured": "🛡️ Yakalandın ama **sigortan** karşıladı. **{{amount}}** gümüş kurtuldu, poliçe de bitti.",
+		"humanClaimed": "🤖 Doğrulama başarısız: gerçek bir insan çoktan pes ederdi.\nSoygun bitti. Gümüşün geri gelmiyor.",
+		"humanDenied": "🤖 İtiraf ettin. Dürüstsün.\nYine de soygun bitti. Bir dahakine bol şans."
+	},
+	"story": {
+		"completed": "Bu ayki hikayeyi zaten tamamladın! Gelecek ay tekrar gel.",
+		"unknownOrCompleted": "Bilinmeyen görev ya da görevi zaten tamamladın.",
+		"placeholder": "Kararın...",
+		"storyTitle": "## 📖 {{title}}",
+		"timeout": "Hikaye zaman aşımına uğradı.",
+		"doneAck": "Görevi tamamladınız!",
+		"branches": {
+			"akyk": {
+				"title": "Anime kızı yatağını kaybetmiş",
+				"prompt": "Bu gece uyuyamıyorsun çünkü aklından anime kızları geçiyor. Daha sonra aklına hapları almak geliyor ama tam haplara uzanırken birisi kapını tıklatıyor. İlk başta yanlış duyduğunu sanıyorsun ancak kapın bir daha tıklatılınca kendine geliyorsun. Kapıyı açtığında karşına bir anime kızı çıkıyor ve birden sana sarılıyor. Olayın şokuyla kendini geriye atıyorsun ve anime kızı sana şunları söylüyor:\n- Ş-şey {{user}}, yatağımı kaybettim de acaba seninle yatabilir miyim?\nİşte o anda aklına hapları almak üzere olduğun geliyor.",
+				"choices": {
+					"hap": "Hapları al",
+					"yatak": "Yat"
+				},
+				"endings": {
+					"hap": "Anime kızından o kadar korkarsın ki elindeki hapı susuz yutmaya çalışırsın ve hap boğazına takılınca ölürsün.\n**~SON~**",
+					"yatak": "Anime Kızı:\n- Ş-şey teşekkür ederim {{user}}, yerde bunu buldum ve işine yarayabileceğini düşündüm :blush:\n{{xp}} XP ve {{silver}} gümüş kazandın.\n**~SON~**"
+				}
+			},
+			"dykt": {
+				"title": "Dünyayı kurtar",
+				"prompt": "Call Of Duty™ oynarken arkada Spotify™ dinliyorsun ama aklındaki şu soru seni yiyip bitiriyor:\n**Ceg mi Jagged mı?**",
+				"choices": {
+					"ceg": "Ceg",
+					"jagged": "Jagged"
+				},
+				"endings": {
+					"jagged": "Tabii moruk Jagged.\n**~SON~**",
+					"ceg": "Sonra kendi kendine zaten en başta nasıl Jagged olabileceğini düşündüm dersin. Bu arada Call Of Duty'de round 50'ye gelmişsindir. Ancak kapı çalmış ve evde senden başka kimse yoktur. Sen de oyunu durdurup söylenerek kapıyı açmaya gidersin. Kapıyı açtığında karşında Ceg'i görüp şok olursun. Ceg sana der ki:\n- {{user}}, bana Jagged diyen mallara katılmadığın için teşekkür olarak sana bunları getirdim.\n{{xp}} XP ve {{silver}} gümüş kazandın.\n**~SON~**"
+				}
+			},
+			"badm": {
+				"title": "Bir Adam",
+				"prompt": "Bir gün yolda giderken karşına bir adam çıkar ve sana der ki:\n- {{user}}, sence anime kızları gerçek mi?",
+				"choices": {
+					"evet": "Evet",
+					"hayir": "Hayır"
+				},
+				"endings": {
+					"evet": "İşte o anda adam bir anime kızına dönüşür ve bağırsaklarını çıkarıp güzelce yer 🤗.\n**~SON~**",
+					"hayir": "iŞbİrLiĞiN iÇiN tEşEkKüR eDeRiM 👽.\n{{xp}} XP ve {{silver}} gümüş kazandın.\n**~sOn???~**"
+				}
+			},
+			"agac": {
+				"title": "Ağaç",
+				"prompt": "Bir gün yolda giderken ağaçta bir adam görürsün ve adam sana der ki:\n- {{user}}, sence bu ağaçtan inmeli miyim?",
+				"choices": {
+					"evet": "Evet",
+					"hayir": "Hayır"
+				},
+				"endings": {
+					"evet": "Adam ağaçtan iner ve gününü oldukça saldırgan bir şekilde mahveder 🤗.\n**~SON~**",
+					"hayir": "Adam sana bir kutu fırlatır ve eve gidince açmanı söyler. Eve gidince kutuyu açarsın ve kutunun içinde 420 bobux bulursun 🥳.\n{{xp}} XP ve {{silver}} gümüş kazandın.\n**~SON~**"
+				}
+			},
+			"gank": {
+				"title": "Görevimiz Anime Kızları",
+				"prompt": "Üniversite sınavından çıkmış, soruların kolaylığinden dolayı mutlu olarak eve dönüyorsundur. Bu sırada aklına eve gidince ne yapacağım sorusu gelir. Daha sonra canmertgaymingtr'ye verdiğin Black Ops 3 Zombies oynama sözünü hatırlarsın. Eve ulaşınca bilgisayarın başlatma düğmesine basmanla birlikte kapı çalar ve her zamanki gibi senden başka kapıyı açacak kimse yoktur. Kapıyı açtığında karşında üç tane anime kızı görürsün ve gördüklerine inanamayıp yüzünü yıkamaya gidersin. Döndüğünde anime kızları hala oradadır. İçlerinden bir tanesi sana der ki:\n- {{user}}, canmertgamingtr ile oyun oynayacağını biliyoruz ama ne hikmetse üçümüz de aynı anda bilgisayarlarımızı kaybettik. Acaba senin yanında oynayabilir miyiz?",
+				"choices": {
+					"evet": "Tabii ki olur anime kızı",
+					"hayir": "Aptal anime kızları bilgisayarlarınızı nasıl kaybedebilirsiniz?"
+				},
+				"endings": {
+					"evet": "Anime kızlarını içeri alırsın ve onlarla oyun oynarsın. Gece olduğunda anime kızları yataklarını da kaybettiklerini söyler ve senin yanında yatmak isterler. Tabii sen de virgin olunca bu fırsatı geri çeviremezsin. Anime kızları sen uyurken gizlice toplanıp seni sakatlar ve gülerek orayı terk ederler 🤗.\n**~SON~**",
+					"hayir": "Onlara defolup gitmelerini söylersin ve onlar da bunu kabul eder. İçeriye geçerler ve hep birlikte çılgın bir zaman geçirirsiniz. Daha sonra anime kızları galiba bağımlı olduk bir dahakini sabırsızlıkla bekliyoruz 😉 deyip giderler. Sen de büyük bir keyifle bilgisayarın yanına gidip bir kutu bulursun ve o kutunun içerisinde bir not vardır. Notta şöyle yazıyordur:\n- {{user}}, umarım hediyemi beğenmişsindir. Anime kızları yerine beni seçtiğin için teşekkür ederim.\nSevgilerle, canmergaymingtr\n{{xp}} XP ve {{silver}} gümüş kazandın.\n**~SON~**"
+				}
+			}
+		},
+		"aiTitle": "📖 Hikaye Zamanı",
+		"rewardLine": "🎁 **{{xp}} XP** ve **{{silver}} gümüş** kazandın!",
+		"noReward": "Bu sefer ödül yok… gelecek ay tekrar gel!",
+		"onCooldown": "Bugünkü hikayeyi zaten oynadın! Yarın tekrar gel."
+	},
+	"tycoon": {
+		"title": "🏭 Tycoon Simulator 2024",
+		"views": {
+			"home": "Fabrikan kendi kendine puan üretir. Daha hızlı kazanmak için gümüşle yükselt, sonra puanları gümüşe çevir.",
+			"upgrades": "İncelemek istediğin yükseltmeyi seç.",
+			"speed": "Hız, bekleme aralığını kısaltır; tikler daha sık gelir.",
+			"multiply": "Çarpan, her tikte kazanılan puanı artırır.",
+			"convert": "Puanları gümüşe çevir. Büyük kademeler puan başına daha çok öder:",
+			"done": "Bitti."
+		},
+		"buttons": {
+			"home": "Ana",
+			"upgrades": "Yükselt",
+			"convert": "Çevir",
+			"speed": "Hız",
+			"multiply": "Çarpan",
+			"upgradeFor": "Yükselt ({{cost}} 🪙)"
+		},
+		"maxLevel": "Maksimum seviyeye ulaştın!",
+		"retry": "Satın alırken seviye değişti. Gümüşün iade edildi; tekrar dene.",
+		"insufficientSilver": "Yetersiz gümüş.",
+		"insufficientPoints": "Yetersiz puan.",
+		"speedSuccess": "Başarılı! Hız yükseltme seviyen artık {{level}}.",
+		"multiplySuccess": "Başarılı! Çarpanın artık {{level}}.",
+		"convertSuccess": "Başarılı! Artık {{silver}} gümüşün var.",
+		"statsBalances": "**Puan:** {{points}} · **Gümüş:** {{silver}} 🪙\n**Hız:** dakikada yaklaşık {{rate}} puan",
+		"statsSpeed": "**Hız:** {{speed}}/{{speedMax}}. Sonraki seviye **{{speedCost}}** 🪙",
+		"statsMultiply": "**Çarpan:** {{multiply}}/{{multiplyMax}}. Sonraki seviye **{{multiplyCost}}** 🪙",
+		"statsUpgrades": "**Hız:** {{speed}}/{{speedMax}} · **Çarpan:** {{multiply}}/{{multiplyMax}}"
+	},
+	"gacha": {
+		"genshinTitle": "💫 Genshin Impact Dilekleri",
+		"blueArchiveTitle": "💫 Blue Archive Dilekleri",
+		"usage": "Kullanım: `{{command}} <standart|premium|limited> <miktar>` (miktar: 1–8).",
+		"vipOnly": "👑 Premium banner sadece VIP üyeler içindir. Önce `/shop` üzerinden VIP al.",
+		"notEnoughWishes": "**{{needed}}** dilek jetonuna ihtiyacın var ama **{{wishes}}** jetonun bulunuyor. `/shop` üzerinden daha fazla alabilirsin.",
+		"emptyBanner": "Bu bannerda çekilebilecek karakter yok.",
+		"summary": "**{{banner}} bannerı** · {{count}} çekim · **{{wishes}}** dilek kaldı",
+		"resultLine": "{{index}}. **{{name}}** · {{stars}} · C{{constellation}}{{payout}}",
+		"maxPayout": " · Zaten C6: **{{reward}} gümüş** kazandın",
+		"allMaxed": "🎉 Tüm çekimlerin constellation-6 ödülüne dönüştü. Tebrikler!",
+		"banners": {
+			"standart": "Standart",
+			"premium": "Premium",
+			"limited": "Sınırlı"
+		},
+		"collectionEmpty": "{{user}} burada henüz çekim yapmadı. `/shop` üzerinden jeton al, sonra `/wish` ya da `/bawish` dene.",
+		"collectionSummary": "**{{user}}** koleksiyonu: **{{total}}** karakter, **{{maxed}}** tanesi C6\n-# Sayfa {{page}} / {{pages}}"
+	},
+	"flip": {
+		"usage": "Kullanım: `paytoflip <yazı|tura> <miktar>`. Miktarın **3 katını** kazanır ya da kaybedersin.",
+		"heads": "yazı",
+		"tails": "tura",
+		"win": "🪙 **{{side}}** geldi. **{{amount}}** gümüş kazandın.\nBakiye: **{{balance}}**",
+		"lose": "🪙 **{{side}}** geldi. **{{amount}}** gümüş kaybettin.\nBakiye: **{{balance}}**",
+		"notEnough": "Kaybedersen **{{risk}}** gümüş gider ama sadece **{{balance}}** gümüşün var."
+	}
+}

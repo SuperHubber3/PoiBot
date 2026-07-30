@@ -1,0 +1,18 @@
+{
+	"reactionSent": "**{{target}} , {{author}} sana bunu gönderdi :**",
+	"crySelf": "Kendi kendine ağladın.\n:(",
+	"cryAction": "**Ağla !!!**",
+	"kudurSelf": "Yo sen kudur.\n >:)",
+	"kudurAction": "**Kudur !!!**",
+	"mofuSelf": "Kendine bir hizmetçi buldun.\n Mofu mofu~~",
+	"mofuAction": "**Pofuduk :)**",
+	"uwuSelf": "Kendi kendine oyun oynadın.\nBekle, oynayabilirsin! Hadi git oyna şimdi >:)",
+	"uwuAction": "**UwU !**",
+	"giftSelf": "Kendine gümüş hediye edemezsin.",
+	"giftNotEnough": "Hediye etmek için yeterli gümüşün yok!",
+	"giftTitle": "**Hediyelendin !**",
+	"giftSent": "**{{target}}, {{author}} sana {{amount}} gümüş gönderdi :**",
+	"nekoNoImage": "nekos.life bir görsel döndürmedi. Tekrar dene ya da başka bir kategori seç.",
+	"nekoTitle": "{{type}}",
+	"nekoNsfwOnly": "🔞 Bu kategori sadece yaş kısıtlamalı kanallarda çalışır."
+}
