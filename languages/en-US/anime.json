@@ -1,0 +1,18 @@
+{
+	"reactionSent": "**{{target}}, {{author}} sent this to you:**",
+	"crySelf": "You cried by yourself.\n:(",
+	"cryAction": "**Cry !!!**",
+	"kudurSelf": "Yo, rage by yourself.\n >:)",
+	"kudurAction": "**Rage !!!**",
+	"mofuSelf": "You found yourself a maid.\n Mofu mofu~~",
+	"mofuAction": "**Fluffy :)**",
+	"uwuSelf": "You played by yourself.\nWait, you can play! Go play now >:)",
+	"uwuAction": "**UwU !**",
+	"giftSelf": "You cannot send a silver gift to yourself.",
+	"giftNotEnough": "You don't have enough silver to gift!",
+	"giftTitle": "**You received a gift!**",
+	"giftSent": "**{{target}}, {{author}} sent you {{amount}} silver:**",
+	"nekoNoImage": "nekos.life didn't send an image back. Try again or pick another category.",
+	"nekoTitle": "{{type}}",
+	"nekoNsfwOnly": "🔞 That category only works in an age-restricted channel."
+}

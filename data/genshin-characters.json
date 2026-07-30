@@ -1,0 +1,582 @@
+{
+  "10000002": {
+    "name": "Kamisato Ayaka",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000003": {
+    "name": "Jean",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000006": {
+    "name": "Lisa",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000014": {
+    "name": "Barbara",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000015": {
+    "name": "Kaeya",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000016": {
+    "name": "Diluc",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000020": {
+    "name": "Razor",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000021": {
+    "name": "Amber",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000022": {
+    "name": "Venti",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000023": {
+    "name": "Xiangling",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000024": {
+    "name": "Beidou",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000025": {
+    "name": "Xingqiu",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000026": {
+    "name": "Xiao",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000027": {
+    "name": "Ningguang",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000029": {
+    "name": "Klee",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000030": {
+    "name": "Zhongli",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000031": {
+    "name": "Fischl",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000032": {
+    "name": "Bennett",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000033": {
+    "name": "Tartaglia",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000034": {
+    "name": "Noelle",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000035": {
+    "name": "Qiqi",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000036": {
+    "name": "Chongyun",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000037": {
+    "name": "Ganyu",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000038": {
+    "name": "Albedo",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000039": {
+    "name": "Diona",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000041": {
+    "name": "Mona",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000042": {
+    "name": "Keqing",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000043": {
+    "name": "Sucrose",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000044": {
+    "name": "Xinyan",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000045": {
+    "name": "Rosaria",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000046": {
+    "name": "Hu Tao",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000047": {
+    "name": "Kaedehara Kazuha",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000048": {
+    "name": "Yanfei",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000049": {
+    "name": "Yoimiya",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000050": {
+    "name": "Thoma",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000051": {
+    "name": "Eula",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000052": {
+    "name": "Raiden Shogun",
+    "star": 5,
+    "status": "limited"
+  },
+  "10000053": {
+    "name": "Sayu",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000054": {
+    "name": "Sangonomiya Kokomi",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000055": {
+    "name": "Gorou",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000056": {
+    "name": "Kujou Sara",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000057": {
+    "name": "Arataki Itto",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000058": {
+    "name": "Yae Miko",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000059": {
+    "name": "Shikanoin Heizou",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000060": {
+    "name": "Yelan",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000061": {
+    "name": "Kirara",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000062": {
+    "name": "Aloy",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000063": {
+    "name": "Shenhe",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000064": {
+    "name": "Yun Jin",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000065": {
+    "name": "Kuki Shinobu",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000066": {
+    "name": "Kamisato Ayato",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000067": {
+    "name": "Collei",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000068": {
+    "name": "Dori",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000069": {
+    "name": "Tighnari",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000070": {
+    "name": "Nilou",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000071": {
+    "name": "Cyno",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000072": {
+    "name": "Candace",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000073": {
+    "name": "Nahida",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000074": {
+    "name": "Layla",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000075": {
+    "name": "Wanderer",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000076": {
+    "name": "Faruzan",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000077": {
+    "name": "Yaoyao",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000078": {
+    "name": "Alhaitham",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000079": {
+    "name": "Dehya",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000080": {
+    "name": "Mika",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000081": {
+    "name": "Kaveh",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000082": {
+    "name": "Baizhu",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000083": {
+    "name": "Lynette",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000084": {
+    "name": "Lyney",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000085": {
+    "name": "Freminet",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000086": {
+    "name": "Wriothesley",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000087": {
+    "name": "Neuvillette",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000088": {
+    "name": "Charlotte",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000089": {
+    "name": "Furina",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000090": {
+    "name": "Chevreuse",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000091": {
+    "name": "Navia",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000092": {
+    "name": "Gaming",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000093": {
+    "name": "Xianyun",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000094": {
+    "name": "Chiori",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000095": {
+    "name": "Sigewinne",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000096": {
+    "name": "Arlecchino",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000097": {
+    "name": "Sethos",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000098": {
+    "name": "Clorinde",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000099": {
+    "name": "Emilie",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000100": {
+    "name": "Kachina",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000101": {
+    "name": "Kinich",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000102": {
+    "name": "Mualani",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000103": {
+    "name": "Xilonen",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000104": {
+    "name": "Chasca",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000105": {
+    "name": "Ororon",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000106": {
+    "name": "Mavuika",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000107": {
+    "name": "Citlali",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000108": {
+    "name": "Lan Yan",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000109": {
+    "name": "Yumemizuki Mizuki",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000110": {
+    "name": "Iansan",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000111": {
+    "name": "Varesa",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000112": {
+    "name": "Escoffier",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000113": {
+    "name": "Ifa",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000114": {
+    "name": "Skirk",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000115": {
+    "name": "Dahlia",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000116": {
+    "name": "Ineffa",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000119": {
+    "name": "Lauma",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000120": {
+    "name": "Flins",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000121": {
+    "name": "Aino",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000122": {
+    "name": "Nefer",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000123": {
+    "name": "Durin",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000124": {
+    "name": "Jahoda",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000125": {
+    "name": "Columbina",
+    "star": 5,
+    "status": "limited"
+  },
+  "10000126": {
+    "name": "Zibai",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000127": {
+    "name": "Illuga",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000128": {
+    "name": "Varka",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000129": {
+    "name": "Lohen",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000130": {
+    "name": "Linnea",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000131": {
+    "name": "Nicole",
+    "star": 5,
+    "status": "premium"
+  },
+  "10000132": {
+    "name": "Prune",
+    "star": 4,
+    "status": "standart"
+  },
+  "10000133": {
+    "name": "Sandrone",
+    "star": 5,
+    "status": "premium"
+  }
+}

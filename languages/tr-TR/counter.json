@@ -1,0 +1,78 @@
+{
+	"userNotFound": "{{user}} kullanıcısı bulunamadı!",
+	"argumentTooShort": "<user> argümanı en az 2 karakter uzunluğunda olmalı!",
+	"counterDescription": "*{{giver}}, {{target}} kullanıcısına {{verb}}*",
+	"firstCount": "Bu, ona senden gelen ilk {{singular}}!",
+	"countNow": "Bu artık {{count}} {{plural}} oldu!",
+	"boopFirst": "{{target}} kullanıcısına bir boop verdin! Bu ona senden gelen ilk boop!",
+	"boopCount": "{{target}} kullanıcısına bir boop verdin! Bu artık {{count}} boop oldu!",
+	"razorNotRecent": "Razor yakın zamanda konuşmadı, bu yüzden henüz onu booplayamazsın.",
+	"respectsMissing": "<:MomijiStare:1413592241808736376>",
+	"respectsPrompt": "**{{text}}** için saygı duruşunda bulunmak üzere 🇫 bas",
+	"respectsPaid": "{{user}} saygı duruşunda bulundu.",
+	"respectsEnd": "{{count}} kişi **{{text}}** için saygı duruşunda bulundu",
+	"profileComingSoon": "Yakında!",
+	"birthdayTitle": "Ç0k havalı c<:hoshinO:1532059793475506196>mmand",
+	"birthdayField": "Doğum Günün",
+	"birthdayNotSet": "Doğum günü ayarlanmamış",
+	"birthdaySet": "Kaydedildi: **{{date}}**.",
+	"actions": {
+		"bite": {
+			"title": "Bir ısırık verdin!",
+			"verb": "ısırır",
+			"singular": "ısırık",
+			"plural": "ısırık"
+		},
+		"boop": {
+			"title": "Bir boop verdin!",
+			"verb": "booplar",
+			"singular": "boop",
+			"plural": "boop"
+		},
+		"cuddle": {
+			"title": "Bir sarılma verdin!",
+			"verb": "sıkıca sarılır",
+			"singular": "sarılma",
+			"plural": "sarılma"
+		},
+		"geh": {
+			"description": "{{giver}}, {{target}} kullanıcısının neden bu kadar geh olduğunu sorar!",
+			"verb": "geh der",
+			"singular": "geh",
+			"plural": "geh"
+		},
+		"hug": {
+			"title": "Bir sarılma verdin!",
+			"verb": "sarılır",
+			"singular": "sarılma",
+			"plural": "sarılma"
+		},
+		"kiss": {
+			"title": "Bir öpücük verdin!",
+			"verb": "öper",
+			"singular": "öpücük",
+			"plural": "öpücük"
+		},
+		"pat": {
+			"title": "Bir pat verdin!",
+			"verb": "patlar",
+			"singular": "pat",
+			"plural": "pat"
+		},
+		"punch": {
+			"title": "Bir yumruk attın!",
+			"verb": "yumruklar",
+			"singular": "yumruk",
+			"plural": "yumruk"
+		},
+		"slap": {
+			"title": "Bir tokat attın!",
+			"verb": "tokatlar",
+			"singular": "tokat",
+			"plural": "tokat"
+		}
+	},
+	"birthdayHint": "-# Önce ay, sonra gün seç.",
+	"birthdayPickMonth": "Ay",
+	"birthdayPickDayRange": "{{month}} {{first}}-{{last}}"
+}
