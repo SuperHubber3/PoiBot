@@ -28,7 +28,7 @@
     "@sapphire/framework": "^5.5.0",
     "@sapphire/plugin-i18next": "^8.0.0",
     "@sapphire/utilities": "^3.18.2",
-    "discord.js": "^14.26.4",
+    "discord.js": "^14.27.0",
     "dotenv": "^16.4.5",
     "i18next": "^26.3.4",
     "md5": "^2.3.0",
