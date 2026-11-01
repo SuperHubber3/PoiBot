@@ -27,8 +27,7 @@ export class HelpCommand extends Command {
      */
     private guildAuthorised(ctx: Message | ChatInputCommandInteraction): boolean {
         if (ctx instanceof Message) return ctx.inGuild()
-        const owners = ctx.authorizingIntegrationOwners as Record<string, string> | undefined
-        return owners?.[ApplicationIntegrationType.GuildInstall] !== undefined
+        return ctx.authorizingIntegrationOwners[ApplicationIntegrationType.GuildInstall] !== undefined
     }
 
     private async buildPayload(ctx: Message | ChatInputCommandInteraction) {

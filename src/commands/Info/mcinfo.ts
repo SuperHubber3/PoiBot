@@ -2,7 +2,7 @@ import { ApplyOptions } from '@sapphire/decorators'
 import { Args, Command } from '@sapphire/framework'
 import { resolveKey } from '@sapphire/plugin-i18next'
 import { ChatInputCommandInteraction, Message } from 'discord.js'
-import { statusJava } from 'node-mcstatus'
+import { fetchMinecraftStatus } from '../../lib/services/minecraft-status.service.js'
 import { v2 } from '../../lib/util/v2.js'
 import { anywhere } from '../../lib/util/install-context.js'
 
@@ -58,9 +58,8 @@ export class McInfoCommand extends Command {
             return v2(await resolveKey(ctx, 'misc:mcinfoUnreachable', { host, port }), { color: 0xff0000 })
         }
         try {
-            const result: any = await statusJava(host, port, { query: true })
-            const players: string =
-                result.players?.list?.map((p: any) => p.name_raw).join(', ') || await resolveKey(ctx, 'misc:mcinfoEmpty')
+            const result = await fetchMinecraftStatus(host, port)
+            const players = result.names || await resolveKey(ctx, 'misc:mcinfoEmpty')
             const [title, statusLabel, online, offline, motdLabel, unknown, playersList, playersOnline] = await Promise.all([
                 resolveKey(ctx, 'misc:mcinfoTitle', { host, port }),
                 resolveKey(ctx, 'misc:mcinfoStatus'),
@@ -74,9 +73,9 @@ export class McInfoCommand extends Command {
             return v2([
                 `## ${title}`,
                 `**${statusLabel}:** ${result.online ? online : offline}\n` +
-                    `**${motdLabel}:** ${result.motd?.clean || unknown}\n` +
+                    `**${motdLabel}:** ${result.motd || unknown}\n` +
                     `**${playersList}:** ${players}\n` +
-                    `**${playersOnline}:** ${result.players?.online ?? 0}/${result.players?.max ?? 0}`,
+                    `**${playersOnline}:** ${result.onlinePlayers}/${result.maxPlayers}`,
             ])
         } catch {
             return v2(await resolveKey(ctx, 'misc:mcinfoUnreachable', { host, port }), { color: 0xff0000 })
