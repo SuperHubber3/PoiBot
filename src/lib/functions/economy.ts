@@ -40,8 +40,6 @@ export const getXP = async (guildId: string, userId: string) => {
     let xp = 0;
     if (result) {
         xp = result.xp;
-    } else {
-        await new profileSchema({ guildId, userId, xp }).save();
     }
 
     return xp;
@@ -124,9 +122,14 @@ export const getMarry = async (guildId: string, userId: string): Promise<string 
     return result?.marry || undefined;
 };
 
-export const delMarry = async (guildId: string, userId: string) => {
-    await marriageSchema.findOneAndDelete({ guildId, users: userId })
-    await profileSchema.updateOne({ guildId, userId }, { $unset: { marry: '' } });
+export const delMarry = async (guildId: string, userId: string, partnerId: string) => {
+    // Restrict removal to the pair that the caller observed. Either person may
+    // have remarried while this request was waiting on the database.
+    await marriageSchema.findOneAndDelete({ guildId, users: { $all: [userId, partnerId] } })
+    await profileSchema.updateMany(
+        { guildId, $or: [{ userId, marry: partnerId }, { userId: partnerId, marry: userId }] },
+        { $unset: { marry: '' } }
+    )
 };
 
 export const getSilver = async (guildId: string, userId: string) => {
@@ -250,7 +253,6 @@ export const addWishes = async (guildId: string, userId: string, wishes: number)
 export const getWishes = async (guildId: string, userId: string): Promise<number> => {
     const result = await profileSchema.findOne({ guildId, userId })
     if (result) return result.wishes ?? 0
-    await new profileSchema({ guildId, userId }).save()
     return 0
 }
 

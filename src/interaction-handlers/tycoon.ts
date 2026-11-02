@@ -23,9 +23,10 @@ export class TycoonHandler extends InteractionHandler {
             await interaction.reply({ content: await resolveKey(interaction, 'common:notYourMenu'), flags: MessageFlags.Ephemeral })
             return
         }
+        await interaction.deferUpdate()
         const guildId = interaction.guild!.id
         const { view, note } = await applyTycoonAction(interaction, guildId, id.owner, id.action, id.arg)
         const container = await renderTycoon(interaction, guildId, id.owner, id.owner, view, note)
-        await interaction.update(v2Update(container))
+        await interaction.editReply(v2Update(container))
     }
 }

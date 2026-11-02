@@ -38,22 +38,21 @@ async function getDoc(guildId: string, userId: string) {
         { $setOnInsert: { guildId, userId, points: 0, upgrades: { speed: 0, multiply: 1 } } },
         { upsert: true, new: true }
     )
-    let repaired = false
-    if (!doc.upgrades) {
-        doc.upgrades = { speed: 0, multiply: 1 }
-        repaired = true
-    }
-    if (!doc.upgrades.multiply || doc.upgrades.multiply < 1) {
-        doc.upgrades.multiply = 1
-        repaired = true
-    }
-    if (typeof doc.upgrades.speed !== 'number') {
-        doc.upgrades.speed = 0
-        repaired = true
-    }
-    if (repaired) {
-        doc.markModified('upgrades')
-        await doc.save()
+    if (!doc.upgrades || typeof doc.upgrades.speed !== 'number' ||
+        typeof doc.upgrades.multiply !== 'number' || doc.upgrades.multiply < 1) {
+        // Evaluate repairs against the stored values so a concurrent purchase is
+        // never overwritten with the levels from this earlier read.
+        return pointsSchema.findOneAndUpdate({ guildId, userId }, [{
+            $set: {
+                upgrades: {
+                    speed: { $cond: [{ $isNumber: '$upgrades.speed' }, '$upgrades.speed', 0] },
+                    multiply: { $cond: [
+                        { $and: [{ $isNumber: '$upgrades.multiply' }, { $gte: ['$upgrades.multiply', 1] }] },
+                        '$upgrades.multiply', 1,
+                    ] },
+                },
+            },
+        }], { new: true })
     }
     return doc
 }

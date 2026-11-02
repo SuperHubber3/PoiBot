@@ -50,5 +50,6 @@
 	"giveawayNoEntries": "Nobody entered.",
 	"giveawayWinner": "🎉 The winner is {{user}}! Congratulations!",
 	"giveawayEnded": "Winner drawn.",
-	"helpUserAppOnly": "-# You're using PoiBot as a user app here, so only these commands work. Add the bot to a server for everything else."
+	"helpUserAppOnly": "-# You're using PoiBot as a user app here, so only these commands work. Add the bot to a server for everything else.",
+    "purgeFailed": "Could not delete messages. Check my channel permissions and try again."
 }

@@ -31,7 +31,17 @@ export class BoopCommand extends Command {
         targetId: string,
         awardTarget: AwardReplyTarget
     ) {
-        const boops = await addBoop(guildId, giverId, targetId, awardTarget)
+        const reservation = targetId === RAZOR_ID ? razorState.claim() : null
+        if (targetId === RAZOR_ID && reservation === null) {
+            return v2(await resolveKey(ctx, 'counter:razorNotRecent'))
+        }
+        let boops: number
+        try {
+            boops = await addBoop(guildId, giverId, targetId, awardTarget)
+        } catch (error) {
+            if (reservation) razorState.restore(reservation)
+            throw error
+        }
         return v2(await resolveKey(ctx, boops === 1 ? 'counter:boopFirst' : 'counter:boopCount', {
             target: `<@${targetId}>`,
             count: boops,
@@ -44,13 +54,8 @@ export class BoopCommand extends Command {
         // Legacy shortcut: "poi boop razor" resolves directly, but uses the same
         // recent-speech gate as every other Razor target.
         if (rawTarget === 'razor') {
-            if (!razorState.razorCache) {
-                await message.reply(v2(await resolveKey(message, 'counter:razorNotRecent')))
-                return
-            }
             const payload = await this.boopPayload(message, message.guildId ?? DM_SCOPE, message.author.id, RAZOR_ID, message)
             await message.reply({ ...payload, allowedMentions: { parse: [] } })
-            razorState.razorCache = false
             return
         }
 
@@ -88,14 +93,7 @@ export class BoopCommand extends Command {
         )
         if (!target) return
 
-        // Only allow booping razor if they've spoken recently.
-        if (target === RAZOR_ID && !razorState.razorCache) {
-            await reply(v2(await resolveKey(ctx, 'counter:razorNotRecent')))
-            return
-        }
-
         const payload = await this.boopPayload(ctx, guildId, giver.id, target, awardTarget)
         await reply(payload)
-        if (target === RAZOR_ID) razorState.razorCache = false
     }
 }

@@ -65,7 +65,8 @@ export class WaifuPullHandler extends InteractionHandler {
 
         if (id.action === 'claim') return this.claim(interaction, session, isInitiator)
         if (id.action === 'sell') return this.sell(interaction, session)
-        return this.skip(interaction, session)
+        if (id.action === 'skip') return this.skip(interaction, session)
+        await interaction.deferUpdate()
     }
 
     /**
@@ -111,7 +112,7 @@ export class WaifuPullHandler extends InteractionHandler {
         }
         const locked = await sessions.acquire<WaifuPullSession>(interaction.message.id)
         if (!locked) return this.busy(interaction)
-        let consumedClaim = false
+        let consumedWindow: Date | undefined
         try {
             if (!session.force) {
                 const consumed = await checkCooldown(guildId, clicker, CLAIM_KEY, DEFAULT_CLAIM_LIMIT, true)
@@ -126,7 +127,7 @@ export class WaifuPullHandler extends InteractionHandler {
                     })
                     return
                 }
-                consumedClaim = true
+                consumedWindow = consumed.windowStart
             }
             await addWaifu(
                 guildId,
@@ -135,8 +136,8 @@ export class WaifuPullHandler extends InteractionHandler {
                 `waifu-claim:${interaction.message.id}:${clicker}`
             )
         } catch (error) {
-            if (consumedClaim) {
-                await refundCooldownUse(guildId, clicker, CLAIM_KEY).catch(() => false)
+            if (consumedWindow) {
+                await refundCooldownUse(guildId, clicker, CLAIM_KEY, consumedWindow).catch(() => false)
             }
             await sessions.patch<WaifuPullSession>(interaction.message.id, { busy: false })
             throw error
@@ -167,7 +168,7 @@ export class WaifuPullHandler extends InteractionHandler {
         }
         const locked = await sessions.acquire<WaifuPullSession>(interaction.message.id)
         if (!locked) return this.busy(interaction)
-        let consumedClaim = false
+        let consumedWindow: Date | undefined
         let balance: number
         try {
             if (!session.force) {
@@ -180,15 +181,15 @@ export class WaifuPullHandler extends InteractionHandler {
                     })
                     return
                 }
-                consumedClaim = true
+                consumedWindow = consumed.windowStart
             }
             balance = await addSilver(guildId, userId, locked.character.price)
         } catch (error) {
             // Quick-sell costs a claim just like keeping the card does, so a failed
             // payout has to hand it back — otherwise a DB blip burns one of the
             // hourly claims for nothing. Same compensation claim() already does.
-            if (consumedClaim) {
-                await refundCooldownUse(guildId, userId, CLAIM_KEY).catch(() => false)
+            if (consumedWindow) {
+                await refundCooldownUse(guildId, userId, CLAIM_KEY, consumedWindow).catch(() => false)
             }
             await sessions.patch<WaifuPullSession>(interaction.message.id, { busy: false })
             throw error
@@ -214,7 +215,14 @@ export class WaifuPullHandler extends InteractionHandler {
         const locked = await sessions.acquire<WaifuPullSession>(interaction.message.id)
         if (!locked) return this.busy(interaction)
 
-        if ((await spendSilver(guildId, userId, SKIP_COST)) === null) {
+        let balance: number | null
+        try {
+            balance = await spendSilver(guildId, userId, SKIP_COST)
+        } catch (error) {
+            await sessions.patch<WaifuPullSession>(interaction.message.id, { busy: false })
+            throw error
+        }
+        if (balance === null) {
             await sessions.patch<WaifuPullSession>(interaction.message.id, { busy: false })
             await interaction.reply({
                 content: await resolveKey(interaction, 'waifu:skipNotEnough', {
@@ -226,9 +234,9 @@ export class WaifuPullHandler extends InteractionHandler {
             return
         }
 
-        await interaction.deferUpdate()
         let replacement
         try {
+            await interaction.deferUpdate()
             const seen = await getSeenCharacterIds(guildId, userId)
             seen.add(locked.character.id)
             const sameAnime = await rollCharacterFromAnime(

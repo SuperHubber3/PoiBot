@@ -33,6 +33,7 @@ type TradeCtx = ChatInputCommandInteraction | MessageComponentInteraction | Moda
 export type TradeStage = 'mine' | 'theirs' | 'offer'
 
 export interface TradeSession {
+    busy?: boolean
     initiatorId: string
     partnerId: string
     stage: TradeStage

@@ -77,25 +77,25 @@ export async function resolveWaifuPrices(
     // would silently delete every skipped character.
     if (!backfill) return resolved
 
-    const byKey = new Map(resolved.map((w) => [`${w.id}:${w.claimedAt}`, w.price]))
-    await waifuSchema
-        .findOne({ guildId, userId })
-        .then(async (doc: any) => {
-            if (!doc) return
-            let touched = false
-            doc.waifus = (doc.waifus as OwnedWaifu[]).map((w) => {
-                const price = byKey.get(`${w.id}:${w.claimedAt}`)
-                if (price === undefined || storedPrice(w) !== null) return w
-                touched = true
-                return { ...w, price }
-            })
-            if (!touched) return
-            doc.markModified('waifus')
-            await doc.save()
-        })
-        .catch((error) => {
-            container.logger.warn('[waifu] failed to backfill legacy prices', error)
-        })
+    // Update only the price field. Replacing the array can resurrect a card sold
+    // while MAL was responding, or erase a concurrently claimed card.
+    try {
+        for (const original of waifus.filter((entry) => storedPrice(entry) === null)) {
+            const identity = original.uid
+                ? { 'entry.uid': original.uid }
+                : { 'entry.id': original.id, 'entry.claimedAt': original.claimedAt }
+            await waifuSchema.updateOne(
+                { guildId, userId },
+                { $set: { 'waifus.$[entry].price': prices.get(original.animeId) ?? MIN_WAIFU_PRICE } },
+                { arrayFilters: [{
+                    ...identity,
+                    'entry.price': original.price === undefined ? { $exists: false } : original.price,
+                }] }
+            )
+        }
+    } catch (error) {
+        container.logger.warn('[waifu] failed to backfill legacy prices', error)
+    }
     return resolved
 }
 

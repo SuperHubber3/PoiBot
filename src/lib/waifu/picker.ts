@@ -38,6 +38,7 @@ export function pageCount(total: number): number {
 /** Clamps to a valid page and wraps out-of-range values around the ends. */
 export function wrapPage(page: number, total: number): number {
     const pages = pageCount(total)
+    page = Number.isFinite(page) ? Math.trunc(page) : 0
     return ((page % pages) + pages) % pages
 }
 

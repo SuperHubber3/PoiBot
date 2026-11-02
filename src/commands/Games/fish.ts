@@ -86,7 +86,7 @@ export class FishCommand extends Command {
         try {
             newBalance = await addSilver(guildId, user.id, total)
         } catch (error) {
-            await refundCooldownUse(guildId, user.id, 'fish_catch').catch(() => false)
+            await refundCooldownUse(guildId, user.id, 'fish_catch', cd.windowStart).catch(() => false)
             throw error
         }
         const rarest = caught.reduce((a, b) => (b.rarity.weight < a.rarity.weight ? b : a))

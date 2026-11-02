@@ -110,7 +110,7 @@ export class StealHandler extends InteractionHandler {
             // able to abort the sequence: if the prompt gets deleted mid-heist the
             // edits fail, and an unhandled throw here would leave the user paying
             // for an outcome they never see.
-            await interaction.update(v2Update(v2Container(await resolveKey(interaction, 'games:steal.stageTrying'), { color: 0x5865f2 })))
+            await interaction.update(v2Update(v2Container(await resolveKey(interaction, 'games:steal.stageTrying'), { color: 0x5865f2 }))).catch(() => null)
             await wait(2500)
             await interaction.message
                 .edit(v2Update(v2Container(await resolveKey(interaction, 'games:steal.stagePackets'), { color: 0x5865f2 })))

@@ -94,7 +94,7 @@ export function v2Container(text: string | string[], opts: V2Options = {}): Cont
 export function v2Payload(container: ContainerBuilder, opts: { ephemeral?: boolean } = {}) {
     let flags: number = IS_V2
     if (opts.ephemeral) flags |= MessageFlags.Ephemeral
-    return { flags, components: [container] as any }
+    return { flags, components: [container] as any, allowedMentions: { parse: [] } }
 }
 
 /** One-shot: build + wrap a text (and optional media/rows) reply payload. */
@@ -113,5 +113,5 @@ export function buttonRow(...buttons: ButtonBuilder[]) {
  * `interaction.update(...)` inside InteractionHandlers or `message.edit(...)`.
  */
 export function v2Update(container: ContainerBuilder) {
-    return { components: [container] as any }
+    return { components: [container] as any, allowedMentions: { parse: [] } }
 }

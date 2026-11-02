@@ -15,7 +15,7 @@ import { guildOnly } from '../../lib/util/install-context.js'
 export class ProfileCommand extends Command {
     public override registerApplicationCommands(registry: Command.Registry) {
         registry.registerChatInputCommand(
-            (builder) => builder.setName('profile').setDescription('Coming soon!'),
+            (builder) => guildOnly(builder).setName('profile').setDescription('Coming soon!'),
             { guildIds: TEST_GUILDS }
         )
     }

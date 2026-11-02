@@ -15,11 +15,9 @@ const startCooldown = (key: string) => {
 }
 
 // True when `phrase` appears as a standalone word in the content.
-const containsWord = (content: string, phrase: string) => {
-    if (content === phrase) return true
-    if (content.includes(' ' + phrase)) return true
-    if (content.includes(phrase + ' ')) return true
-    return false
+export const containsWord = (content: string, phrase: string) => {
+    const escaped = phrase.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    return new RegExp(`(?<![\\p{L}\\p{N}_])${escaped}(?![\\p{L}\\p{N}_])`, 'u').test(content)
 }
 
 // Auto-reacts to certain phrases ("sus", "forgor").

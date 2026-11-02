@@ -28,8 +28,7 @@ export class DivorceCommand extends Command {
         const partner = await getMarry(guildId, userId)
         if (!partner) return resolveKey(ctx, 'fun:divorceNotMarried')
 
-        await delMarry(guildId, userId)
-        await delMarry(guildId, partner)
+        await delMarry(guildId, userId, partner)
         return resolveKey(ctx, 'fun:divorceSuccess')
     }
 }

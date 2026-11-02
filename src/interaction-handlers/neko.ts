@@ -21,6 +21,10 @@ export class NekoHandler extends InteractionHandler {
             return
         }
 
+        if (id.action !== 'delete') {
+            await interaction.deferUpdate()
+            return
+        }
         if (id.action === 'delete') {
             try {
                 await interaction.deferUpdate()

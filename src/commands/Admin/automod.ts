@@ -6,7 +6,6 @@ import {
     AutoModerationRuleEventType,
     AutoModerationRuleTriggerType,
     ChatInputCommandInteraction,
-    MessageFlags,
     PermissionFlagsBits,
 } from 'discord.js'
 import { v2 } from '../../lib/util/v2.js'
@@ -107,6 +106,7 @@ export class AutomodCommand extends Command {
             }
         }
         if (!payload) return
+        await interaction.deferReply()
 
         try {
             // Re-running /automod for a rule that already exists used to either
@@ -120,10 +120,10 @@ export class AutomodCommand extends Command {
             } else {
                 await guild.autoModerationRules.create(payload as any)
             }
-            await interaction.reply(await resolveKey(interaction, 'common:automodCreated', { name: payload.name }))
+            await interaction.editReply(await resolveKey(interaction, 'common:automodCreated', { name: payload.name }))
         } catch (error) {
             this.container.logger.error('[automod] failed to create rule', error)
-            await interaction.reply({ content: await resolveKey(interaction, 'common:automodFailed'), flags: MessageFlags.Ephemeral })
+            await interaction.editReply({ content: await resolveKey(interaction, 'common:automodFailed') })
         }
     }
 }

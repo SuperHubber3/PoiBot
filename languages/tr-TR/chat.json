@@ -1,0 +1,16 @@
+{
+  "help": "Herkese açık kanal sohbeti başlatmak için beni etiketle. Zaman aşımına kadar kanaldaki herkes konuşmaya devam edebilir. /chat-memory memories, /chat-memory forget ve /chat-memory reset kanalın herkes için ortak hafızasını yönetir.",
+  "disabled": "Sohbet henüz etkin değil. Bot sahibinin Antigravity veya Codex yapılandırması ve CHAT_ENABLED=true ayarını yapması gerekiyor.",
+  "empty": "Bu kanal için kayıtlı bilgi yok.",
+  "memoryFile": "Bu kanalın ortak hafızası ekte.",
+  "forgotten": "İstenen ortak bilgiler silindi ve bu kanaldaki son konuşma temizlendi.",
+  "reset": "Bu kanaldaki son konuşma temizlendi. Ortak bilgiler duruyor.",
+  "busy": "Başka bir sohbet isteğiyle ilgileniyorum. Biraz sonra tekrar dene.",
+  "missing": "Bu hafıza anahtarı bulunamadı. Kanalın ortak bilgilerini /chat-memory memories ile görebilirsin.",
+  "length": "Lütfen 1 ile 4000 karakter arasında bir mesaj gönder.",
+  "saved": "{{count}} hafıza güncellemesi kaydedildi. /chat-memory memories ile görebilir, /chat-memory forget ile silebilirsin.",
+  "failed": "Sohbet isteğini tamamlayamadım. Bot sahibi sağlayıcı girişini, model erişimini ve yerel sohbet depolamasını kontrol edebilir.",
+  "settings": "Model: {{model}} · Akıl yürütme: {{reasoning}} · Hizmet: {{tier}} · Sağlayıcı: {{provider}}",
+  "settingsDenied": "Bu kanalın sohbet ayarlarını değiştirmek için Sunucuyu Yönet izni gerekiyor.",
+  "settingsFailed": "Sohbet ayarları kaydedilemedi. gemini- veya gpt- model kimliği kullan. Gemini için low, medium veya high akıl yürütme ve normal hizmet gerekiyor. Depolama hataları için bot sahibine başvur."
+}

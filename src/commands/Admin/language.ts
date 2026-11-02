@@ -2,7 +2,7 @@ import { ApplyOptions } from '@sapphire/decorators'
 import { Command } from '@sapphire/framework'
 import { resolveKey } from '@sapphire/plugin-i18next'
 import { ChatInputCommandInteraction, PermissionFlagsBits } from 'discord.js'
-import { setGuildLanguage, SupportedLanguage } from '../../lib/functions/guild-language.js'
+import { setGuildLanguage, SUPPORTED_LANGUAGES } from '../../lib/functions/guild-language.js'
 import { guildOnly } from '../../lib/util/install-context.js'
 
 @ApplyOptions<Command.Options>({
@@ -23,14 +23,17 @@ export class LanguageCommand extends Command {
                         .setName('language')
                         .setDescription('Language')
                         .setRequired(true)
-                        .addChoices({ name: 'English', value: 'en-US' }, { name: 'Türkçe', value: 'tr-TR' })
+                        .addChoices(...SUPPORTED_LANGUAGES.map((value) => ({ name: value === 'en-US' ? 'English' : 'Türkçe', value })))
                 )
         )
     }
 
     public override async chatInputRun(interaction: ChatInputCommandInteraction) {
-        const language = interaction.options.getString('language', true) as SupportedLanguage
+        const selected = interaction.options.getString('language', true)
+        const language = SUPPORTED_LANGUAGES.find((value) => value === selected)
+        if (!language) throw new Error('Unsupported language')
+        await interaction.deferReply()
         await setGuildLanguage(interaction.guild!.id, language)
-        await interaction.reply(await resolveKey(interaction, 'common:languageSet', { language }))
+        await interaction.editReply(await resolveKey(interaction, 'common:languageSet', { language }))
     }
 }

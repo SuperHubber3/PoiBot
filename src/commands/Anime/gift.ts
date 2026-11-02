@@ -28,7 +28,8 @@ export class GiftCommand extends Command {
     }
 
     public override async chatInputRun(interaction: ChatInputCommandInteraction) {
-        await interaction.reply(await this.gift(interaction, interaction.user, interaction.options.getUser('person')))
+        await interaction.deferReply()
+        await interaction.editReply(await this.gift(interaction, interaction.user, interaction.options.getUser('person')))
     }
 
     private async gift(ctx: Message | ChatInputCommandInteraction, author: User, target: User | null | undefined) {

@@ -46,21 +46,23 @@ function extractJson(text: string): any | null {
     }
 }
 
-function validate(obj: any): StoryData | null {
-    if (!obj || typeof obj.intro !== 'string' || !Array.isArray(obj.routes)) return null
-    const routes: StoryRoute[] = obj.routes
-        .filter((r: any) => r && typeof r.label === 'string' && typeof r.ending === 'string')
-        .slice(0, 4)
-        .map((r: any) => ({
-            label: String(r.label).slice(0, 80),
-            ending: String(r.ending).slice(0, 3500),
-            win: Boolean(r.win),
-        }))
+export function validateStory(obj: unknown): StoryData | null {
+    if (typeof obj !== 'object' || obj === null || !('intro' in obj) || !('routes' in obj)
+        || typeof obj.intro !== 'string' || !obj.intro.trim() || !Array.isArray(obj.routes)) return null
+    const routes: StoryRoute[] = []
+    for (const route of obj.routes.slice(0, 4)) {
+        if (typeof route !== 'object' || route === null
+            || !('label' in route) || typeof route.label !== 'string' || !route.label.trim()
+            || !('ending' in route) || typeof route.ending !== 'string' || !route.ending.trim()
+            || !('win' in route) || typeof route.win !== 'boolean') return null
+        routes.push({ label: route.label.trim().slice(0, 80), ending: route.ending.trim().slice(0, 1200), win: route.win })
+    }
     if (routes.length < 2) return null
-    // Guarantee both outcomes.
-    if (!routes.some((r) => r.win)) routes[Math.floor(Math.random() * routes.length)].win = true
-    if (!routes.some((r) => !r.win)) routes[routes.length - 1].win = false
-    return { intro: obj.intro.slice(0, 3500), routes }
+    if (!routes.some((route) => route.win)) routes[0].win = true
+    if (!routes.some((route) => !route.win)) routes[routes.length - 1].win = false
+    // The final Discord message contains both the intro and chosen ending.
+    // Leave space for its title, route label, and reward text.
+    return { intro: obj.intro.trim().slice(0, 1200), routes }
 }
 
 const FALLBACK: Record<string, StoryData> = {
@@ -108,7 +110,7 @@ export async function generateStory(language: string): Promise<StoryData> {
         }
         const json = (await res.json()) as any
         const content: string = json?.choices?.[0]?.message?.content ?? ''
-        return validate(extractJson(content)) ?? fallback
+        return validateStory(extractJson(content)) ?? fallback
     } catch (error) {
         container.logger.warn('[story] OpenRouter request failed', error)
         return fallback

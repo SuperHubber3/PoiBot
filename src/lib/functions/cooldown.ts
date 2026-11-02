@@ -2,6 +2,7 @@ import CooldownModel from '../models/cooldown-schema.js'
 import UserCommandUpgradeModel from '../models/user-command-upgrade-schema.js'
 
 export interface CooldownResult {
+    windowStart: Date
     allowed: boolean
     currentCount?: number
     limit?: number
@@ -50,7 +51,7 @@ export async function checkCooldown(
     if (!shouldIncrement) {
         const record = await CooldownModel.findOne(key)
         const count = record && record.lastReset >= hourStart ? record.count : 0
-        return { allowed: count < limit, currentCount: count, limit }
+        return { windowStart: hourStart, allowed: count < limit, currentCount: count, limit }
     }
 
     // Each pass either succeeds, proves the limit is reached, or loses one race
@@ -65,7 +66,7 @@ export async function checkCooldown(
             { $inc: { count: 1 } },
             { new: true }
         )
-        if (bumped) return { allowed: true, currentCount: bumped.count, limit }
+        if (bumped) return { windowStart: hourStart, allowed: true, currentCount: bumped.count, limit }
 
         // Left over from an earlier hour: open a fresh window holding this use.
         const rolled = await CooldownModel.findOneAndUpdate(
@@ -73,7 +74,7 @@ export async function checkCooldown(
             { $set: { lastReset: hourStart, count: 1 } },
             { new: true }
         )
-        if (rolled) return { allowed: true, currentCount: rolled.count, limit }
+        if (rolled) return { windowStart: hourStart, allowed: true, currentCount: rolled.count, limit }
 
         // Nothing recorded yet. `$setOnInsert` means only the caller that actually
         // creates the document gets the use; the loser retries and takes the
@@ -84,7 +85,7 @@ export async function checkCooldown(
                 { $setOnInsert: { ...key, lastReset: hourStart, count: 1 } },
                 { upsert: true }
             )
-            if (created.upsertedCount) return { allowed: true, currentCount: 1, limit }
+            if (created.upsertedCount) return { windowStart: hourStart, allowed: true, currentCount: 1, limit }
         } catch (error: any) {
             // Two upserts hitting the unique index at once — retry, don't fail.
             if (error?.code !== 11000) throw error
@@ -94,26 +95,27 @@ export async function checkCooldown(
         // us to the document. Only the former should stop us.
         const record = await CooldownModel.findOne(key)
         if (record && record.lastReset >= hourStart && record.count >= limit) {
-            return { allowed: false, currentCount: record.count, limit }
+            return { windowStart: hourStart, allowed: false, currentCount: record.count, limit }
         }
     }
 
     const record = await CooldownModel.findOne(key)
-    return { allowed: false, currentCount: record?.count ?? limit, limit }
+    return { windowStart: hourStart, allowed: false, currentCount: record?.count ?? limit, limit }
 }
 
-/** Returns one use to the active hourly window after work fails before producing a result. */
+/** Refunds the consumed window only while that window is still stored. */
 export async function refundCooldownUse(
     guildId: string,
     userId: string,
-    command: string
+    command: string,
+    consumedWindow: Date
 ): Promise<boolean> {
     const result = await CooldownModel.updateOne(
         {
             guildId,
             userId,
             command,
-            lastReset: { $gte: windowStart() },
+            lastReset: { $gte: consumedWindow, $lt: new Date(consumedWindow.getTime() + 3600_000) },
             count: { $gt: 0 },
         },
         { $inc: { count: -1 } }

@@ -35,8 +35,8 @@ export class VolumeCommand extends Command {
         }
         const clamped = Math.max(1, Math.min(100, isNaN(volume) ? 50 : volume))
         await queue.player.setGlobalVolume(clamped)
-        void updatePanel(queue)
         queue.volume = clamped
+        void updatePanel(queue)
         return respond(v2(await resolveKey(ctx, 'common:musicVolumeSet', { volume: clamped })))
     }
 }

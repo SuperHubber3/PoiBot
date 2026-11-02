@@ -50,5 +50,6 @@
 	"giveawayNoEntries": "Kimse katılmadı.",
 	"giveawayWinner": "🎉 Kazanan {{user}}! Tebrikler!",
 	"giveawayEnded": "Kazanan belirlendi.",
-	"helpUserAppOnly": "-# PoiBot'u burada kullanıcı uygulaması olarak kullanıyorsun, bu yüzden sadece bu komutlar çalışır. Geri kalanı için botu bir sunucuya ekle."
+	"helpUserAppOnly": "-# PoiBot'u burada kullanıcı uygulaması olarak kullanıyorsun, bu yüzden sadece bu komutlar çalışır. Geri kalanı için botu bir sunucuya ekle.",
+    "purgeFailed": "Mesajlar silinemedi. Kanal izinlerimi kontrol edip tekrar dene."
 }

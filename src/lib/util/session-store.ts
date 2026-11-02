@@ -54,8 +54,8 @@ export const sessions = {
         if (mem) return mem.data as T
         const doc = await sessionSchema.findOne({ key })
         if (!doc) return null
-        if (doc.expiresAt && doc.expiresAt.getTime() < Date.now()) {
-            await sessionSchema.deleteOne({ key })
+        if (doc.expiresAt && doc.expiresAt.getTime() <= Date.now()) {
+            await sessionSchema.deleteOne({ key, expiresAt: { $lte: new Date() } })
             return null
         }
         return doc.data as T

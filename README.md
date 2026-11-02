@@ -123,6 +123,90 @@ To run the pieces separately (e.g. Lavalink as its own service):
 | `npm run build` | Wipe `dist/` and compile TypeScript |
 | `npm run typecheck` | Type-check without emitting |
 
+## Chat with local memory
+
+Mention the bot with a message, such as `@PoiBot hey, how are you?`, to start a public
+conversation. Anyone in that channel can continue without another mention. After
+five minutes without a chat message from anyone, mention it again. Set
+`CHAT_IDLE_SECONDS` to change that timeout. Activity in another channel or server
+does not activate chat here. Normal
+`poi ...` commands do not count as chat or extend the timeout. Mentions are reserved
+for chat; use the `poi ` prefix or slash commands for other bot features.
+
+Chat defaults to **Gemini 3.8 Flash, low reasoning, normal service tier**, using the
+same Google Antigravity ACP runtime that T3 Code uses. GPT models use Codex CLI.
+Chat runs only in servers. Replies and memory commands are public.
+
+Configure all settings in one command:
+
+`/chat model:gemini-3.8-flash reasoning:low speed:normal`
+
+All options are optional. `/chat` shows the current settings; supplying only one or
+two options updates those settings and keeps the others. Model accepts a Gemini or
+GPT model ID. Reasoning offers low, medium, high, and xhigh; speed offers normal and fast.
+Settings apply only to this server/channel, take effect on the next generation,
+and survive restarts. Changing settings requires Manage Server permission or bot ownership.
+Gemini supports low, medium, or high reasoning through this integration. Fast speed
+and xhigh are available only for compatible GPT models/accounts. You can change all
+three options together when switching providers. Unsupported combinations are rejected
+without saving any changes; there is no fallback to another model or speed.
+Exact model availability depends on the account.
+
+For Gemini, install and sign in to Antigravity in T3 Code as the OS user running PoiBot.
+PoiBot discovers the managed runtime and the single authenticated personal OAuth profile
+under `~/.t3`. `CHAT_T3_HOME` overrides that root. With multiple signed-in profiles,
+set `CHAT_ANTIGRAVITY_PROFILE` to the desired profile directory containing
+`antigravity-acp/acp_token.json`. `ANTIGRAVITY_BIN` and `ANTIGRAVITY_HARNESS_PATH`
+override the managed executable and its companion harness. Each request copies only
+the OAuth token into a private temporary profile; T3's profile is never modified.
+Bot restarts and future requests use the latest source token. Keep T3 signed in.
+Only personal Google OAuth is supported by this integration.
+
+For GPT models, install [Codex CLI](https://learn.chatgpt.com/docs/cli) and run
+`codex login` as the OS user running PoiBot. `CODEX_BIN` overrides its executable.
+The bot does not change your Codex config. Set `CHAT_ENABLED=true` in `.env` and
+restart PoiBot to enable chat generation.
+
+The model proposes facts worth remembering, such as stable preferences, ongoing goals,
+and explicit requests to remember something. PoiBot validates the output and stores
+up to 30 shared facts per channel within each server as JSON in `data/chat-memory/`. Matching topic keys
+update existing facts. Once full, existing facts can still be updated; new topics are
+skipped until you delete a fact. Selection is model judgment, so inspect and correct
+saved facts when needed.
+
+- `/chat-memory memories` lists the channel's shared facts and their keys.
+- `/chat-memory forget key:<key>` deletes one fact and clears recent conversation.
+- `/chat-memory forget key:all` deletes all shared facts in this channel and clears recent conversation.
+- `/chat-memory reset` clears recent conversation while keeping saved facts.
+
+Recent context is limited to six exchanges in RAM, expires after 30 minutes of
+inactivity when the next request runs, and disappears on restart. Everyone in a channel
+shares recent context and saved facts. Other channels and servers stay separate.
+Speaker IDs and names accompany messages so PoiBot can distinguish participants.
+Saved facts survive restarts. Only one request per channel
+runs at a time, with at most three model requests active globally and a two-minute
+timeout per generation. Up to five messages per channel can wait for replies
+in order, including the message being processed.
+
+Memory storage is local, but messages, recent context, and saved facts are sent to
+the selected provider, Google or OpenAI, for replies. Discord retains messages according to its own behavior. Codex
+runs in ephemeral mode with its tools disabled. Antigravity runs in a temporary
+profile without global skills or MCP servers, denies client tool/permission requests,
+and aborts on tool-call notifications. Temporary profiles and responses are removed
+after the child process exits.
+The bot displays a notice whenever it saves memory updates.
+
+`CHAT_MEMORY_DIR` changes the storage directory. Keep it on persistent storage if
+running in a container and exclude a custom path from version control. Run one bot
+process per memory directory. Files use owner-only permissions and atomic replacement.
+Shared files are named `channel-<server ID>-<channel ID>.json`. Previous per-user files
+are left untouched and are not loaded into shared conversations. Memory commands
+affect the current channel for everyone.
+
+Run regression tests with `npm test`. Database tests start an isolated MongoDB
+instance using mongodb-memory-server; the first run downloads a MongoDB binary.
+Tests do not connect to the configured production database.
+
 ## Music: Lavalink
 
 Audio runs on [Lavalink](https://lavalink.dev) (a standalone Java audio node) via the

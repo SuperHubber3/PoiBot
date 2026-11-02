@@ -23,15 +23,16 @@ export class UserCommand extends Command {
 
     public override async messageRun(message: Message, args: Args) {
         const arg = await args.pick('string').catch(() => undefined)
-        const query = arg || message.author.username
+        const query = arg?.replace(/^<@!?(\d+)>$/, '$1') || message.author.id
         const payload = await this.buildPayload(message, message.guild, query)
         await sendable(message).send({ ...payload, allowedMentions: { parse: [] } })
     }
 
     public override async chatInputRun(interaction: ChatInputCommandInteraction) {
+        await interaction.deferReply()
         const chosen: User = interaction.options.getUser('user') ?? interaction.user
         const payload = await this.buildPayload(interaction, interaction.guild, chosen.id)
-        await interaction.reply({ ...payload, allowedMentions: { parse: [] } })
+        await interaction.editReply({ ...payload, allowedMentions: { parse: [] } })
     }
 
     private async buildPayload(ctx: Message | ChatInputCommandInteraction, guild: Guild | null, query: string) {
@@ -41,7 +42,7 @@ export class UserCommand extends Command {
         const numeric = /^\d+$/.test(query)
         const member = numeric
             ? await guild?.members.fetch(query).catch(() => undefined)
-            : (await guild?.members.search({ query }))?.first() as GuildMember | undefined
+            : (await guild?.members.search({ query }).catch(() => undefined))?.first()
         if (!member) {
             return v2(await resolveKey(ctx, 'misc:userNotFound', { query }))
         }

@@ -63,20 +63,29 @@ export class PurgeCommand extends Command {
             this.container.logger.warn('[purge] bulk delete failed', error)
             return null
         })
-        const count = deleted?.size ?? 0
+        if (!deleted) {
+            await sendable(message).send(await resolveKey(message, 'misc:purgeFailed'))
+            return
+        }
+        const count = deleted.size
         const reply = await sendable(message).send(await resolveKey(message, 'common:purgeSuccess', { count }))
         setTimeout(() => reply.delete().catch(() => {}), 4000)
     }
 
     public override async chatInputRun(interaction: ChatInputCommandInteraction) {
+        await interaction.deferReply({ flags: MessageFlags.Ephemeral })
         const amount = interaction.options.getInteger('amount', true)
-        const deleted = await (interaction.channel as TextChannel).bulkDelete(amount, true).catch((error) => {
-            this.container.logger.warn('[purge] bulk delete failed', error)
-            return null
-        })
-        await interaction.reply({
-            content: await resolveKey(interaction, 'common:purgeSuccess', { count: deleted?.size ?? 0 }),
-            flags: MessageFlags.Ephemeral,
+        const channel = interaction.channel
+        const deleted = channel && 'bulkDelete' in channel
+            ? await channel.bulkDelete(amount, true).catch((error) => {
+                this.container.logger.warn('[purge] bulk delete failed', error)
+                return null
+            })
+            : null
+        await interaction.editReply({
+            content: deleted
+                ? await resolveKey(interaction, 'common:purgeSuccess', { count: deleted.size })
+                : await resolveKey(interaction, 'misc:purgeFailed'),
         })
     }
 }

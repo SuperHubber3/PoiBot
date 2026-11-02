@@ -125,12 +125,12 @@ export class WaifuCommand extends Command {
         const budget = await checkCooldown(guildId, userId, PULL_KEY, DEFAULT_PULL_LIMIT, false)
         const remaining = (budget.limit ?? DEFAULT_PULL_LIMIT) - (budget.currentCount ?? 0)
         if (remaining <= 0) {
-            return void send(v2(await resolveKey(ctx, 'waifu:noPulls', {
+            return void await send(v2(await resolveKey(ctx, 'waifu:noPulls', {
                 limit: budget.limit ?? DEFAULT_PULL_LIMIT,
             })))
         }
         if (count > remaining) {
-            return void send(
+            return void await send(
                 v2(
                     await resolveKey(ctx, 'waifu:tooManyPulls', {
                         remaining,
@@ -145,45 +145,39 @@ export class WaifuCommand extends Command {
         // go, so a batch can't contain duplicates of itself either.
         const seen = await getSeenCharacterIds(guildId, userId)
         const characters: MalCharacter[] = []
-        for (let i = 0; i < count; i++) {
-            // Spend the pull FIRST and honour the answer. The check above is only a
-            // snapshot: a second /waifu running concurrently can eat the remaining
-            // allowance in between, and rolling before charging would then hand out
-            // characters no pull was ever consumed for.
-            const spent = await checkCooldown(guildId, userId, PULL_KEY, DEFAULT_PULL_LIMIT, true)
-            if (!spent.allowed) break
-
-            let character: MalCharacter | null
-            try {
-                character = await rollCharacter(seen)
-            } catch (error) {
-                await refundCooldownUse(guildId, userId, PULL_KEY)
-                throw error
+        const pendingWindows: Date[] = []
+        try {
+            for (let i = 0; i < count; i++) {
+                const spent = await checkCooldown(guildId, userId, PULL_KEY, DEFAULT_PULL_LIMIT, true)
+                if (!spent.allowed) break
+                pendingWindows.push(spent.windowStart)
+                const character = await rollCharacter(seen)
+                if (!character) break
+                seen.add(character.id)
+                characters.push(character)
             }
-            if (!character) {
-                await refundCooldownUse(guildId, userId, PULL_KEY)
-                break
+
+            if (!characters.length) {
+                return void await send(v2(await resolveKey(ctx, 'waifu:genericError')))
             }
-            seen.add(character.id)
-            characters.push(character)
+            const protectedPull = await initiatorProtected(guildId, userId)
+            if (characters.length === 1) {
+                const character = characters[0]
+                const row = await waifuPullActionRow(ctx, userId, character)
+                const container = await renderWaifuPull(ctx, character, row, undefined, protectedPull)
+                const msg = (await send(v2Payload(container))) as Message
+                await sessions.create<WaifuPullSession>(msg.id, { character, initiatorId: userId }, { persist: true })
+                pendingWindows.shift()
+                return
+            }
+            await this.multiRoll(ctx, userId, characters, protectedPull, send, pendingWindows)
+        } finally {
+            for (const consumedWindow of pendingWindows) {
+                await refundCooldownUse(guildId, userId, PULL_KEY, consumedWindow).catch((error) => {
+                    this.container.logger.error('[waifu] failed to refund undelivered pull', error)
+                })
+            }
         }
-
-        if (!characters.length) {
-            return void send(v2(await resolveKey(ctx, 'waifu:genericError')))
-        }
-
-        const protectedPull = await initiatorProtected(guildId, userId)
-
-        if (characters.length === 1) {
-            const character = characters[0]
-            const row = await waifuPullActionRow(ctx, userId, character)
-            const container = await renderWaifuPull(ctx, character, row, undefined, protectedPull)
-            const msg = (await send(v2Payload(container))) as Message
-            await sessions.create<WaifuPullSession>(msg.id, { character, initiatorId: userId }, { persist: true })
-            return
-        }
-
-        await this.multiRoll(ctx, userId, characters, protectedPull, send)
     }
 
     /**
@@ -195,16 +189,26 @@ export class WaifuCommand extends Command {
         userId: string,
         characters: MalCharacter[],
         protectedPull: boolean,
-        send: (payload: any) => Promise<unknown>
+        send: (payload: any) => Promise<unknown>,
+        pendingWindows: Date[]
     ) {
         const channel = ctx.channel
-        if (!channel?.isSendable()) return
+        if (!channel?.isSendable()) {
+            await send(v2(await resolveKey(ctx, 'waifu:genericError')))
+            return
+        }
         const entries: WaifuSummarySession['entries'] = []
 
         for (const [index, character] of characters.entries()) {
             const row = await waifuPullActionRow(ctx, userId, character)
             const container = await renderWaifuPull(ctx, character, row, undefined, protectedPull)
-            const msg = (await channel.send(v2Payload(container))) as Message
+            let msg: Message
+            try {
+                msg = await channel.send(v2Payload(container))
+            } catch (error) {
+                this.container.logger.warn('[waifu] could not post batch card', error)
+                break
+            }
             // Register the session before posting the next card. Its buttons are
             // live the instant the message lands, and a batch of 20 takes seconds
             // to post — claiming card 1 during that window used to find no session
@@ -214,9 +218,14 @@ export class WaifuCommand extends Command {
                 { character, initiatorId: userId, index },
                 { persist: true }
             )
+            pendingWindows.shift()
             entries.push({ messageId: msg.id, name: character.name, state: 'open' })
         }
 
+        if (!entries.length) {
+            await send(v2(await resolveKey(ctx, 'waifu:genericError')))
+            return
+        }
         const summarySession: WaifuSummarySession = { initiatorId: userId, entries }
         const summary = (await send(v2Payload(await renderWaifuSummary(ctx, summarySession)))) as Message
         await sessions.create<WaifuSummarySession>(summary.id, summarySession, { persist: true })

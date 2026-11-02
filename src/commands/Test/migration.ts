@@ -41,7 +41,8 @@ export class MigrationCommand extends Command {
     }
 
     public override async chatInputRun(interaction: ChatInputCommandInteraction) {
+        await interaction.deferReply()
         const ok = await this.runMigration()
-        return interaction.reply(ok ? 'Migration executed!' : 'Migration failed, check the logs.')
+        return interaction.editReply(ok ? 'Migration executed!' : 'Migration failed, check the logs.')
     }
 }

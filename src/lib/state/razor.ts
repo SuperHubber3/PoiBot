@@ -12,6 +12,8 @@ export const RAZOR_ID = '555484255363530782'
 const RECENT_WINDOW_MS = 10 * 60 * 1000
 
 let recentUntil = 0
+let revision = 0
+type Reservation = { until: number; revision: number }
 
 export const razorState = {
     /** True while Razor's last message is still inside the window. */
@@ -19,6 +21,16 @@ export const razorState = {
         return Date.now() < recentUntil
     },
     set razorCache(on: boolean) {
+        revision++
         recentUntil = on ? Date.now() + RECENT_WINDOW_MS : 0
+    },
+    claim(): Reservation | null {
+        if (Date.now() >= recentUntil) return null
+        const reservation = { until: recentUntil, revision: ++revision }
+        recentUntil = 0
+        return reservation
+    },
+    restore(reservation: Reservation): void {
+        if (revision === reservation.revision) recentUntil = reservation.until
     },
 }

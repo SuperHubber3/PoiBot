@@ -30,6 +30,8 @@ const client = new SapphireClient({
     // instances and silently splitting module-level state.
     baseUserDirectory: __dirname,
     defaultPrefix: 'poi ',
+    // Mentions now start natural chat; commands still use the poi prefix.
+    disableMentionPrefix: true,
     caseInsensitiveCommands: true,
     // Prefix commands need MessageContent (a privileged intent) — enable it in the
     // Discord Developer Portal too, or every `poi ...` command and message listener

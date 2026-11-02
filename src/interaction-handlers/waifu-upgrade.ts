@@ -32,10 +32,11 @@ export class WaifuUpgradeHandler extends InteractionHandler {
         }
         const type = id.arg as UpgradeType
 
+        await interaction.deferUpdate()
         const guildId = interaction.guild!.id
         const note = await buyUpgrade(interaction, guildId, id.owner, type)
         // Re-render so the new level, the doubled price and the button's
         // affordability all update in place.
-        await interaction.update(v2Update(await renderUpgrade(interaction, guildId, id.owner, note)))
+        await interaction.editReply(v2Update(await renderUpgrade(interaction, guildId, id.owner, note)))
     }
 }

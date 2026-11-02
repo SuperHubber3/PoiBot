@@ -113,7 +113,10 @@ export class MusicQueue {
     /** Set while an intentional skip stops the current track. */
     private skipping = false
 
-    public constructor(guildId: string, voiceChannelId: string, player: Player) {
+    public constructor(
+        guildId: string, voiceChannelId: string, player: Player,
+        private readonly relatedTrack = findRelatedTrack,
+    ) {
         this.guildId = guildId
         this.voiceChannelId = voiceChannelId
         this.player = player
@@ -121,12 +124,15 @@ export class MusicQueue {
     }
 
     private bind() {
-        this.player.on('end', async (data: any) => {
+        this.player.on('end', (data: any) => {
             // "replaced" fires when we deliberately swap tracks; don't double-advance.
             if (this.destroyed || data?.reason === 'replaced') return
             const skipped = this.skipping
             this.skipping = false
-            await this.advance(skipped)
+            if (data?.reason === 'loadFailed') this.current = null
+            void this.advance(skipped || data?.reason === 'loadFailed').catch((error) =>
+                container.logger.error(`[music:${this.guildId}] failed to advance`, error)
+            )
         })
         // Lavalink always follows an exception with an end event (reason
         // "loadFailed"), so advancing here too would move the queue twice and
@@ -174,8 +180,12 @@ export class MusicQueue {
 
         // Queue ran dry — pull a related track so playback keeps going.
         if (!next && this.autoplay && this.current) {
-            const related = await findRelatedTrack(this.current.track, this.history)
-            if (related) next = { track: related, requesterId: this.current.requesterId }
+            const previous = this.current
+            const related = await this.relatedTrack(previous.track, this.history)
+            if (this.destroyed || this.current !== previous) return
+            // A user may have queued a song while the radio lookup was pending.
+            next = this.tracks.shift()
+            if (!next && related) next = { track: related, requesterId: previous.requesterId }
         }
 
         if (!next) {
@@ -187,18 +197,21 @@ export class MusicQueue {
     }
 
     private async play(entry: QueuedTrack) {
+        if (this.destroyed) return
         this.current = entry
         lastPlayed.set(this.guildId, entry.track)
         const identifier = (entry.track.info as any)?.identifier
         if (identifier) this.history.add(identifier)
         try {
             await this.player.playTrack({ track: { encoded: entry.track.encoded } })
+            if (this.destroyed || this.current !== entry) return
             // Filters can be set while nothing is playing; push them now so they
             // take effect from the first note rather than being discarded.
             await applyFilters(this.guildId, this.player)
             void updatePanel(this)
         } catch (error) {
             container.logger.error(`[music:${this.guildId}] failed to play`, error)
+            if (this.destroyed || this.current !== entry) return
             // Drop the entry before advancing. Under repeat it would otherwise be
             // replayed (track) or pushed back onto the queue (queue), and since it
             // just failed that is an unbounded retry loop rather than a recovery.
@@ -208,7 +221,7 @@ export class MusicQueue {
     }
 
     public async skip() {
-        if (this.skipping) return
+        if (this.skipping || !this.current) return
         this.skipping = true
         try {
             // The end event consumes this flag and bypasses track-repeat for this

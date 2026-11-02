@@ -1,0 +1,16 @@
+{
+  "help": "Mention me to start a public channel conversation. Anyone here can continue until it times out. /chat-memory memories, /chat-memory forget, and /chat-memory reset manage the shared channel memory for everyone.",
+  "disabled": "Chat is not enabled yet. The bot owner needs to configure Antigravity or Codex and set CHAT_ENABLED=true.",
+  "empty": "There are no saved facts for this channel.",
+  "memoryFile": "Shared memories for this channel are attached.",
+  "forgotten": "Deleted the requested shared memories and cleared recent conversation for this channel.",
+  "reset": "Recent conversation for this channel cleared. Shared memories are still available.",
+  "busy": "I'm handling another chat request. Try again in a moment.",
+  "missing": "That memory key does not exist. Use /chat-memory memories to see this channel's shared facts.",
+  "length": "Please send a message between 1 and 4000 characters.",
+  "saved": "Saved {{count}} memory update(s). View or delete them with /chat-memory memories and /chat-memory forget.",
+  "failed": "I couldn’t complete that chat request. The bot owner can check provider sign-in, model access, and local chat storage.",
+  "settings": "Model: {{model}} · Reasoning: {{reasoning}} · Speed: {{tier}} · Provider: {{provider}}",
+  "settingsDenied": "You need Manage Server permission to change this channel’s chat settings.",
+  "settingsFailed": "Could not save chat settings. Use a gemini- or gpt- model ID. Gemini requires low, medium, or high reasoning and normal speed. For storage errors, contact the bot owner."
+}

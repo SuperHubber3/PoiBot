@@ -154,7 +154,7 @@ export async function settleBlackjack(
         payout = session.bet * 2
         resultKey = 'games:blackjack.resultWin'
         outcome = 'win'
-    } else if (pv === dv) {
+    } else if (pv === dv && !(dv === 21 && session.dealer.length === 2)) {
         delta = 0
         payout = session.bet
         resultKey = 'games:blackjack.resultPush'
@@ -229,6 +229,7 @@ export class BlackjackCommand extends Command {
         // Doubling costs a second stake, so only offer it if they can pay it.
         const canDouble = remaining >= bet
         let sessionId: string | null = null
+        let settling = false
         try {
             const sent = await this.reply(
                 ctx,
@@ -240,6 +241,7 @@ export class BlackjackCommand extends Command {
             if (blackjackHandValue(session.player) === 21) {
                 const claimed = await sessions.take<BlackjackSession>(sent.id)
                 if (!claimed) return
+                settling = true
                 const container = await settleBlackjack(ctx, guildId, user.id, user.id, claimed)
                 await sent.edit(v2Update(container)).catch(() => {})
                 return
@@ -248,10 +250,11 @@ export class BlackjackCommand extends Command {
                 v2Update(await renderBlackjack(ctx, user.id, session, false, clampNotice, 'lose', canDouble))
             )
         } catch (error) {
-            // Kill the hand before handing the stake back. The session is already
+            // Claim the hand before handing the stake back. The session is already
             // persisted and playable at this point, so refunding on its own would
             // let the button handler settle and pay out on a bet that was returned.
-            if (sessionId) await sessions.delete(sessionId)
+            if (settling) throw error
+            if (sessionId && !(await sessions.take<BlackjackSession>(sessionId))) throw error
             await addSilver(guildId, user.id, bet)
             throw error
         }

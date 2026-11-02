@@ -4,3 +4,4 @@ dist
 lavalink/Lavalink.jar
 lavalink/plugins/
 lavalink/logs/
+data/chat-memory/

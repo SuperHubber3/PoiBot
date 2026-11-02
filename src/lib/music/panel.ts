@@ -4,6 +4,8 @@ import {
     ButtonBuilder,
     ButtonStyle,
     ContainerBuilder,
+    DiscordAPIError,
+    RESTJSONErrorCodes,
     Message,
     MessageActionRowComponentBuilder,
     SendableChannels,
@@ -169,10 +171,13 @@ export async function updatePanel(queue: MusicQueue): Promise<void> {
     if (!state) return
     try {
         await state.message.edit({ components: [buildPanel(queue, state.ownerId)] as any })
-    } catch {
-        // Message was deleted by someone — stop tracking it.
-        clearTimers(state)
-        panels.delete(queue.guildId)
+    } catch (error) {
+        if (error instanceof DiscordAPIError && error.code === RESTJSONErrorCodes.UnknownMessage) {
+            clearTimers(state)
+            panels.delete(queue.guildId)
+            return
+        }
+        container.logger.warn(`[music:${queue.guildId}] panel edit failed`, error)
     }
 }
 

@@ -10,7 +10,7 @@ import {
     ModalSubmitInteraction,
 } from 'discord.js'
 import { VIP_COST, WISH_COST } from '../../lib/economy/prices.js'
-import { addSilver, addWishes, getSilver, getWishes, spendSilver, isVip } from '../../lib/functions/economy.js'
+import { getSilver, getWishes, isVip } from '../../lib/functions/economy.js'
 import profileSchema from '../../lib/models/profile-schema.js'
 import { buttonRow, v2Container, v2Payload } from '../../lib/util/v2.js'
 import { encodeId } from '../../lib/util/component-id.js'
@@ -76,43 +76,28 @@ export async function buyWish(
     }
     const total = WISH_COST * amount
 
-    // One conditional deduct for the whole order: a partially-filled order would
-    // be worse than a refused one, since you'd have paid for tokens you didn't ask
-    // for. Returning null means the balance moved or was never enough.
-    const silver = await spendSilver(guildId, userId, total)
-    if (silver === null) {
-        return resolveKey(ctx, 'common:shopNotEnough', { cost: total })
-    }
-    let wishes: number
-    try {
-        wishes = await addWishes(guildId, userId, amount)
-    } catch (error) {
-        await addSilver(guildId, userId, total)
-        throw error
-    }
+    // Balance and tokens live in one document, so charge and grant together.
+    const purchased = await profileSchema.findOneAndUpdate(
+        { guildId, userId, silver: { $gte: total } },
+        { $inc: { silver: -total, wishes: amount } },
+        { new: true }
+    )
+    if (!purchased) return resolveKey(ctx, 'common:shopNotEnough', { cost: total })
+    const silver = purchased.silver
+    const wishes = purchased.wishes
     return resolveKey(ctx, 'common:shopWishBought', { amount, spent: total, silver, wishes })
 }
 
 /** Buys VIP. Returns the note to show on the refreshed shop. */
 export async function buyVip(ctx: ShopCtx, guildId: string, userId: string): Promise<string> {
-    if (await isVip(guildId, userId)) return resolveKey(ctx, 'common:shopAlreadyVip')
-    if ((await spendSilver(guildId, userId, VIP_COST)) === null) {
+    const purchased = await profileSchema.findOneAndUpdate(
+        { guildId, userId, silver: { $gte: VIP_COST }, vip: { $ne: true } },
+        { $inc: { silver: -VIP_COST }, $set: { vip: true } },
+        { new: true }
+    )
+    if (!purchased) {
+        if (await isVip(guildId, userId)) return resolveKey(ctx, 'common:shopAlreadyVip')
         return resolveKey(ctx, 'common:shopNotEnough', { cost: VIP_COST })
-    }
-    try {
-        const granted = await profileSchema.findOneAndUpdate(
-            { guildId, userId, vip: { $ne: true } },
-            { $setOnInsert: { guildId, userId }, $set: { vip: true } },
-            { upsert: true, new: true }
-        )
-        if (!granted) {
-            await addSilver(guildId, userId, VIP_COST)
-            return resolveKey(ctx, 'common:shopAlreadyVip')
-        }
-    } catch (error: any) {
-        await addSilver(guildId, userId, VIP_COST)
-        if (error?.code === 11000) return resolveKey(ctx, 'common:shopAlreadyVip')
-        throw error
     }
     return resolveKey(ctx, 'common:shopVipBought')
 }

@@ -4,6 +4,7 @@ import { resolveKey } from '@sapphire/plugin-i18next'
 import {
     ChatInputCommandInteraction,
     Message,
+    MessageFlags,
     PermissionFlagsBits,
     SendableChannels,
     User,
@@ -11,6 +12,7 @@ import {
 import { sendable } from '../../lib/util/send.js'
 import { v2 } from '../../lib/util/v2.js'
 import { guildOnly } from '../../lib/util/install-context.js'
+import sessionSchema from '../../lib/models/session-schema.js'
 import { sessions } from '../../lib/util/session-store.js'
 
 const DEFAULT_EMOJI = '🎉'
@@ -19,6 +21,7 @@ const GIVEAWAY_TTL_MS = 1000 * 60 * 60 * 24 * 30
 interface GiveawayRecord {
     messageId: string
     emoji: string
+    winnerId?: string
 }
 
 /**
@@ -81,13 +84,14 @@ export class GiveawayCommand extends Command {
             await interaction.reply(v2(await resolveKey(interaction, 'misc:giveawayNoMessage'), { ephemeral: true }))
             return
         }
+        await interaction.deferReply({ flags: MessageFlags.Ephemeral })
         const sub = interaction.options.getSubcommand()
         const text =
             sub === 'end'
                 ? await this.end(interaction, channel)
                 : await this.start(interaction, channel, interaction.options.getString('emoji') ?? DEFAULT_EMOJI)
         // Ephemeral so the winner announcement stays the visible message.
-        await interaction.reply(v2(text, { ephemeral: true }))
+        await interaction.editReply(v2(text))
     }
 
     /** Reacts to the newest message in the channel with the entry emoji. */
@@ -125,34 +129,63 @@ export class GiveawayCommand extends Command {
         const record = await sessions.get<GiveawayRecord>(this.recordKey(ctx))
         if (!record) return resolveKey(ctx, 'misc:giveawayNoMessage')
 
-        const target = await channel.messages.fetch(record.messageId).catch(() => null)
-        if (!target) return resolveKey(ctx, 'misc:giveawayNoMessage')
+        let winnerId = record.winnerId
+        if (!winnerId) {
+            const target = await channel.messages.fetch(record.messageId).catch(() => null)
+            if (!target) return resolveKey(ctx, 'misc:giveawayNoMessage')
 
-        const reaction = target.reactions.cache.get(record.emoji)
-        if (!reaction) return resolveKey(ctx, 'misc:giveawayNoEntries')
+            const reaction = target.reactions.cache.get(record.emoji)
+            if (!reaction) return resolveKey(ctx, 'misc:giveawayNoEntries')
 
-        const users = new Map<string, User>()
-        let after: string | undefined
-        try {
-            for (;;) {
-                const page = await reaction.users.fetch({ limit: 100, after })
-                for (const user of page.values()) users.set(user.id, user)
-                if (page.size < 100) break
-                after = page.last()!.id
+            const users = new Map<string, User>()
+            let after: string | undefined
+            try {
+                for (;;) {
+                    const page = await reaction.users.fetch({ limit: 100, after })
+                    for (const user of page.values()) users.set(user.id, user)
+                    if (page.size < 100) break
+                    after = page.last()!.id
+                }
+            } catch (error) {
+                // Partial results would draw from whoever happened to fit in the pages
+                // that came back, so the draw is abandoned. Log it: otherwise a failed
+                // fetch is indistinguishable from a giveaway nobody entered.
+                this.container.logger.warn('[giveaway] could not read entrants', error)
+                users.clear()
             }
-        } catch (error) {
-            // Partial results would draw from whoever happened to fit in the pages
-            // that came back, so the draw is abandoned. Log it: otherwise a failed
-            // fetch is indistinguishable from a giveaway nobody entered.
-            this.container.logger.warn('[giveaway] could not read entrants', error)
-            users.clear()
-        }
-        const entrants = [...users.values()].filter((u) => !u.bot)
-        if (!entrants.length) return resolveKey(ctx, 'misc:giveawayNoEntries')
+            const entrants = [...users.values()].filter((u) => !u.bot)
+            if (!entrants.length) return resolveKey(ctx, 'misc:giveawayNoEntries')
 
-        const winner = entrants[Math.floor(Math.random() * entrants.length)]
-        await channel.send(await resolveKey(ctx, 'misc:giveawayWinner', { user: `<@${winner.id}>` }))
-        await sessions.delete(this.recordKey(ctx))
+            winnerId = entrants[Math.floor(Math.random() * entrants.length)].id
+        }
+
+        // Consume the exact draw before announcing it. Concurrent end commands
+        // must not announce different winners or delete a newly started giveaway.
+        const claimed = await sessionSchema.findOneAndDelete({
+            key: this.recordKey(ctx),
+            'data.messageId': record.messageId,
+            'data.winnerId': record.winnerId ?? { $exists: false },
+            expiresAt: { $gt: new Date() },
+        })
+        if (!claimed) return resolveKey(ctx, 'misc:giveawayNoMessage')
+        try {
+            await channel.send({
+                content: await resolveKey(ctx, 'misc:giveawayWinner', { user: `<@${winnerId}>` }),
+                nonce: record.messageId,
+                enforceNonce: true,
+            })
+        } catch (error) {
+            // Restore only if a new giveaway has not taken this channel's slot.
+            // Retain the winner so a retry cannot draw a different person.
+            await sessionSchema.updateOne({ key: claimed.key }, {
+                $setOnInsert: {
+                    key: claimed.key,
+                    data: { ...record, winnerId },
+                    expiresAt: claimed.expiresAt,
+                },
+            }, { upsert: true })
+            throw error
+        }
         return resolveKey(ctx, 'misc:giveawayEnded')
     }
 

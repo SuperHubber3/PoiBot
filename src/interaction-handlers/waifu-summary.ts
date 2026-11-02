@@ -91,7 +91,7 @@ export class WaifuSummaryHandler extends InteractionHandler {
                         `waifu-claim:${entry.messageId}:${userId}`
                     )
                 } catch (error) {
-                    await refundCooldownUse(guildId, userId, CLAIM_KEY).catch(() => false)
+                    await refundCooldownUse(guildId, userId, CLAIM_KEY, consumed.windowStart).catch(() => false)
                     await sessions.patch<WaifuPullSession>(entry.messageId, { busy: false })
                     throw error
                 }

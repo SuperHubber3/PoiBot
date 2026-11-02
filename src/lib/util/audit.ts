@@ -4,9 +4,8 @@ import type { SendableChannels } from 'discord.js'
 /**
  * Channel that receives economy audit lines (currently only the steal wipe).
  *
- * The original bot hardcoded this id; it is kept as the default so the existing
- * log keeps working, but a fork can point it elsewhere — or disable it entirely
- * with `STEAL_LOG_CHANNEL_ID=` — instead of spamming a stranger's server.
+ * Set STEAL_LOG_CHANNEL_ID to opt in. Missing or empty configuration disables
+ * forwarding; no server receives audit messages by default.
  */
 const AUDIT_CHANNEL_ID = process.env.STEAL_LOG_CHANNEL_ID
 
